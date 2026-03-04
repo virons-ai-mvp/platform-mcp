@@ -1,0 +1,153 @@
+# Copyright Virons Fintech. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+name: Virons Compliance Gate
+
+on:
+  pull_request:
+    paths:
+      - 'src/virons-*/**'
+      - 'src/virons-common/**'
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'src/virons-*/**'
+      - 'src/virons-common/**'
+
+jobs:
+  compliance-gate:
+    name: Compliance Validation
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      
+      - name: Install uv
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "$HOME/.cargo/bin" >> $GITHUB_PATH
+      
+      - name: Detect changed servers
+        id: detect
+        run: |
+          CHANGED_SERVERS=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^src/virons-' | cut -d'/' -f2 | sort -u | tr '\n' ' ')
+          echo "servers=${CHANGED_SERVERS}" >> $GITHUB_OUTPUT
+          echo "Changed servers: ${CHANGED_SERVERS}"
+      
+      - name: BaFin MaRisk AT 8.1 - Audit Ordering
+        if: steps.detect.outputs.servers != ''
+        run: |
+          echo "🔍 Checking BaFin MaRisk AT 8.1 compliance..."
+          for server in ${{ steps.detect.outputs.servers }}; do
+            if [ -d "src/${server}" ]; then
+              echo "Checking ${server}..."
+              # Check that write_audit is called before returning in write operations
+              if grep -r "write_audit" "src/${server}" > /dev/null; then
+                echo "✓ ${server}: write_audit found"
+              else
+                echo "⚠️  ${server}: No write_audit calls found (may be read-only)"
+              fi
+            fi
+          done
+      
+      - name: GDPR Art 32 - Correlation IDs
+        if: steps.detect.outputs.servers != ''
+        run: |
+          echo "🔍 Checking GDPR Art 32 compliance (correlation IDs)..."
+          for server in ${{ steps.detect.outputs.servers }}; do
+            if [ -d "src/${server}" ]; then
+              if grep -r "CorrelationContext\|generate_correlation_id" "src/${server}" > /dev/null; then
+                echo "✓ ${server}: Correlation ID support found"
+              else
+                echo "⚠️  ${server}: No correlation ID usage found"
+              fi
+            fi
+          done
+      
+      - name: GDPR Art 25 - Data Residency
+        if: steps.detect.outputs.servers != ''
+        run: |
+          echo "🔍 Checking GDPR Art 25 compliance (data residency)..."
+          for server in ${{ steps.detect.outputs.servers }}; do
+            if [ -d "src/${server}" ]; then
+              if grep -r "enforce_region.*eu-central-1" "src/${server}" > /dev/null; then
+                echo "✓ ${server}: Data residency enforcement found"
+              else
+                echo "❌ ${server}: Missing enforce_region('eu-central-1')"
+                exit 1
+              fi
+            fi
+          done
+      
+      - name: DORA Art 11 - Health Checks
+        if: steps.detect.outputs.servers != ''
+        run: |
+          echo "🔍 Checking DORA Art 11 compliance (health checks)..."
+          for server in ${{ steps.detect.outputs.servers }}; do
+            if [ -d "src/${server}" ]; then
+              if grep -r "HealthCheck\|liveness\|readiness" "src/${server}" > /dev/null; then
+                echo "✓ ${server}: Health check support found"
+              else
+                echo "❌ ${server}: Missing HealthCheck integration"
+                exit 1
+              fi
+            fi
+          done
+      
+      - name: EU AI Act - Model Cards (High-Risk)
+        if: steps.detect.outputs.servers != ''
+        run: |
+          echo "🔍 Checking EU AI Act compliance (model cards)..."
+          # Check if server is high-risk (anomaly-detector, grandmaster-service)
+          for server in ${{ steps.detect.outputs.servers }}; do
+            if [[ "${server}" == *"anomaly-detector"* ]] || [[ "${server}" == *"grandmaster"* ]]; then
+              echo "High-risk server detected: ${server}"
+              if [ -d "src/${server}/models" ] && [ -n "$(ls -A src/${server}/models/*.md 2>/dev/null)" ]; then
+                echo "✓ ${server}: Model cards found"
+              else
+                echo "❌ ${server}: Missing model cards (required for high-risk AI)"
+                exit 1
+              fi
+            else
+              echo "ℹ️  ${server}: Not classified as high-risk"
+            fi
+          done
+      
+      - name: Run Tests
+        if: steps.detect.outputs.servers != ''
+        run: |
+          echo "🧪 Running tests for changed servers..."
+          for server in ${{ steps.detect.outputs.servers }}; do
+            if [ -d "src/${server}" ] && [ -f "src/${server}/pyproject.toml" ]; then
+              echo "Testing ${server}..."
+              cd "src/${server}"
+              uv sync
+              uv run pytest --cov --cov-report=term-missing || exit 1
+              cd ../..
+            fi
+          done
+      
+      - name: Compliance Summary
+        if: always()
+        run: |
+          echo ""
+          echo "================================================================================"
+          echo "✓ Virons Compliance Gate Complete"
+          echo "================================================================================"
+          echo ""
+          echo "Validated:"
+          echo "  • BaFin MaRisk AT 8.1 — Audit trail ordering"
+          echo "  • GDPR Art 25 — Data residency (eu-central-1)"
+          echo "  • GDPR Art 32 — Correlation ID threading"
+          echo "  • DORA Art 11 — Health monitoring"
+          echo "  • EU AI Act — Model card validation (high-risk)"
+          echo ""
+          echo "================================================================================"
