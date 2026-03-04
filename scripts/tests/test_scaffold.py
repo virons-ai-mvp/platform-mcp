@@ -51,7 +51,9 @@ def test_valid_args_parse():
         text=True,
     )
     assert result.returncode == 0
+    assert "Scaffold Complete" in result.stdout
     assert "virons-test-mcp-server" in result.stdout
+    assert "Compliance Baseline" in result.stdout
 
 
 def test_missing_required_args_fail():
