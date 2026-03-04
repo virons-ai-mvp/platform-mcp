@@ -94,37 +94,127 @@ def create_metadata_files(server_dir: Path, name: str, description: str, port: s
     """
     package_name = name.replace("-", "_")
     
-    # pyproject.toml
+    # pyproject.toml with full configuration
     deps_str = "\n".join(f'    "{dep}",' for dep in deps) if deps else ""
     (server_dir / "pyproject.toml").write_text(
-        f"""[build-system]
-requires = ["hatchling"]
-build-backend = "hatchling.build"
-
-[project]
+        f"""[project]
 name = "virons.{package_name}-mcp-server"
 version = "0.1.0"
 description = "{description}"
+readme = "README.md"
+requires-python = ">=3.10"
 dependencies = [
     "mcp[cli]>=1.23.0",
     "loguru>=0.7.0",
-    "pydantic>=2.0.0",
+    "pydantic>=2.10.6",
     "virons.common>=0.1.0",
 {deps_str}
 ]
+license = {{text = "Apache-2.0"}}
+license-files = ["LICENSE", "NOTICE"]
+authors = [
+    {{name = "Virons Fintech"}},
+]
+classifiers = [
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+]
+
+[project.urls]
+homepage = "https://virons.ai"
+repository = "https://github.com/virons-fintech/virons-ai-mvp.git"
 
 [project.scripts]
 virons-{name}-mcp-server = "virons.{package_name}_mcp_server.server:main"
+
+[dependency-groups]
+dev = [
+    "commitizen>=4.2.2",
+    "pre-commit>=4.1.0",
+    "ruff>=0.9.7",
+    "pyright>=1.1.398",
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.26.0",
+    "pytest-cov>=4.1.0",
+    "pytest-mock>=3.12.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["virons"]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E", "F", "W", "I", "N", "D", "UP", "ANN", "S", "B", "A", "C4", "DTZ", "T10", "EM", "ISC", "ICN", "G", "PIE", "T20", "PT", "Q", "RSE", "RET", "SIM", "TID", "ARG", "PTH", "PD", "PGH", "PL", "TRY", "NPY", "RUF"]
+ignore = ["ANN101", "ANN102", "D203", "D213"]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["S101", "D", "ANN"]
+
+[tool.pyright]
+pythonVersion = "3.10"
+typeCheckingMode = "standard"
+reportMissingTypeStubs = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = "--strict-markers --tb=short"
+
+[tool.coverage.run]
+source = ["virons"]
+branch = true
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+]
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version = "0.1.0"
+tag_format = "v$version"
 """
     )
     
     # README.md
     (server_dir / "README.md").write_text(
-        f"# virons-{name}-mcp-server\n\n{description}\n\nPort: {port}\n"
+        f"# virons-{name}-mcp-server\n\n{description}\n\n"
+        f"**Port**: {port}\n\n"
+        f"## Compliance\n\n"
+        f"This server is born compliant with:\n"
+        f"- BaFin MaRisk AT 8.1 (audit trail)\n"
+        f"- GDPR Art 25, 32 (data protection, security)\n"
+        f"- DORA Art 11 (ICT resilience)\n"
+        f"- EU AI Act Art 9, 11, 14, 17 (high-risk AI systems)\n\n"
+        f"See [COMPLIANCE.md](./COMPLIANCE.md) for regulatory traceability.\n"
     )
     
-    # LICENSE
-    (server_dir / "LICENSE").write_text("Apache-2.0\n")
+    # LICENSE - Copy from virons-common
+    license_source = Path(__file__).parent.parent / "src" / "virons-common" / "LICENSE"
+    if license_source.exists():
+        (server_dir / "LICENSE").write_text(license_source.read_text())
+    else:
+        (server_dir / "LICENSE").write_text("Apache-2.0\n")
     
     # NOTICE
     (server_dir / "NOTICE").write_text(
@@ -134,13 +224,86 @@ virons-{name}-mcp-server = "virons.{package_name}_mcp_server.server:main"
     )
     
     # CHANGELOG.md
-    (server_dir / "CHANGELOG.md").write_text("# Changelog\n\n## [0.1.0] - 2026-03-04\n- Initial release\n")
+    (server_dir / "CHANGELOG.md").write_text(
+        "# Changelog\n\n"
+        "All notable changes to this project will be documented in this file.\n\n"
+        "## [0.1.0] - 2026-03-04\n\n"
+        "### Added\n"
+        "- Initial scaffold with compliance baseline\n"
+        "- BaFin MaRisk AT 8.1 audit integration\n"
+        "- GDPR Art 25, 32 compliance hooks\n"
+        "- DORA Art 11 health checks\n"
+    )
     
     # COMPLIANCE.md
-    (server_dir / "COMPLIANCE.md").write_text("# Compliance\n\nRegulatory traceability documentation.\n")
+    (server_dir / "COMPLIANCE.md").write_text(
+        f"""# Compliance Reference — virons-{name}-mcp-server
+
+Regulatory traceability for the Virons AI {name} MCP server.
+
+## Regulatory Sources
+
+| Regulation | Official Document | Key Articles | Implementation |
+|---|---|---|---|
+| BaFin MaRisk | [MaRisk (BA) 09/2017](https://www.bafin.de/SharedDocs/Veroeffentlichungen/DE/Rundschreiben/2017/rs_1709_marisk_ba.html) | AT 8.1, AT 7.2 | `compliance.py` → `virons.common.audit` |
+| GDPR | [Regulation (EU) 2016/679](https://eur-lex.europa.eu/eli/reg/2016/679/oj) | Art 25, Art 32, Art 35 | `compliance.py` → `virons.common.residency`, `correlation` |
+| DORA | [Regulation (EU) 2022/2554](https://eur-lex.europa.eu/eli/reg/2022/2554/oj) | Art 6, Art 11, Art 15 | `compliance.py` → `virons.common.health` |
+| EU AI Act | [Regulation (EU) 2024/1689](https://eur-lex.europa.eu/eli/reg/2024/1689/oj) | Art 9, Art 11, Art 14, Art 17 | Model card validation (if high-risk) |
+
+## Compliance Hooks
+
+### BaFin MaRisk AT 8.1 — Audit Trail
+
+Every write operation MUST call `virons.common.write_audit()` before returning:
+
+```python
+from virons.common import write_audit
+
+audit_id = await write_audit(
+    service_name='virons-{name}-mcp-server',
+    calculation_type='operation_name',
+    entity_id=entity_id,
+    input_data={{'key': 'value'}},
+    output_data={{'result': 'value'}},
+)
+```
+
+### GDPR Art 25, 32 — Data Protection
+
+- **Residency**: All data MUST reside in `eu-central-1` (enforced by `virons.common.enforce_region()`)
+- **Correlation**: All requests MUST have correlation IDs (via `virons.common.CorrelationContext`)
+
+### DORA Art 11 — Health Monitoring
+
+- **Liveness**: `/health/live` endpoint via `virons.common.HealthCheck().liveness()`
+- **Readiness**: `/health/ready` endpoint via `virons.common.HealthCheck().readiness()`
+
+### EU AI Act — High-Risk Systems
+
+If this server is classified as high-risk (Art 6), ensure:
+- Model cards exist in `models/` directory
+- Technical documentation per Art 11
+- Human oversight mechanisms per Art 14
+"""
+    )
     
     # .gitignore
-    (server_dir / ".gitignore").write_text("__pycache__/\n*.py[cod]\n.venv/\n.pytest_cache/\n.coverage\n")
+    (server_dir / ".gitignore").write_text(
+        "__pycache__/\n"
+        "*.py[cod]\n"
+        "*$py.class\n"
+        ".venv/\n"
+        "venv/\n"
+        ".pytest_cache/\n"
+        ".coverage\n"
+        "htmlcov/\n"
+        "dist/\n"
+        "build/\n"
+        "*.egg-info/\n"
+        ".ruff_cache/\n"
+        ".pyright/\n"
+        "uv.lock\n"
+    )
     
     # .python-version
     (server_dir / ".python-version").write_text("3.10\n")
