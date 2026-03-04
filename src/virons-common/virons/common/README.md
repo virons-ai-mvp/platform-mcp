@@ -5,14 +5,17 @@
 Core compliance modules shared by all virons MCP servers.
 
 - `audit.py` — BaFin MaRisk AT 8.1 immutable audit trail
-- `health.py` — DORA Art 11 liveness/readiness (planned)
-- `correlation.py` — GDPR Art 32 request traceability (planned)
-- `residency.py` — GDPR Art 25 data residency guard (planned)
+- `health.py` — DORA Art 11 liveness/readiness checks
+- `correlation.py` — GDPR Art 32 request traceability
+- `residency.py` — GDPR Art 25 data residency guard
 
 ## Contents
 
 ```
-└── audit.py
+├── audit.py
+├── correlation.py
+├── health.py
+└── residency.py
 ```
 
 ## Context
