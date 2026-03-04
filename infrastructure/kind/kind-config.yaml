@@ -1,0 +1,53 @@
+# Copyright Virons Fintech. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+# Kind cluster configuration for virons MCP servers
+# Shared cluster for all virons-*-mcp-server deployments
+
+kind: Cluster
+apiVersion: kind.x-k8s.io/v1alpha4
+name: virons-mcp-cluster
+
+nodes:
+  - role: control-plane
+    kubeadmConfigPatches:
+      - |
+        kind: InitConfiguration
+        nodeRegistration:
+          kubeletExtraArgs:
+            node-labels: "virons.ai/role=control-plane"
+    extraPortMappings:
+      # Port range for MCP servers (9300-9424)
+      - containerPort: 9300
+        hostPort: 9300
+        protocol: TCP
+      - containerPort: 9301
+        hostPort: 9301
+        protocol: TCP
+      - containerPort: 9302
+        hostPort: 9302
+        protocol: TCP
+      - containerPort: 9303
+        hostPort: 9303
+        protocol: TCP
+      - containerPort: 9304
+        hostPort: 9304
+        protocol: TCP
+      - containerPort: 9305
+        hostPort: 9305
+        protocol: TCP
+      # Add more ports as needed (9306-9424)
+      
+  - role: worker
+    kubeadmConfigPatches:
+      - |
+        kind: JoinConfiguration
+        nodeRegistration:
+          kubeletExtraArgs:
+            node-labels: "virons.ai/role=worker,virons.ai/workload=mcp-servers"
+
+networking:
+  # Disable default CNI, we'll use Calico for network policies
+  disableDefaultCNI: false
+  podSubnet: "10.244.0.0/16"
+  serviceSubnet: "10.96.0.0/12"
