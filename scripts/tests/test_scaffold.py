@@ -114,6 +114,15 @@ def test_directory_tree_matches_expected():
     assert (server_dir / "virons" / "README.md").exists()
     assert (server_dir / "virons" / "infrastructure_mcp_server" / "README.md").exists()
     assert (server_dir / "tests" / "README.md").exists()
+    
+    # Check Docker files
+    assert (server_dir / "Dockerfile").exists()
+    assert (server_dir / "docker-healthcheck.sh").exists()
+    assert (server_dir / ".dockerignore").exists()
+    
+    # Verify healthcheck is executable
+    import os
+    assert os.access(server_dir / "docker-healthcheck.sh", os.X_OK)
 
 
 def test_idempotency_refuses_overwrite():
