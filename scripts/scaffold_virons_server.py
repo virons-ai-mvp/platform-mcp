@@ -42,12 +42,13 @@ def create_directory_structure(name: str, output_dir: Path) -> Path:
     return server_dir
 
 
-def create_python_files(server_dir: Path, name: str) -> None:
+def create_python_files(server_dir: Path, name: str, port: str) -> None:
     """Create Python source files.
     
     Args:
         server_dir: Server root directory
         name: Server name
+        port: Server port
     """
     package_name = name.replace("-", "_")
     pkg_dir = server_dir / "virons" / f"{package_name}_mcp_server"
@@ -59,27 +60,329 @@ def create_python_files(server_dir: Path, name: str) -> None:
     )
     
     (pkg_dir / "__init__.py").write_text(
+        f'# Copyright Virons Fintech. All Rights Reserved.\n'
+        f'# SPDX-License-Identifier: Apache-2.0\n'
         f'"""virons.{package_name}_mcp_server — Virons {name.title()} MCP Server."""\n\n'
         "__version__ = '0.1.0'\n"
     )
     
-    # Create placeholder files
-    (pkg_dir / "server.py").write_text("# Server implementation\n")
-    (pkg_dir / "models.py").write_text("# Pydantic models\n")
-    (pkg_dir / "consts.py").write_text("# Constants\n")
-    (pkg_dir / "compliance.py").write_text("# Compliance hooks\n")
+    # server.py with FastMCP template
+    (pkg_dir / "server.py").write_text(
+        f'''# Copyright Virons Fintech. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+"""FastMCP server implementation for virons-{name}-mcp-server."""
+
+import argparse
+from mcp.server.fastmcp import FastMCP
+from loguru import logger
+
+from .compliance import setup_compliance_hooks
+from .consts import SERVER_NAME, SERVER_INSTRUCTIONS, SERVER_DEPENDENCIES
 
 
-def create_test_files(server_dir: Path) -> None:
+mcp = None
+
+
+def create_server() -> FastMCP:
+    """Create and configure the FastMCP server instance.
+    
+    Returns:
+        Configured FastMCP server
+    """
+    server = FastMCP(
+        SERVER_NAME,
+        instructions=SERVER_INSTRUCTIONS,
+        dependencies=SERVER_DEPENDENCIES,
+    )
+    
+    # Register compliance hooks
+    setup_compliance_hooks(server)
+    
+    return server
+
+
+def main() -> FastMCP:
+    """Main entry point for the MCP server.
+    
+    Returns:
+        Running FastMCP server instance
+    """
+    global mcp
+    
+    parser = argparse.ArgumentParser(description=f"Virons {{name.title()}} MCP Server")
+    parser.add_argument(
+        "--allow-write",
+        action=argparse.BooleanOptionalAction,
+        default=False,
+        help="Enable write operations (requires audit trail)",
+    )
+    parser.add_argument(
+        "--transport",
+        choices=["stdio", "http"],
+        default="stdio",
+        help="Transport protocol (stdio for MCP, http for K8s probes)",
+    )
+    
+    args = parser.parse_args()
+    
+    logger.info(f"Starting {{SERVER_NAME}} (write_enabled={{args.allow_write}})")
+    
+    mcp = create_server()
+    
+    # TODO: Register your tool handlers here
+    # @mcp.tool()
+    # async def example_tool(param: str) -> str:
+    #     """Example tool implementation."""
+    #     return f"Result: {{param}}"
+    
+    mcp.run()
+    return mcp
+
+
+if __name__ == "__main__":
+    main()
+'''
+    )
+    
+    # models.py with Pydantic templates
+    (pkg_dir / "models.py").write_text(
+        f'''# Copyright Virons Fintech. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+"""Pydantic models for virons-{name}-mcp-server."""
+
+from pydantic import BaseModel, Field
+
+
+class ExampleRequest(BaseModel):
+    """Example request model."""
+    
+    param: str = Field(..., description="Example parameter")
+
+
+class ExampleResponse(BaseModel):
+    """Example response model."""
+    
+    result: str = Field(..., description="Example result")
+    audit_id: str = Field(..., description="BaFin AT 8.1 audit trail ID")
+'''
+    )
+    
+    # consts.py
+    (pkg_dir / "consts.py").write_text(
+        f'''# Copyright Virons Fintech. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+"""Constants for virons-{name}-mcp-server."""
+
+SERVER_NAME = "virons.{package_name}-mcp-server"
+SERVER_PORT = {port}
+
+SERVER_INSTRUCTIONS = """
+Virons {name.title()} MCP Server
+
+This server is compliance-first and follows:
+- BaFin MaRisk AT 8.1 (audit trail on all writes)
+- GDPR Art 25, 32 (data residency, correlation IDs)
+- DORA Art 11 (health monitoring)
+- EU AI Act (model card validation if high-risk)
+
+All write operations are audited. Data resides in eu-central-1 only.
+"""
+
+SERVER_DEPENDENCIES = [
+    "mcp[cli]>=1.23.0",
+    "loguru>=0.7.0",
+    "pydantic>=2.10.6",
+    "virons.common>=0.1.0",
+]
+'''
+    )
+    
+    # compliance.py with virons.common integration
+    (pkg_dir / "compliance.py").write_text(
+        f'''# Copyright Virons Fintech. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+"""Compliance hooks for virons-{name}-mcp-server.
+
+Integrates virons.common compliance utilities:
+- BaFin MaRisk AT 8.1: write_audit()
+- GDPR Art 25: enforce_region()
+- GDPR Art 32: CorrelationContext, generate_correlation_id()
+- DORA Art 11: HealthCheck
+"""
+
+from mcp.server.fastmcp import FastMCP
+from virons.common import (
+    HealthCheck,
+    CorrelationContext,
+    generate_correlation_id,
+    enforce_region,
+    write_audit,
+)
+from loguru import logger
+
+
+# Global instances
+health_check = HealthCheck()
+correlation_context = CorrelationContext()
+
+
+def setup_compliance_hooks(server: FastMCP) -> None:
+    """Register compliance hooks with the FastMCP server.
+    
+    Args:
+        server: FastMCP server instance
+    """
+    # Enforce EU data residency (GDPR Art 25)
+    enforce_region("eu-central-1")
+    logger.info("Data residency enforced: eu-central-1")
+    
+    # TODO: Add readiness checks for dependencies (DORA Art 11)
+    # health_check.add_readiness_check("database", lambda: check_db_connection())
+    
+    logger.info("Compliance hooks initialized")
+
+
+async def audit_write_operation(
+    operation_name: str,
+    entity_id: str,
+    input_data: dict,
+    output_data: dict,
+) -> str:
+    """Audit a write operation per BaFin MaRisk AT 8.1.
+    
+    Args:
+        operation_name: Name of the operation
+        entity_id: Entity identifier
+        input_data: Input parameters
+        output_data: Operation results
+        
+    Returns:
+        Audit trail ID
+    """
+    audit_id = await write_audit(
+        service_name="virons-{name}-mcp-server",
+        calculation_type=operation_name,
+        entity_id=entity_id,
+        input_data=input_data,
+        output_data=output_data,
+    )
+    logger.info(f"Audit trail created: {{audit_id}}")
+    return audit_id
+'''
+    )
+
+
+def create_test_files(server_dir: Path, name: str) -> None:
     """Create test files.
     
     Args:
         server_dir: Server root directory
+        name: Server name
     """
+    package_name = name.replace("-", "_")
     tests_dir = server_dir / "tests"
     
-    for test_file in ["test_server.py", "test_init.py", "test_main.py", "test_compliance.py"]:
-        (tests_dir / test_file).write_text(f"# Tests for {test_file[5:-3]}\n")
+    # test_server.py
+    (tests_dir / "test_server.py").write_text(
+        f'''# Copyright Virons Fintech. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+"""Tests for server.py."""
+
+import pytest
+from virons.{package_name}_mcp_server.server import create_server
+
+
+def test_create_server():
+    """Test server creation."""
+    server = create_server()
+    assert server is not None
+    assert server.name == "virons.{package_name}-mcp-server"
+'''
+    )
+    
+    # test_init.py
+    (tests_dir / "test_init.py").write_text(
+        f'''# Copyright Virons Fintech. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+"""Tests for package initialization."""
+
+import re
+from importlib import reload
+import virons.{package_name}_mcp_server
+
+
+def test_version():
+    """Test version is valid semver."""
+    version = virons.{package_name}_mcp_server.__version__
+    assert re.match(r"^\\d+\\.\\d+\\.\\d+", version)
+
+
+def test_module_reload():
+    """Test module can be reloaded."""
+    reload(virons.{package_name}_mcp_server)
+    assert virons.{package_name}_mcp_server.__version__
+'''
+    )
+    
+    # test_main.py
+    (tests_dir / "test_main.py").write_text(
+        f'''# Copyright Virons Fintech. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+"""Tests for main entry point."""
+
+from unittest.mock import patch
+from virons.{package_name}_mcp_server.server import main
+
+
+@patch("virons.{package_name}_mcp_server.server.FastMCP.run")
+def test_main_runs(mock_run):
+    """Test main function runs server."""
+    with patch("sys.argv", ["server", "--allow-write"]):
+        server = main()
+        assert server is not None
+        mock_run.assert_called_once()
+'''
+    )
+    
+    # test_compliance.py
+    (tests_dir / "test_compliance.py").write_text(
+        f'''# Copyright Virons Fintech. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+"""Tests for compliance hooks."""
+
+import pytest
+from virons.{package_name}_mcp_server.compliance import (
+    health_check,
+    correlation_context,
+    audit_write_operation,
+)
+
+
+def test_health_check_liveness():
+    """Test liveness check returns ok."""
+    result = health_check.liveness()
+    assert result["status"] == "ok"
+
+
+def test_health_check_readiness():
+    """Test readiness check returns ok when no checks registered."""
+    result = health_check.readiness()
+    assert result["status"] == "ok"
+
+
+@pytest.mark.asyncio
+async def test_audit_write_operation():
+    """Test audit write operation creates audit trail."""
+    audit_id = await audit_write_operation(
+        operation_name="test_operation",
+        entity_id="test-entity-123",
+        input_data={{"param": "value"}},
+        output_data={{"result": "success"}},
+    )
+    assert audit_id
+    assert "virons-{name}-mcp-server" in audit_id
+'''
+    )
 
 
 def create_metadata_files(server_dir: Path, name: str, description: str, port: str, deps: list[str]) -> None:
@@ -447,8 +750,8 @@ def main() -> int:
     
     # Create structure
     server_dir = create_directory_structure(args.name, args.output_dir)
-    create_python_files(server_dir, args.name)
-    create_test_files(server_dir)
+    create_python_files(server_dir, args.name, args.port)
+    create_test_files(server_dir, args.name)
     create_metadata_files(server_dir, args.name, args.description, args.port, deps)
     create_readme_files(server_dir, args.name)
     
