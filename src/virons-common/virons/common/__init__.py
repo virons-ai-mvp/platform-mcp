@@ -17,8 +17,16 @@
 __version__ = '0.1.0'
 
 from .audit import write_audit
+from .correlation import CorrelationContext, generate_correlation_id
+from .health import HealthCheck
+from .residency import DataResidencyError, enforce_region
 
 
 __all__ = [
     'write_audit',
+    'HealthCheck',
+    'generate_correlation_id',
+    'CorrelationContext',
+    'enforce_region',
+    'DataResidencyError',
 ]
