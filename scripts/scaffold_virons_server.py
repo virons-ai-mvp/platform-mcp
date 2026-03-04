@@ -73,12 +73,18 @@ def create_python_files(server_dir: Path, name: str, port: str) -> None:
 """FastMCP server implementation for virons-{name}-mcp-server."""
 
 import argparse
+import os
+import sys
 from mcp.server.fastmcp import FastMCP
 from loguru import logger
 
 from .compliance import setup_compliance_hooks
 from .consts import SERVER_NAME, SERVER_INSTRUCTIONS, SERVER_DEPENDENCIES
 
+
+# Configure logging
+logger.remove()
+logger.add(sys.stderr, level=os.getenv('FASTMCP_LOG_LEVEL', 'WARNING'))
 
 mcp = None
 
