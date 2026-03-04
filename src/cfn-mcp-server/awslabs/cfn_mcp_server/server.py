@@ -27,7 +27,7 @@ from pydantic import Field
 
 
 mcp = FastMCP(
-    'awslabs.cfn-mcp-server',
+    'awslabs.cfn-infrastructure-mcp-server',
     instructions="""
     # CloudFormation MCP
 

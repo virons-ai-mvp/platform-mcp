@@ -60,7 +60,7 @@ Configure the MCP server in your MCP client configuration (e.g., for Kiro, edit 
     "awslabs.aurora-dsql-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.aurora-dsql-mcp-server@latest",
+        "awslabs.aurora-dsql-infrastructure-mcp-server@latest",
         "--cluster_endpoint",
         "[your dsql cluster endpoint]",
         "--region",
@@ -96,8 +96,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.aurora-dsql-mcp-server@latest",
-        "awslabs.aurora-dsql-mcp-server.exe"
+        "awslabs.aurora-dsql-infrastructure-mcp-server@latest",
+        "awslabs.aurora-dsql-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -142,7 +142,7 @@ aws configure export-credentials --profile your-profile-name --format env > temp
         "--rm",
         "--env-file",
         "/full/path/to/file/above/.env",
-        "awslabs/aurora-dsql-mcp-server:latest",
+        "awslabs/aurora-dsql-infrastructure-mcp-server:latest",
         "--cluster_endpoint",
         "[your data]",
         "--database_user",
@@ -256,8 +256,8 @@ To test the MCP server locally using Docker:
 1. **Build the Docker image:**
 
    ```bash
-   cd src/aurora-dsql-mcp-server
-   docker build -t awslabs/aurora-dsql-mcp-server:latest .
+   cd src/aurora-dsql-infrastructure-mcp-server
+   docker build -t awslabs/aurora-dsql-infrastructure-mcp-server:latest .
    ```
 
 2. **Create AWS credentials file:**
@@ -286,7 +286,7 @@ To test the MCP server locally using Docker:
    ```bash
    docker run -i --rm \
      --env-file .env \
-     awslabs/aurora-dsql-mcp-server:latest \
+     awslabs/aurora-dsql-infrastructure-mcp-server:latest \
      --cluster_endpoint "your-dsql-cluster-endpoint" \
      --database_user "your-username" \
      --region "us-east-1"
@@ -296,7 +296,7 @@ To test the MCP server locally using Docker:
    ```bash
    docker run -i --rm \
      --env-file .env \
-     awslabs/aurora-dsql-mcp-server:latest \
+     awslabs/aurora-dsql-infrastructure-mcp-server:latest \
      --cluster_endpoint "your-dsql-cluster-endpoint" \
      --database_user "your-username" \
      --region "us-east-1" \
@@ -380,7 +380,7 @@ To add the skill directly in Gemini, decide on a scope `workspace` (contained to
 and use the `skills` installer.
 
 ```bash
-gemini skills install https://github.com/awslabs/mcp.git --path src/aurora-dsql-mcp-server/skills/dsql-skill --scope $SCOPE
+gemini skills install https://github.com/awslabs/mcp.git --path src/aurora-dsql-infrastructure-mcp-server/skills/dsql-skill --scope $SCOPE
 ```
 
 You can then use the `/dsql` skill command with Gemini, and Gemini will automatically detect when the skill should be used.

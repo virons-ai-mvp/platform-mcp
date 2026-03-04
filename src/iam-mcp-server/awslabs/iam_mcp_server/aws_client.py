@@ -38,7 +38,7 @@ def get_iam_client(region: Optional[str] = None) -> Any:
         client_region = region or Context.get_region()
 
         # Add user agent to identify this MCP server in AWS logs
-        config = Config(user_agent_extra='awslabs-iam-mcp-server/1.0.0')
+        config = Config(user_agent_extra='awslabs-iam-infrastructure-mcp-server/1.0.0')
 
         if client_region:
             logger.debug(f'Creating IAM client for region: {client_region}')
@@ -70,7 +70,7 @@ def get_aws_client(service_name: str, region: Optional[str] = None) -> Any:
         client_region = region or Context.get_region()
 
         # Add user agent to identify this MCP server in AWS logs
-        config = Config(user_agent_extra='awslabs-iam-mcp-server/1.0.0')
+        config = Config(user_agent_extra='awslabs-iam-infrastructure-mcp-server/1.0.0')
 
         if client_region:
             logger.debug(f'Creating {service_name} client for region: {client_region}')

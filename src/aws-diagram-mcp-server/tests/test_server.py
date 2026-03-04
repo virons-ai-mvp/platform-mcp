@@ -14,7 +14,7 @@
 # limitations under the License.
 #
 
-"""Tests for the server module of the diagrams-mcp-server."""
+"""Tests for the server module of the diagrams-infrastructure-mcp-server."""
 
 import os
 import pytest

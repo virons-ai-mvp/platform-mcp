@@ -200,6 +200,6 @@ Templates have access to:
 3. **Generate**: Use `--templates-dir` option
 
 ```bash
-# Use custom templates (from dynamodb-mcp-server root)
+# Use custom templates (from dynamodb-infrastructure-mcp-server root)
 uv run python -m awslabs.dynamodb_mcp_server.repo_generation_tool.codegen --schema schema.json --templates-dir custom/templates/
 ```

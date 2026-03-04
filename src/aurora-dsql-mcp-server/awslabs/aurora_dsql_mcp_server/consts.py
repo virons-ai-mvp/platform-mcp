@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-DSQL_MCP_SERVER_APPLICATION_NAME = 'awslabs.aurora-dsql-mcp-server'
+DSQL_MCP_SERVER_APPLICATION_NAME = 'awslabs.aurora-dsql-infrastructure-mcp-server'
 DSQL_DB_NAME = 'postgres'
 DSQL_DB_PORT = '5432'
 

@@ -386,7 +386,7 @@ class TestServer:
 
         # Assert
         mock_fast_mcp.assert_called_once_with(
-            name='awslabs.aws-msk-mcp-server',
+            name='awslabs.aws-msk-infrastructure-mcp-server',
             instructions="""
         AWS MSK MCP Server providing tools to interact with MSK Clusters.
 
@@ -460,7 +460,7 @@ class TestServer:
 
         # Assert
         mock_fast_mcp.assert_called_once_with(
-            name='awslabs.aws-msk-mcp-server',
+            name='awslabs.aws-msk-infrastructure-mcp-server',
             instructions="""
         AWS MSK MCP Server providing tools to interact with MSK Clusters.
 

@@ -80,7 +80,7 @@ Alarm Recommendations - Suggests recommended alarm configurations for CloudWatch
       "disabled": false,
       "command": "uvx",
       "args": [
-        "awslabs.cloudwatch-mcp-server@latest"
+        "awslabs.cloudwatch-infrastructure-mcp-server@latest"
       ],
       "env": {
         "AWS_PROFILE": "[The AWS Profile Name to use for AWS access]",
@@ -107,8 +107,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.cloudwatch-mcp-server@latest",
-        "awslabs.cloudwatch-mcp-server.exe"
+        "awslabs.cloudwatch-infrastructure-mcp-server@latest",
+        "awslabs.cloudwatch-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -148,7 +148,7 @@ Build and install docker image locally on the same host of your LLM client
           "~/.aws:/root/.aws",
           "-e",
           "AWS_PROFILE=[The AWS Profile Name to use for AWS access]",
-          "awslabs/cloudwatch-mcp-server:latest"
+          "awslabs/cloudwatch-infrastructure-mcp-server:latest"
         ],
         "env": {},
         "disabled": false,

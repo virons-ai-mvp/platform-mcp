@@ -55,7 +55,7 @@ After installing with `uv tool install .`, configure your MCP client:
   "mcpServers": {
     "aws-iot-sitewise-dev": {
       "command": "uvx",
-      "args": ["awslabs.aws-iot-sitewise-mcp-server"],
+      "args": ["awslabs.aws-iot-sitewise-infrastructure-mcp-server"],
       "env": {
         "AWS_REGION": "us-west-2",
         "AWS_PROFILE": "your-dev-profile",
@@ -107,7 +107,7 @@ For development with hot reloading after code changes:
 1. **Clone Repository**:
    ```bash
    git clone https://github.com/awslabs/mcp.git
-   cd src/aws-iot-sitewise-mcp-server
+   cd src/aws-iot-sitewise-infrastructure-mcp-server
    ```
 
 2. **Install as UV Tool**:
@@ -116,7 +116,7 @@ For development with hot reloading after code changes:
    uv tool install .
 
    # Test the installation
-   uvx awslabs.aws-iot-sitewise-mcp-server --help
+   uvx awslabs.aws-iot-sitewise-infrastructure-mcp-server --help
    ```
 
 3. **For Development Work, Also Install Dev Dependencies**:
@@ -140,7 +140,7 @@ For development with hot reloading after code changes:
 1. **Clone Repository**:
     ```bash
    git clone https://github.com/awslabs/mcp.git
-   cd src/aws-iot-sitewise-mcp-server
+   cd src/aws-iot-sitewise-infrastructure-mcp-server
    ```
 
 2. **Create Virtual Environment and Install Dependencies**:
@@ -460,7 +460,7 @@ uv build
 uv pip install -e .
 
 # Install from PyPI (if published)
-uv pip install awslabs.aws-iot-sitewise-mcp-server
+uv pip install awslabs.aws-iot-sitewise-infrastructure-mcp-server
 ```
 
 

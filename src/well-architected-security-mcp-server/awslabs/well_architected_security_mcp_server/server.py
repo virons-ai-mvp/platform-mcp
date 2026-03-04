@@ -54,7 +54,7 @@ from awslabs.well_architected_security_mcp_server.util.storage_security import (
 
 # User agent configuration for AWS API calls
 USER_AGENT_CONFIG = Config(
-    user_agent_extra=f"awslabs/mcp/well-architected-security-mcp-server/{__version__}"
+    user_agent_extra=f"awslabs/mcp/well-architected-security-infrastructure-mcp-server/{__version__}"
 )
 
 # Set up AWS region and profile from environment variables
@@ -67,7 +67,7 @@ logger.add(sys.stderr, level=os.getenv("FASTMCP_LOG_LEVEL", "DEBUG"))
 
 # Initialize MCP Server
 mcp = FastMCP(
-    "well-architected-security-mcp-server",
+    "well-architected-security-infrastructure-mcp-server",
     instructions=INSTRUCTIONS,
     dependencies=[
         "boto3",
@@ -779,7 +779,7 @@ First, use the `CheckSecurityServices` tool to determine which AWS security serv
 
 ```python
 result = await use_mcp_tool(
-    server_name="well-architected-security-mcp-server",
+    server_name="well-architected-security-infrastructure-mcp-server",
     tool_name="CheckSecurityServices",
     arguments={
         "region": "us-east-1",  # Specify your AWS region
@@ -813,7 +813,7 @@ For each enabled service, use the `GetSecurityFindings` tool to retrieve finding
 ```python
 for service in enabled_services:
     findings = await use_mcp_tool(
-        server_name="well-architected-security-mcp-server",
+        server_name="well-architected-security-infrastructure-mcp-server",
         tool_name="GetSecurityFindings",
         arguments={
             "region": "us-east-1",  # Use the same region as in Step 1
@@ -878,7 +878,7 @@ First, determine which storage services are available in your target region:
 ```python
 # Option 1: List all services in the region
 services_result = await use_mcp_tool(
-    server_name="well-architected-security-mcp-server",
+    server_name="well-architected-security-infrastructure-mcp-server",
     tool_name="ListServicesInRegion",
     arguments={
         "region": "us-east-1",  # Specify your AWS region
@@ -889,7 +889,7 @@ services_result = await use_mcp_tool(
 
 # Option 2: List resource types (alternative approach)
 resource_types = await use_mcp_tool(
-    server_name="well-architected-security-mcp-server",
+    server_name="well-architected-security-infrastructure-mcp-server",
     tool_name="ListResourceTypes",
     arguments={
         "region": "us-east-1",  # Specify your AWS region
@@ -927,7 +927,7 @@ Now, check if your storage resources have encryption enabled:
 
 ```python
 encryption_result = await use_mcp_tool(
-    server_name="well-architected-security-mcp-server",
+    server_name="well-architected-security-infrastructure-mcp-server",
     tool_name="CheckStorageEncryption",
     arguments={
         "region": "us-east-1",  # Specify your AWS region
@@ -1025,7 +1025,7 @@ First, determine which network services are available in your target region:
 ```python
 # Option 1: List all services in the region
 services_result = await use_mcp_tool(
-    server_name="well-architected-security-mcp-server",
+    server_name="well-architected-security-infrastructure-mcp-server",
     tool_name="ListServicesInRegion",
     arguments={
         "region": "us-east-1",  # Specify your AWS region
@@ -1036,7 +1036,7 @@ services_result = await use_mcp_tool(
 
 # Option 2: List resource types (alternative approach)
 resource_types = await use_mcp_tool(
-    server_name="well-architected-security-mcp-server",
+    server_name="well-architected-security-infrastructure-mcp-server",
     tool_name="ListResourceTypes",
     arguments={
         "region": "us-east-1",  # Specify your AWS region
@@ -1074,7 +1074,7 @@ Now, check if your network resources have proper in-transit security measures:
 
 ```python
 network_result = await use_mcp_tool(
-    server_name="well-architected-security-mcp-server",
+    server_name="well-architected-security-infrastructure-mcp-server",
     tool_name="CheckNetworkSecurity",
     arguments={
         "region": "us-east-1",  # Specify your AWS region

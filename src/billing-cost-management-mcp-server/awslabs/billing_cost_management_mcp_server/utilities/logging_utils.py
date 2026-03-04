@@ -75,7 +75,7 @@ def configure_logging() -> None:
     log_file = os.environ.get(ENV_LOG_FILE)
     if not log_file:
         log_dir = get_server_directory()
-        log_file = log_dir / 'billing-cost-management-mcp-server.log'
+        log_file = log_dir / 'billing-cost-management-infrastructure-mcp-server.log'
 
     # Configure rotation and retention
     rotation = os.environ.get(ENV_LOG_ROTATION, '10 MB')

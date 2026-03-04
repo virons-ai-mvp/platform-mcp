@@ -1,1 +1,1 @@
-"""Tests for the lambda-tool-mcp-server."""
+"""Tests for the lambda-tool-infrastructure-mcp-server."""

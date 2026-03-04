@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Tests for the clients module of the bedrock-kb-retrieval-mcp-server."""
+"""Tests for the clients module of the bedrock-kb-retrieval-infrastructure-mcp-server."""
 
 from awslabs.bedrock_kb_retrieval_mcp_server.knowledgebases.clients import (
     get_bedrock_agent_client,

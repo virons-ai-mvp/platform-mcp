@@ -22,7 +22,7 @@ from typing import Literal
 
 
 mcp = FastMCP(
-    'awslabs.frontend-mcp-server',
+    'awslabs.frontend-infrastructure-mcp-server',
     instructions='The Frontend MCP Server provides specialized tools for modern web application development. It offers guidance on React application setup, optimistic UI implementation, and authentication integration. Use these tools when you need expert advice on frontend development best practices.',
     dependencies=[
         'pydantic',

@@ -43,7 +43,7 @@ Here are some ways you can work with MCP across AWS tools (e.g., for Kiro, `~/.k
     "awslabs.valkey-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.valkey-mcp-server@latest"
+        "awslabs.valkey-infrastructure-mcp-server@latest"
       ],
       "env": {
         "VALKEY_HOST": "127.0.0.1",
@@ -65,7 +65,7 @@ To run in readonly mode:
     "awslabs.valkey-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.valkey-mcp-server@latest",
+        "awslabs.valkey-infrastructure-mcp-server@latest",
         "--readonly"
       ],
       "env": {
@@ -96,8 +96,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.valkey-mcp-server@latest",
-        "awslabs.valkey-mcp-server.exe"
+        "awslabs.valkey-infrastructure-mcp-server@latest",
+        "awslabs.valkey-infrastructure-mcp-server.exe"
       ],
       "env": {
         "VALKEY_HOST": "127.0.0.1",
@@ -120,8 +120,8 @@ To run in readonly mode:
         "tool",
         "run",
         "--from",
-        "awslabs.valkey-mcp-server@latest",
-        "awslabs.valkey-mcp-server.exe",
+        "awslabs.valkey-infrastructure-mcp-server@latest",
+        "awslabs.valkey-infrastructure-mcp-server.exe",
         "--readonly"
       ],
       "env": {
@@ -153,7 +153,7 @@ Or using Docker after a successful `docker build -t awslabs/valkey-mcp-server .`
         "VALKEY_HOST=127.0.0.1",
         "--env",
         "VALKEY_PORT=6379",
-        "awslabs/valkey-mcp-server:latest"
+        "awslabs/valkey-infrastructure-mcp-server:latest"
       ],
       "env": {},
       "disabled": false,
@@ -180,7 +180,7 @@ To run in readonly mode with Docker:
         "VALKEY_HOST=127.0.0.1",
         "--env",
         "VALKEY_PORT=6379",
-        "awslabs/valkey-mcp-server:latest",
+        "awslabs/valkey-infrastructure-mcp-server:latest",
         "--readonly"
       ],
       "env": {},
@@ -234,7 +234,7 @@ uv run --frozen pytest
 
 ### Building Docker Image
 ```bash
-docker build -t awslabs/valkey-mcp-server .
+docker build -t awslabs/valkey-infrastructure-mcp-server .
 ```
 
 ### Running Docker Container
@@ -242,7 +242,7 @@ docker build -t awslabs/valkey-mcp-server .
 docker run -p 8080:8080 \
   -e VALKEY_HOST=host.docker.internal \
   -e VALKEY_PORT=6379 \
-  awslabs/valkey-mcp-server
+  awslabs/valkey-infrastructure-mcp-server
 ```
 
 To run in readonly mode:
@@ -250,5 +250,5 @@ To run in readonly mode:
 docker run -p 8080:8080 \
   -e VALKEY_HOST=host.docker.internal \
   -e VALKEY_PORT=6379 \
-  awslabs/valkey-mcp-server --readonly
+  awslabs/valkey-infrastructure-mcp-server --readonly
 ```

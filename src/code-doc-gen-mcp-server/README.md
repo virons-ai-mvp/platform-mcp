@@ -69,7 +69,7 @@ This MCP server can be added to your AWS AI assistants via the appropriate MCP c
   "mcpServers": {
     "awslabs.code-doc-gen-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.code-doc-gen-mcp-server@latest"],
+      "args": ["awslabs.code-doc-gen-infrastructure-mcp-server@latest"],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
       },
@@ -95,8 +95,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.code-doc-gen-mcp-server@latest",
-        "awslabs.code-doc-gen-mcp-server.exe"
+        "awslabs.code-doc-gen-infrastructure-mcp-server@latest",
+        "awslabs.code-doc-gen-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",

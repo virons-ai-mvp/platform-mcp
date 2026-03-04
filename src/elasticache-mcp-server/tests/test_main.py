@@ -18,7 +18,7 @@ class TestMain:
     """Tests for the main function."""
 
     @patch('awslabs.elasticache_mcp_server.common.server.mcp.run')
-    @patch('sys.argv', ['awslabs.elasticache-mcp-server'])
+    @patch('sys.argv', ['awslabs.elasticache-infrastructure-mcp-server'])
     def test_main_default(self, mock_run):
         """Test main function with default arguments."""
         # Call the main function

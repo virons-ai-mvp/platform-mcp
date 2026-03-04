@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Tests for the novacanvas module of the nova-canvas-mcp-server."""
+"""Tests for the novacanvas module of the nova-canvas-infrastructure-mcp-server."""
 
 import base64
 import json

@@ -80,7 +80,7 @@ class K8sApis:
             self.api_client = client.ApiClient(configuration)
 
             # Set user-agent directly on the ApiClient
-            self.api_client.user_agent = f'awslabs/mcp/eks-mcp-server/{__version__}'
+            self.api_client.user_agent = f'awslabs/mcp/eks-infrastructure-mcp-server/{__version__}'
 
             # Create dynamic client
             self.dynamic_client = dynamic.DynamicClient(self.api_client)

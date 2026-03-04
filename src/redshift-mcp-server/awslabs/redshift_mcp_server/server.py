@@ -51,7 +51,7 @@ logger.add(
 
 
 mcp = FastMCP(
-    'awslabs.redshift-mcp-server',
+    'awslabs.redshift-infrastructure-mcp-server',
     instructions=f"""
 # Amazon Redshift MCP Server.
 

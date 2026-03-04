@@ -1,4 +1,4 @@
-"""Tests for the SNS module of amazon-sns-sqs-mcp-server."""
+"""Tests for the SNS module of amazon-sns-sqs-infrastructure-mcp-server."""
 
 from awslabs.amazon_sns_sqs_mcp_server.common import MCP_SERVER_VERSION_TAG
 from awslabs.amazon_sns_sqs_mcp_server.consts import MCP_SERVER_VERSION

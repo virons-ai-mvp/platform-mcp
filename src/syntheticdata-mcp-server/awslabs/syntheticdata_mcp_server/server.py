@@ -108,7 +108,7 @@ class LoadToStorageInput(BaseModel):
 
 
 mcp = FastMCP(
-    'awslabs.syntheticdata-mcp-server',
+    'awslabs.syntheticdata-infrastructure-mcp-server',
     instructions="""
     # awslabs Synthetic Data MCP Server
 

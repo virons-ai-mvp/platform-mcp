@@ -81,7 +81,7 @@ from mcp.server.fastmcp import FastMCP
 
 
 mcp = FastMCP(
-    'awslabs.aws-healthomics-mcp-server',
+    'awslabs.aws-healthomics-infrastructure-mcp-server',
     instructions="""
 # AWS HealthOmics MCP Server
 

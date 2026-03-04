@@ -1,4 +1,4 @@
-"""Tests for the amazon-sns-sqs-mcp-server."""
+"""Tests for the amazon-sns-sqs-infrastructure-mcp-server."""
 
 from awslabs.amazon_sns_sqs_mcp_server.server import main, mcp
 from awslabs.amazon_sns_sqs_mcp_server.sns import (
@@ -75,7 +75,7 @@ class TestServerModule:
 
     def test_mcp_initialization(self):
         """Test that the MCP server is initialized correctly."""
-        assert mcp.name == 'awslabs.amazon-sns-sqs-mcp-server'
+        assert mcp.name == 'awslabs.amazon-sns-sqs-infrastructure-mcp-server'
 
         # Check if instructions contains the expected strings
         instructions = mcp.instructions if mcp.instructions else ''

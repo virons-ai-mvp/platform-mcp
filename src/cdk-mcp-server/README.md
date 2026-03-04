@@ -151,7 +151,7 @@ Configure the MCP server in your MCP client configuration (e.g., for Kiro, edit 
   "mcpServers": {
     "awslabs.cdk-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.cdk-mcp-server@latest"],
+      "args": ["awslabs.cdk-infrastructure-mcp-server@latest"],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
       },
@@ -177,8 +177,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.cdk-mcp-server@latest",
-        "awslabs.cdk-mcp-server.exe"
+        "awslabs.cdk-infrastructure-mcp-server@latest",
+        "awslabs.cdk-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -204,7 +204,7 @@ or docker after a successful `docker build -t awslabs/cdk-mcp-server .`:
           "--interactive",
           "--env",
           "FASTMCP_LOG_LEVEL=ERROR",
-          "awslabs/cdk-mcp-server:latest"
+          "awslabs/cdk-infrastructure-mcp-server:latest"
         ],
         "env": {},
         "disabled": false,

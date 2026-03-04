@@ -36,7 +36,7 @@ Configure the MCP server in your MCP client configuration (e.g., for Kiro, edit 
   "mcpServers": {
     "bedrock-data-automation-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.aws-bedrock-data-automation-mcp-server@latest"],
+      "args": ["awslabs.aws-bedrock-data-automation-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "your-aws-profile",
         "AWS_REGION": "us-east-1",
@@ -66,8 +66,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.aws-bedrock-data-automation-mcp-server@latest",
-        "awslabs.aws-bedrock-data-automation-mcp-server.exe"
+        "awslabs.aws-bedrock-data-automation-infrastructure-mcp-server@latest",
+        "awslabs.aws-bedrock-data-automation-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -103,7 +103,7 @@ BASE_DIR=/path/to/base/directory
         "--interactive",
         "--env-file",
         "/full/path/to/file/above/.env",
-        "awslabs/aws-bedrock-data-automation-mcp-server:latest"
+        "awslabs/aws-bedrock-data-automation-infrastructure-mcp-server:latest"
       ],
       "env": {},
       "disabled": false,

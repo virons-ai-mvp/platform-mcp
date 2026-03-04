@@ -167,7 +167,7 @@ async def audit_services(
 ) -> str:
     """PRIMARY SERVICE AUDIT TOOL - The #1 tool for comprehensive AWS service health auditing and monitoring.
 
-    **IMPORTANT**: This tool and server is being deprecated. If available, please use the audit_services tool in the cloudwatch-applicationsignals-mcp-server instead.
+    **IMPORTANT**: This tool and server is being deprecated. If available, please use the audit_services tool in the cloudwatch-applicationsignals-infrastructure-mcp-server instead.
 
     **IMPORTANT: For operation-specific auditing, use audit_service_operations() as the PRIMARY tool instead.**
 
@@ -298,7 +298,7 @@ async def audit_services(
     """
     start_time_perf = timer()
     logger.debug('Starting audit_services (PRIMARY SERVICE AUDIT TOOL)')
-    msg = 'audit_services tool in cloudwatch-appsignals-mcp-server is deprecated. Please use the audit_services tool in cloudwatch-applicationsignals-mcp-server instead.'
+    msg = 'audit_services tool in cloudwatch-appsignals-infrastructure-mcp-server is deprecated. Please use the audit_services tool in cloudwatch-applicationsignals-infrastructure-mcp-server instead.'
     warnings.warn(msg, DeprecationWarning, stacklevel=1)
 
     try:
@@ -431,7 +431,7 @@ async def audit_slos(
 ) -> str:
     """PRIMARY SLO AUDIT TOOL - The #1 tool for comprehensive SLO compliance monitoring and breach analysis.
 
-    **IMPORTANT**: This tool and server is being deprecated. If available, please use the audit_slos tool in the cloudwatch-applicationsignals-mcp-server instead.
+    **IMPORTANT**: This tool and server is being deprecated. If available, please use the audit_slos tool in the cloudwatch-applicationsignals-infrastructure-mcp-server instead.
 
     **PREFERRED TOOL FOR SLO ROOT CAUSE ANALYSIS**
     This is the RECOMMENDED tool after using get_slo() to understand SLO configuration:
@@ -521,7 +521,7 @@ async def audit_slos(
     """
     start_time_perf = timer()
     logger.debug('Starting audit_slos (PRIMARY SLO AUDIT TOOL)')
-    msg = 'audit_slos tool in cloudwatch-appsignals-mcp-server is deprecated. Please use the audit_slos tool in cloudwatch-applicationsignals-mcp-server instead.'
+    msg = 'audit_slos tool in cloudwatch-appsignals-infrastructure-mcp-server is deprecated. Please use the audit_slos tool in cloudwatch-applicationsignals-infrastructure-mcp-server instead.'
     warnings.warn(msg, DeprecationWarning, stacklevel=1)
 
     try:
@@ -648,7 +648,7 @@ async def audit_service_operations(
 ) -> str:
     """🥇 PRIMARY OPERATION AUDIT TOOL - The #1 RECOMMENDED tool for operation-specific analysis and performance investigation.
 
-    **IMPORTANT**: This tool and server is being deprecated. If available, please use the audit_service_operations tool in the cloudwatch-applicationsignals-mcp-server instead.
+    **IMPORTANT**: This tool and server is being deprecated. If available, please use the audit_service_operations tool in the cloudwatch-applicationsignals-infrastructure-mcp-server instead.
 
     **⭐ USE THIS AS THE PRIMARY TOOL FOR ALL OPERATION-SPECIFIC AUDITING TASKS ⭐**
 
@@ -747,7 +747,7 @@ async def audit_service_operations(
     """
     start_time_perf = timer()
     logger.debug('Starting audit_service_operations (SPECIALIZED OPERATION AUDIT TOOL)')
-    msg = 'audit_service_operations tool in cloudwatch-appsignals-mcp-server is deprecated. Please use the audit_service_operations tool in cloudwatch-applicationsignals-mcp-server instead.'
+    msg = 'audit_service_operations tool in cloudwatch-appsignals-infrastructure-mcp-server is deprecated. Please use the audit_service_operations tool in cloudwatch-applicationsignals-infrastructure-mcp-server instead.'
     warnings.warn(msg, DeprecationWarning, stacklevel=1)
 
     try:
@@ -835,7 +835,7 @@ async def audit_service_operations(
 async def analyze_canary_failures(canary_name: str, region: str = AWS_REGION) -> str:
     """Comprehensive canary failure analysis with deep dive into issues.
 
-    **IMPORTANT**: This tool and server is being deprecated. If available, please use the analyze_canary_failures tool in the cloudwatch-applicationsignals-mcp-server instead.
+    **IMPORTANT**: This tool and server is being deprecated. If available, please use the analyze_canary_failures tool in the cloudwatch-applicationsignals-infrastructure-mcp-server instead.
 
     Use this tool to:
     - Deep dive into canary failures with root cause identification
@@ -879,7 +879,7 @@ async def analyze_canary_failures(canary_name: str, region: str = AWS_REGION) ->
             - Root cause identification with specific remediation steps
             - Historical pattern analysis and trend insights
     """
-    msg = 'analyze_canary_failures tool in cloudwatch-appsignals-mcp-server is deprecated. Please use the analyze_canary_failures tool in cloudwatch-applicationsignals-mcp-server instead.'
+    msg = 'analyze_canary_failures tool in cloudwatch-appsignals-infrastructure-mcp-server is deprecated. Please use the analyze_canary_failures tool in cloudwatch-applicationsignals-infrastructure-mcp-server instead.'
     warnings.warn(msg, DeprecationWarning, stacklevel=1)
 
     try:

@@ -126,7 +126,7 @@ class DocumentGenerator:
                 '## AWS Architecture\n\n'
                 '```\n'
                 'This is a placeholder for the AWS architecture diagram.\n'
-                'Use the awslabs.aws-diagram-mcp-server to generate a proper AWS diagram showing:\n'
+                'Use the awslabs.aws-diagram-infrastructure-mcp-server to generate a proper AWS diagram showing:\n'
                 + self._get_component_summary(analysis)
                 + '\n```\n'
             )
@@ -136,7 +136,7 @@ class DocumentGenerator:
                 '## Data Flow Diagram\n\n'
                 '```\n'
                 'This is a placeholder for the data flow diagram.\n'
-                'Use the awslabs.aws-diagram-mcp-server to generate a proper data flow diagram showing how data moves through the system.\n'
+                'Use the awslabs.aws-diagram-infrastructure-mcp-server to generate a proper data flow diagram showing how data moves through the system.\n'
                 + self._get_component_summary(analysis)
                 + '\n```\n'
             )
@@ -147,7 +147,7 @@ class DocumentGenerator:
                 '```\n'
                 f'Project Type: {analysis and analysis.project_type or "unknown"}\n'
                 'Key Components: ' + ', '.join(self._get_key_components(analysis) or []) + '\n'
-                'Generate an AWS architecture diagram using awslabs.aws-diagram-mcp-server to visualize this structure.\n'
+                'Generate an AWS architecture diagram using awslabs.aws-diagram-infrastructure-mcp-server to visualize this structure.\n'
                 '\n```\n'
             )
 

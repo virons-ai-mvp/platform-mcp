@@ -203,7 +203,7 @@ class TestLoggingSystem(LoggingTestMixin, unittest.TestCase):
         logger = _setup_logging()
 
         self.assertIsNotNone(logger)
-        self.assertEqual(logger.name, "ecs-mcp-server")
+        self.assertEqual(logger.name, "ecs-infrastructure-mcp-server")
 
     def test_custom_log_level_configuration(self):
         """Test logging setup with custom log level."""
@@ -212,7 +212,7 @@ class TestLoggingSystem(LoggingTestMixin, unittest.TestCase):
         logger = _setup_logging()
 
         self.assertIsNotNone(logger)
-        self.assertEqual(logger.name, "ecs-mcp-server")
+        self.assertEqual(logger.name, "ecs-infrastructure-mcp-server")
 
     def test_file_logging_setup(self):
         """Test file logging configuration with success scenario."""

@@ -1,4 +1,4 @@
-"""Tests for the tool implementations of the terraform-mcp-server."""
+"""Tests for the tool implementations of the terraform-infrastructure-mcp-server."""
 
 import asyncio
 import json

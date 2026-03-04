@@ -92,7 +92,7 @@ class TestEMRServerlessApplicationHandler:
         ) as mock_prepare_tags:
             mock_prepare_tags.return_value = {
                 'MCP-Managed': 'true',
-                'MCP-CreatedBy': 'aws-dataprocessing-mcp-server',
+                'MCP-CreatedBy': 'aws-dataprocessing-infrastructure-mcp-server',
             }
 
             result = await handler_with_write.manage_aws_emr_serverless_applications(

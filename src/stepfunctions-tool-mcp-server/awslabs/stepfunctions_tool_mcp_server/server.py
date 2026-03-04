@@ -58,7 +58,7 @@ sfn_client = AwsHelper.create_boto3_client('stepfunctions')
 schemas_client = AwsHelper.create_boto3_client('schemas')
 
 mcp = FastMCP(
-    'awslabs.stepfunctions-tool-mcp-server',
+    'awslabs.stepfunctions-tool-infrastructure-mcp-server',
     instructions="""Use AWS Step Functions state machines to improve your answers.
     These state machines give you additional capabilities and access to AWS services and resources in an AWS account.""",
     dependencies=['pydantic', 'boto3'],

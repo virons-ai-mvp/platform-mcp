@@ -102,7 +102,7 @@ class TestReadClusterInit:
 
         # Assert
         mock_config.assert_called_once_with(
-            user_agent_extra='awslabs/mcp/aws-msk-mcp-server/1.0.0'
+            user_agent_extra='awslabs/mcp/aws-msk-infrastructure-mcp-server/1.0.0'
         )
         mock_boto3_client.assert_called_once_with(
             'kafka', region_name='us-east-1', config=mock_config_instance
@@ -173,7 +173,7 @@ class TestReadClusterInit:
 
         # Assert
         mock_config.assert_called_once_with(
-            user_agent_extra='awslabs/mcp/aws-msk-mcp-server/1.0.0'
+            user_agent_extra='awslabs/mcp/aws-msk-infrastructure-mcp-server/1.0.0'
         )
         mock_boto3_client.assert_called_once_with(
             'kafka', region_name='us-east-1', config=mock_config_instance
@@ -240,7 +240,7 @@ class TestReadClusterInit:
 
         # Assert
         mock_config.assert_called_once_with(
-            user_agent_extra='awslabs/mcp/aws-msk-mcp-server/1.0.0'
+            user_agent_extra='awslabs/mcp/aws-msk-infrastructure-mcp-server/1.0.0'
         )
         mock_boto3_client.assert_called_once_with(
             'kafka', region_name='us-east-1', config=mock_config_instance
@@ -312,7 +312,7 @@ class TestReadClusterInit:
 
         # Assert
         mock_config.assert_called_once_with(
-            user_agent_extra='awslabs/mcp/aws-msk-mcp-server/1.0.0'
+            user_agent_extra='awslabs/mcp/aws-msk-infrastructure-mcp-server/1.0.0'
         )
         mock_boto3_client.assert_called_once_with(
             'kafka', region_name='us-east-1', config=mock_config_instance
@@ -381,7 +381,7 @@ class TestReadClusterInit:
 
         # Assert
         mock_config.assert_called_once_with(
-            user_agent_extra='awslabs/mcp/aws-msk-mcp-server/1.0.0'
+            user_agent_extra='awslabs/mcp/aws-msk-infrastructure-mcp-server/1.0.0'
         )
         mock_boto3_client.assert_called_once_with(
             'kafka', region_name='us-east-1', config=mock_config_instance
@@ -446,7 +446,7 @@ class TestReadClusterInit:
 
         # Assert
         mock_config.assert_called_once_with(
-            user_agent_extra='awslabs/mcp/aws-msk-mcp-server/1.0.0'
+            user_agent_extra='awslabs/mcp/aws-msk-infrastructure-mcp-server/1.0.0'
         )
         mock_boto3_client.assert_called_once_with(
             'kafka', region_name='us-east-1', config=mock_config_instance
@@ -524,7 +524,7 @@ class TestReadClusterInit:
 
         # Assert
         mock_config.assert_called_once_with(
-            user_agent_extra='awslabs/mcp/aws-msk-mcp-server/1.0.0'
+            user_agent_extra='awslabs/mcp/aws-msk-infrastructure-mcp-server/1.0.0'
         )
         mock_boto3_client.assert_called_once_with(
             'kafka', region_name='us-east-1', config=mock_config_instance
@@ -605,7 +605,7 @@ class TestReadClusterInit:
 
         # Assert
         mock_config.assert_called_once_with(
-            user_agent_extra='awslabs/mcp/aws-msk-mcp-server/1.0.0'
+            user_agent_extra='awslabs/mcp/aws-msk-infrastructure-mcp-server/1.0.0'
         )
         mock_boto3_client.assert_called_once_with(
             'kafka', region_name='us-east-1', config=mock_config_instance
@@ -679,7 +679,7 @@ class TestReadClusterInit:
 
         # Assert
         mock_config.assert_called_once_with(
-            user_agent_extra='awslabs/mcp/aws-msk-mcp-server/1.0.0'
+            user_agent_extra='awslabs/mcp/aws-msk-infrastructure-mcp-server/1.0.0'
         )
         mock_boto3_client.assert_called_once_with(
             'kafka', region_name='us-east-1', config=mock_config_instance
@@ -736,7 +736,7 @@ class TestReadClusterInit:
 
         assert 'Unsupported info_type: invalid_type' in str(excinfo.value)
         mock_config.assert_called_once_with(
-            user_agent_extra='awslabs/mcp/aws-msk-mcp-server/1.0.0'
+            user_agent_extra='awslabs/mcp/aws-msk-infrastructure-mcp-server/1.0.0'
         )
         mock_boto3_client.assert_called_once_with(
             'kafka', region_name='us-east-1', config=mock_config_instance
@@ -817,7 +817,7 @@ class TestReadClusterInit:
 
         # Assert
         mock_config.assert_called_once_with(
-            user_agent_extra='awslabs/mcp/aws-msk-mcp-server/1.0.0'
+            user_agent_extra='awslabs/mcp/aws-msk-infrastructure-mcp-server/1.0.0'
         )
         mock_boto3_client.assert_called_once_with(
             'kafka', region_name='us-east-1', config=mock_config_instance
@@ -897,7 +897,7 @@ class TestReadClusterInit:
 
         # Assert
         mock_config.assert_called_once_with(
-            user_agent_extra='awslabs/mcp/aws-msk-mcp-server/1.0.0'
+            user_agent_extra='awslabs/mcp/aws-msk-infrastructure-mcp-server/1.0.0'
         )
         mock_boto3_client.assert_called_once_with(
             'kafka', region_name='us-east-1', config=mock_config_instance

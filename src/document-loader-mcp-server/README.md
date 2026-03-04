@@ -32,7 +32,7 @@ Configure the MCP server in your MCP client configuration:
   "mcpServers": {
     "awslabs.document-loader-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.document-loader-mcp-server@latest"],
+      "args": ["awslabs.document-loader-infrastructure-mcp-server@latest"],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
       },
@@ -63,7 +63,7 @@ For global configuration, edit `~/.kiro/settings/mcp.json`. For project-specific
 ```bash
 # Clone the repository
 git clone https://github.com/awslabs/mcp.git
-cd mcp/src/document-loader-mcp-server
+cd mcp/src/document-loader-infrastructure-mcp-server
 
 # Install dependencies
 uv sync
@@ -103,8 +103,8 @@ The test suite automatically generates sample documents for testing:
 You can also run this server in a Docker container:
 
 ```bash
-docker build -t document-loader-mcp-server .
-docker run -p 8000:8000 document-loader-mcp-server
+docker build -t document-loader-infrastructure-mcp-server .
+docker run -p 8000:8000 document-loader-infrastructure-mcp-server
 ```
 
 ## License

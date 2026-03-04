@@ -373,14 +373,14 @@ When tools return errors:
 Install using uvx:
 
 ```bash
-uvx awslabs.aws-healthomics-mcp-server
+uvx awslabs.aws-healthomics-infrastructure-mcp-server
 ```
 
 Or install from source:
 
 ```bash
 git clone <repository-url>
-cd mcp/src/aws-healthomics-mcp-server
+cd mcp/src/aws-healthomics-infrastructure-mcp-server
 uv sync
 uv run -m awslabs.aws_healthomics_mcp_server.server
 ```
@@ -553,7 +553,7 @@ Add to your Kiro MCP configuration (`~/.kiro/settings/mcp.json`):
   "mcpServers": {
     "aws-healthomics": {
       "command": "uvx",
-      "args": ["awslabs.aws-healthomics-mcp-server"],
+      "args": ["awslabs.aws-healthomics-infrastructure-mcp-server"],
       "timeout": 300000,
       "env": {
         "AWS_REGION": "us-east-1",
@@ -580,7 +580,7 @@ For integration testing against mock services:
   "mcpServers": {
     "aws-healthomics-test": {
       "command": "uvx",
-      "args": ["awslabs.aws-healthomics-mcp-server"],
+      "args": ["awslabs.aws-healthomics-infrastructure-mcp-server"],
       "timeout": 300000,
       "env": {
         "AWS_REGION": "us-east-1",
@@ -620,8 +620,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.aws-healthomics-mcp-server@latest",
-        "awslabs.aws-healthomics-mcp-server.exe"
+        "awslabs.aws-healthomics-infrastructure-mcp-server@latest",
+        "awslabs.aws-healthomics-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -654,8 +654,8 @@ For testing scenarios on Windows:
         "tool",
         "run",
         "--from",
-        "awslabs.aws-healthomics-mcp-server@latest",
-        "awslabs.aws-healthomics-mcp-server.exe"
+        "awslabs.aws-healthomics-infrastructure-mcp-server@latest",
+        "awslabs.aws-healthomics-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "DEBUG",
@@ -678,7 +678,7 @@ For testing scenarios on Windows:
 
 ```bash
 git clone <repository-url>
-cd aws-healthomics-mcp-server
+cd aws-healthomics-infrastructure-mcp-server
 uv sync
 ```
 

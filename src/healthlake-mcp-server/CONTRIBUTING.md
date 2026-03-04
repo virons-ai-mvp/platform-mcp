@@ -7,7 +7,7 @@ Thank you for your interest in contributing to the HealthLake MCP Server! This d
 1. **Clone the repository**
    ```bash
    git clone <repository-url>
-   cd healthlake-mcp-server
+   cd healthlake-infrastructure-mcp-server
    ```
 
 2. **Set up virtual environment**

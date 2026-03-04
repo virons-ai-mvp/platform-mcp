@@ -16,7 +16,7 @@ The test suite is organized as follows:
 You can run the tests using the provided `run_tests.sh` script in the parent directory:
 
 ```bash
-cd src/nova-canvas-mcp-server
+cd src/nova-canvas-infrastructure-mcp-server
 ./run_tests.sh
 ```
 

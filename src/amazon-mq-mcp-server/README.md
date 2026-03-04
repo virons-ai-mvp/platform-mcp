@@ -60,7 +60,7 @@ Configure the MCP server in your MCP client configuration (e.g., for Kiro, edit 
   "mcpServers": {
     "awslabs.amazon-mq-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.amazon-mq-mcp-server@latest"],
+      "args": ["awslabs.amazon-mq-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "your-aws-profile",
         "AWS_REGION": "us-east-1"
@@ -85,8 +85,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.amazon-mq-mcp-server@latest",
-        "awslabs.amazon-mq-mcp-server.exe"
+        "awslabs.amazon-mq-infrastructure-mcp-server@latest",
+        "awslabs.amazon-mq-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -106,7 +106,7 @@ If you would like to specify a flag (for example, to allow creation of resources
   "mcpServers": {
     "awslabs.amazon-mq-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.amazon-mq-mcp-server@latest", "--allow-resource-creation"],
+      "args": ["awslabs.amazon-mq-infrastructure-mcp-server@latest", "--allow-resource-creation"],
       "env": {
         "AWS_PROFILE": "your-aws-profile",
         "AWS_REGION": "us-east-1"
@@ -137,7 +137,7 @@ AWS_SESSION_TOKEN=<from the profile you set up>
           "--interactive",
           "--env-file",
           "/full/path/to/file/above/.env",
-          "awslabs/amazon-mq-mcp-server:latest"
+          "awslabs/amazon-mq-infrastructure-mcp-server:latest"
         ],
         "env": {},
         "disabled": false,
@@ -158,7 +158,7 @@ At the project level `.kiro/settings/mcp.json`
   "mcpServers": {
     "awslabs.amazon-mq-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.amazon-mq-mcp-server@latest"],
+      "args": ["awslabs.amazon-mq-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "your-aws-profile",
         "AWS_REGION": "us-east-1"
@@ -175,7 +175,7 @@ At the project level `.kiro/settings/mcp.json`
   "mcpServers": {
     "awslabs.amazon-mq-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.amazon-mq-mcp-server@latest"],
+      "args": ["awslabs.amazon-mq-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "your-aws-profile",
         "AWS_REGION": "us-east-1"
@@ -199,7 +199,7 @@ This flag is particularly useful for:
 
 Example:
 ```bash
-uv run awslabs.amazon-mq-mcp-server --allow-resource-creation
+uv run awslabs.amazon-mq-infrastructure-mcp-server --allow-resource-creation
 ```
 
 ### Security Features

@@ -100,7 +100,7 @@ mcp = None
 def create_server():
     """Create and configure the MCP server instance."""
     return FastMCP(
-        'awslabs.eks-mcp-server',
+        'awslabs.eks-infrastructure-mcp-server',
         instructions=SERVER_INSTRUCTIONS,
         dependencies=SERVER_DEPENDENCIES,
     )

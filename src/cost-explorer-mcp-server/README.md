@@ -56,7 +56,7 @@ Example configuration for Kiro (`~/.kiro/settings/mcp.json`):
   "mcpServers": {
     "awslabs.cost-explorer-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.cost-explorer-mcp-server@latest"],
+      "args": ["awslabs.cost-explorer-infrastructure-mcp-server@latest"],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
         "AWS_PROFILE": "your-aws-profile"
@@ -83,8 +83,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.cost-explorer-mcp-server@latest",
-        "awslabs.cost-explorer-mcp-server.exe"
+        "awslabs.cost-explorer-infrastructure-mcp-server@latest",
+        "awslabs.cost-explorer-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -119,7 +119,7 @@ AWS_SESSION_TOKEN=
         "FASTMCP_LOG_LEVEL=ERROR",
         "--env-file",
         "/full/path/to/file/above/.env",
-        "awslabs/cost-explorer-mcp-server:latest"
+        "awslabs/cost-explorer-infrastructure-mcp-server:latest"
       ],
       "env": {},
       "disabled": false,

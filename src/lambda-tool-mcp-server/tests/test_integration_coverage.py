@@ -1,4 +1,4 @@
-"""Additional integration tests to improve coverage for the lambda-tool-mcp-server."""
+"""Additional integration tests to improve coverage for the lambda-tool-infrastructure-mcp-server."""
 
 import json
 import pytest

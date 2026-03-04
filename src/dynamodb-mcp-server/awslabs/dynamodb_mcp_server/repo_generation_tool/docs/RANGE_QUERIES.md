@@ -415,7 +415,7 @@ Choose whether you need main table or GSI range queries:
 ### Step 2: Validate Your Schema
 
 ```bash
-# From dynamodb-mcp-server root
+# From dynamodb-infrastructure-mcp-server root
 uv run python -m awslabs.dynamodb_mcp_server.repo_generation_tool.codegen --schema schema.json --validate-only
 ```
 
@@ -512,7 +512,7 @@ Use descriptive parameter names:
 Run validation frequently:
 
 ```bash
-# Quick validation (from dynamodb-mcp-server root)
+# Quick validation (from dynamodb-infrastructure-mcp-server root)
 uv run python -m awslabs.dynamodb_mcp_server.repo_generation_tool.codegen --schema schema.json --validate-only
 
 # Generate and test

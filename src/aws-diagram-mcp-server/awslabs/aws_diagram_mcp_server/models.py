@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Models for the diagrams-mcp-server."""
+"""Models for the diagrams-infrastructure-mcp-server."""
 
 from enum import Enum
 from pydantic import BaseModel, Field, field_validator

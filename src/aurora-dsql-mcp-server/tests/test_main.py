@@ -25,7 +25,7 @@ class TestMain:
     @patch(
         "sys.argv",
         [
-            "awslabs.aurora-dsql-mcp-server",
+            "awslabs.aurora-dsql-infrastructure-mcp-server",
             "--cluster_endpoint",
             "test_ce",
             "--database_user",
@@ -50,7 +50,7 @@ class TestMain:
     @patch(
         "sys.argv",
         [
-            "awslabs.aurora-dsql-mcp-server",
+            "awslabs.aurora-dsql-infrastructure-mcp-server",
             "--cluster_endpoint",
             "test_ce",
             "--database_user",
@@ -97,7 +97,7 @@ class TestMain:
     @patch(
         "sys.argv",
         [
-            "awslabs.aurora-dsql-mcp-server",
+            "awslabs.aurora-dsql-infrastructure-mcp-server",
             "--cluster_endpoint",
             "test_ce",
             "--database_user",
@@ -120,7 +120,7 @@ class TestMain:
     @patch(
         "sys.argv",
         [
-            "awslabs.aurora-dsql-mcp-server",
+            "awslabs.aurora-dsql-infrastructure-mcp-server",
             "--cluster_endpoint",
             "test_ce",
             "--database_user",
@@ -143,7 +143,7 @@ class TestMain:
     @patch(
         "sys.argv",
         [
-            "awslabs.aurora-dsql-mcp-server",
+            "awslabs.aurora-dsql-infrastructure-mcp-server",
             "--cluster_endpoint",
             "test_ce",
             "--database_user",
@@ -169,7 +169,7 @@ class TestMain:
     @patch(
         "sys.argv",
         [
-            "awslabs.aurora-dsql-mcp-server",
+            "awslabs.aurora-dsql-infrastructure-mcp-server",
             "--cluster_endpoint",
             "test_ce",
             "--database_user",
@@ -192,7 +192,7 @@ class TestMain:
     @patch(
         "sys.argv",
         [
-            "awslabs.aurora-dsql-mcp-server",
+            "awslabs.aurora-dsql-infrastructure-mcp-server",
             "--cluster_endpoint",
             "test_ce",
             "--database_user",
@@ -215,7 +215,7 @@ class TestMain:
     @patch(
         "sys.argv",
         [
-            "awslabs.aurora-dsql-mcp-server",
+            "awslabs.aurora-dsql-infrastructure-mcp-server",
             "--cluster_endpoint",
             "test_ce",
             "--database_user",
@@ -245,7 +245,7 @@ class TestMain:
     @patch(
         "sys.argv",
         [
-            "awslabs.aurora-dsql-mcp-server",
+            "awslabs.aurora-dsql-infrastructure-mcp-server",
             "--cluster_endpoint",
             "test_ce",
             "--database_user",
@@ -268,7 +268,7 @@ class TestMain:
 
         mock_mcp_run.assert_called_once()
 
-    @patch("sys.argv", ["awslabs.aurora-dsql-mcp-server"])
+    @patch("sys.argv", ["awslabs.aurora-dsql-infrastructure-mcp-server"])
     def test_main_starts_without_cluster_config(self, mocker):
         """Test that main starts successfully without cluster configuration."""
         mock_mcp_run = mocker.patch("awslabs.aurora_dsql_mcp_server.server.mcp.run")
@@ -288,7 +288,7 @@ class TestMain:
     @patch(
         "sys.argv",
         [
-            "awslabs.aurora-dsql-mcp-server",
+            "awslabs.aurora-dsql-infrastructure-mcp-server",
             "--cluster_endpoint",
             "test_ce",
         ],
@@ -311,7 +311,7 @@ class TestMain:
     @patch(
         "sys.argv",
         [
-            "awslabs.aurora-dsql-mcp-server",
+            "awslabs.aurora-dsql-infrastructure-mcp-server",
             "--cluster_endpoint",
             "invalid_endpoint",
             "--database_user",

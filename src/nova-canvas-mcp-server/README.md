@@ -49,7 +49,7 @@ Configure the MCP server in your MCP client configuration (e.g., for Kiro, edit 
   "mcpServers": {
     "awslabs.nova-canvas-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.nova-canvas-mcp-server@latest"],
+      "args": ["awslabs.nova-canvas-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "your-aws-profile",
         "AWS_REGION": "us-east-1",
@@ -77,8 +77,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.nova-canvas-mcp-server@latest",
-        "awslabs.nova-canvas-mcp-server.exe"
+        "awslabs.nova-canvas-infrastructure-mcp-server@latest",
+        "awslabs.nova-canvas-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -115,7 +115,7 @@ AWS_SESSION_TOKEN=AQoEXAMPLEH4aoAH0gNCAPy...truncated...zrkuWJOgQs8IZZaIv2BXIa2R
           "FASTMCP_LOG_LEVEL=ERROR",
           "--env-file",
           "/full/path/to/file/above/.env",
-          "awslabs/nova-canvas-mcp-server:latest"
+          "awslabs/nova-canvas-infrastructure-mcp-server:latest"
         ],
         "env": {},
         "disabled": false,
@@ -132,7 +132,7 @@ NOTE: Your credentials will need to be kept refreshed from your host
 To install Amazon Nova Canvas MCP Server for Claude Desktop automatically via [Smithery](https://smithery.ai/server/@awslabs/nova-canvas-mcp-server):
 
 ```bash
-npx -y @smithery/cli install @awslabs/nova-canvas-mcp-server --client claude
+npx -y @smithery/cli install @awslabs/nova-canvas-infrastructure-mcp-server --client claude
 ```
 
 ### AWS Authentication

@@ -20,7 +20,7 @@ This module provides constant values for analyzing AWS service costs.
 import os
 
 
-MCP_SERVER_NAME = 'awslabs.aws-pricing-mcp-server'
+MCP_SERVER_NAME = 'awslabs.aws-pricing-infrastructure-mcp-server'
 
 # Environment parameters
 AWS_REGION = os.environ.get('AWS_REGION', 'us-east-1')

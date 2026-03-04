@@ -43,7 +43,7 @@ Below is an example of how to configure your MCP client, although different clie
   "mcpServers": {
     "Neptune Query": {
       "command": "uvx",
-      "args": ["awslabs.amazon-neptune-mcp-server@latest"],
+      "args": ["awslabs.amazon-neptune-infrastructure-mcp-server@latest"],
       "env": {
         "FASTMCP_LOG_LEVEL": "INFO",
         "NEPTUNE_ENDPOINT": "<INSERT NEPTUNE ENDPOINT IN FORMAT SPECIFIED BELOW>"
@@ -69,8 +69,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.amazon-neptune-mcp-server@latest",
-        "awslabs.amazon-neptune-mcp-server.exe"
+        "awslabs.amazon-neptune-infrastructure-mcp-server@latest",
+        "awslabs.amazon-neptune-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "INFO",

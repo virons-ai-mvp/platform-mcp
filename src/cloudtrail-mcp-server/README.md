@@ -68,7 +68,7 @@ The CloudTrail MCP Server provides specialized tools to address common security 
       "disabled": false,
       "command": "uvx",
       "args": [
-        "awslabs.cloudtrail-mcp-server@latest"
+        "awslabs.cloudtrail-infrastructure-mcp-server@latest"
       ],
       "env": {
         "AWS_PROFILE": "[The AWS Profile Name to use for AWS access]",
@@ -105,7 +105,7 @@ Build and install docker image locally on the same host of your LLM client
           "--interactive",
           "-v ~/.aws:/root/.aws",
           "-e AWS_PROFILE=[The AWS Profile Name to use for AWS access]",
-          "awslabs/cloudtrail-mcp-server:latest"
+          "awslabs/cloudtrail-infrastructure-mcp-server:latest"
         ],
         "env": {},
         "disabled": false,

@@ -64,7 +64,7 @@ async def signal_handler(scope: CancelScope):
 async def run_server():
     """Run the MCP server with signal handling."""
     mcp = FastMCP(
-        name='awslabs.aws-msk-mcp-server',
+        name='awslabs.aws-msk-infrastructure-mcp-server',
         instructions="""
         AWS MSK MCP Server providing tools to interact with MSK Clusters.
 

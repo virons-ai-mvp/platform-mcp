@@ -50,7 +50,7 @@ For standard AWS profile-based authentication:
   "mcpServers": {
     "awslabs.aws-appsync-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.aws-appsync-mcp-server@latest"],
+      "args": ["awslabs.aws-appsync-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "your-aws-profile",
         "AWS_REGION": "us-east-1",
@@ -72,7 +72,7 @@ For temporary credentials (such as those from AWS STS, IAM roles, or federation)
   "mcpServers": {
     "awslabs.aws-appsync-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.aws-appsync-mcp-server@latest"],
+      "args": ["awslabs.aws-appsync-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_ACCESS_KEY_ID": "your-temporary-access-key",
         "AWS_SECRET_ACCESS_KEY": "your-temporary-secret-key", // pragma: allowlist secret
@@ -107,7 +107,7 @@ Example:
     "awslabs.aws-appsync-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.aws-appsync-mcp-server@latest",
+        "awslabs.aws-appsync-infrastructure-mcp-server@latest",
         "--allow-write"
       ],
       "env": {
@@ -132,7 +132,7 @@ After building with `docker build -t awslabs/aws-appsync-mcp-server .`:
         "run",
         "--rm",
         "-i",
-        "awslabs/aws-appsync-mcp-server:latest"
+        "awslabs/aws-appsync-infrastructure-mcp-server:latest"
       ],
       "env": {
         "AWS_PROFILE": "your-aws-profile",

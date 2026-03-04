@@ -39,7 +39,7 @@ Configure the server in your MCP configuration file. Here are some ways you can 
   "mcpServers": {
     "awslabs.aws-location-mcp-server": {
         "command": "uvx",
-        "args": ["awslabs.aws-location-mcp-server@latest"],
+        "args": ["awslabs.aws-location-infrastructure-mcp-server@latest"],
         "env": {
           "AWS_PROFILE": "your-aws-profile",
           "AWS_REGION": "us-east-1",
@@ -67,8 +67,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.aws-location-mcp-server@latest",
-        "awslabs.aws-location-mcp-server.exe"
+        "awslabs.aws-location-infrastructure-mcp-server@latest",
+        "awslabs.aws-location-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -91,7 +91,7 @@ For temporary credentials (such as those from AWS STS, IAM roles, or federation)
   "mcpServers": {
     "awslabs.aws-location-mcp-server": {
         "command": "uvx",
-        "args": ["awslabs.aws-location-mcp-server@latest"],
+        "args": ["awslabs.aws-location-infrastructure-mcp-server@latest"],
         "env": {
           "AWS_ACCESS_KEY_ID": "your-temporary-access-key",
           "AWS_SECRET_ACCESS_KEY": "your-temporary-secret-key",
@@ -119,7 +119,7 @@ After building with `docker build -t awslabs/aws-location-mcp-server .`:
           "run",
           "--rm",
           "-i",
-          "awslabs/aws-location-mcp-server"
+          "awslabs/aws-location-infrastructure-mcp-server"
         ],
         "env": {
           "AWS_PROFILE": "your-aws-profile",
@@ -143,7 +143,7 @@ After building with `docker build -t awslabs/aws-location-mcp-server .`:
           "run",
           "--rm",
           "-i",
-          "awslabs/aws-location-mcp-server"
+          "awslabs/aws-location-infrastructure-mcp-server"
         ],
         "env": {
           "AWS_ACCESS_KEY_ID": "your-temporary-access-key",

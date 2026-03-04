@@ -35,19 +35,19 @@ uv sync --group dev
 source .venv/bin/activate
 
 # Run the MCP server
-uv run awslabs.dynamodb-mcp-server
+uv run awslabs.dynamodb-infrastructure-mcp-server
 
 # Run with uvx (production-like)
-uvx awslabs.dynamodb-mcp-server@latest
+uvx awslabs.dynamodb-infrastructure-mcp-server@latest
 ```
 
 ### Docker Development
 ```bash
 # Build Docker image
-docker build -t awslabs/dynamodb-mcp-server .
+docker build -t awslabs/dynamodb-infrastructure-mcp-server .
 
 # Run Docker container
-docker run --rm --interactive --env FASTMCP_LOG_LEVEL=ERROR awslabs/dynamodb-mcp-server:latest
+docker run --rm --interactive --env FASTMCP_LOG_LEVEL=ERROR awslabs/dynamodb-infrastructure-mcp-server:latest
 
 # Docker healthcheck
 # The container includes a healthcheck script at /app/docker-healthcheck.sh

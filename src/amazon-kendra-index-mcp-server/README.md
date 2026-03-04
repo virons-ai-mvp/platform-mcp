@@ -56,7 +56,7 @@ Configure the MCP server in your MCP client configuration (e.g., for Kiro, edit 
       "mcpServers": {
             "awslabs.amazon-kendra-index-mcp-server": {
                   "command": "uvx",
-                  "args": ["awslabs.amazon-kendra-index-mcp-server"],
+                  "args": ["awslabs.amazon-kendra-index-infrastructure-mcp-server"],
                   "env": {
                     "FASTMCP_LOG_LEVEL": "ERROR",
                     "KENDRA_INDEX_ID": "[Your Kendra Index Id]",
@@ -86,8 +86,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.amazon-kendra-index-mcp-server@latest",
-        "awslabs.amazon-kendra-index-mcp-server.exe"
+        "awslabs.amazon-kendra-index-infrastructure-mcp-server@latest",
+        "awslabs.amazon-kendra-index-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -120,7 +120,7 @@ AWS_SESSION_TOKEN=<from the profile you set up>
           "--interactive",
           "--env-file",
           "/full/path/to/file/above/.env",
-          "awslabs/amazon-kendra-index-mcp-server:latest"
+          "awslabs/amazon-kendra-index-infrastructure-mcp-server:latest"
         ],
         "env": {},
         "disabled": false,

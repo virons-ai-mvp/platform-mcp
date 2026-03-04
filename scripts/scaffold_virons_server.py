@@ -146,6 +146,121 @@ virons-{name}-mcp-server = "virons.{package_name}_mcp_server.server:main"
     (server_dir / ".python-version").write_text("3.10\n")
 
 
+def create_readme_files(server_dir: Path, name: str) -> None:
+    """Create DDD-compliant README files for subdirectories.
+    
+    Args:
+        server_dir: Server root directory
+        name: Server name
+    """
+    package_name = name.replace("-", "_")
+    
+    # virons/README.md
+    (server_dir / "virons" / "README.md").write_text(
+        f"""# Virons Namespace
+
+## Overview
+
+PEP 420 namespace package root for virons MCP servers.
+
+## Contents
+
+```
+└── {package_name}_mcp_server/
+```
+
+## Context
+
+| Key | Value |
+|-----|-------|
+| **Domain** | `virons` |
+| **Bounded Context** | Namespace Root |
+
+## Navigation
+
+← [Package Root](../)
+
+---
+"""
+    )
+    
+    # virons/{package_name}_mcp_server/README.md
+    (server_dir / "virons" / f"{package_name}_mcp_server" / "README.md").write_text(
+        f"""# {name.title()} MCP Server
+
+## Overview
+
+MCP server implementation for {name}.
+
+- `server.py` — FastMCP server and tool handlers
+- `models.py` — Pydantic data models
+- `consts.py` — Constants and configuration
+- `compliance.py` — virons.common compliance hooks
+
+## Contents
+
+```
+├── server.py
+├── models.py
+├── consts.py
+└── compliance.py
+```
+
+## Context
+
+| Key | Value |
+|-----|-------|
+| **Domain** | `virons.{package_name}_mcp_server` |
+| **Parent** | [virons](../) |
+| **Bounded Context** | Server Domain |
+
+## Navigation
+
+← [virons README](../)
+
+---
+"""
+    )
+    
+    # tests/README.md
+    (server_dir / "tests" / "README.md").write_text(
+        f"""# Test Suite
+
+## Overview
+
+TDD test suite for virons-{name}-mcp-server.
+
+- `test_server.py` — Server and tool handler tests
+- `test_init.py` — Package initialization tests
+- `test_main.py` — CLI entry point tests
+- `test_compliance.py` — Compliance hook tests
+
+## Contents
+
+```
+├── test_server.py
+├── test_init.py
+├── test_main.py
+└── test_compliance.py
+```
+
+## Context
+
+| Key | Value |
+|-----|-------|
+| **Domain** | `tests` |
+| **Parent** | [Package Root](../) |
+| **Bounded Context** | Test Domain |
+
+## Navigation
+
+← [Package Root](../)
+
+---
+"""
+    )
+
+
 def main() -> int:
     """Main entry point."""
     parser = argparse.ArgumentParser(description="Scaffold a virons MCP server")
@@ -172,6 +287,7 @@ def main() -> int:
     create_python_files(server_dir, args.name)
     create_test_files(server_dir)
     create_metadata_files(server_dir, args.name, args.description, args.port, deps)
+    create_readme_files(server_dir, args.name)
     
     print(f"✓ Created virons-{args.name}-mcp-server at {server_dir}")
     return 0

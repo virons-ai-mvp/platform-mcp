@@ -510,7 +510,7 @@ for item in items:
 ### Debug Mode
 
 ```bash
-# Generate with verbose output (from dynamodb-mcp-server root)
+# Generate with verbose output (from dynamodb-infrastructure-mcp-server root)
 uv run python -m awslabs.dynamodb_mcp_server.repo_generation_tool.codegen --schema schema.json --no-lint -v
 
 # Skip linting for debugging

@@ -40,7 +40,7 @@ Configure the MCP server in your MCP client configuration (e.g., for Kiro, edit 
   "mcpServers": {
     "awslabs.redshift-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.redshift-mcp-server@latest"],
+      "args": ["awslabs.redshift-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "default",
         "AWS_DEFAULT_REGION": "us-east-1",
@@ -69,8 +69,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.redshift-mcp-server@latest",
-        "awslabs.redshift-mcp-server.exe"
+        "awslabs.redshift-infrastructure-mcp-server@latest",
+        "awslabs.redshift-infrastructure-mcp-server.exe"
       ],
       "env": {
         "AWS_PROFILE": "your-aws-profile",
@@ -96,7 +96,7 @@ or docker after a successful `docker build -t awslabs/redshift-mcp-server:latest
         "--env", "AWS_ACCESS_KEY_ID=[your data]",
         "--env", "AWS_SECRET_ACCESS_KEY=[your data]",
         "--env", "AWS_DEFAULT_REGION=[your data]",
-        "awslabs/redshift-mcp-server:latest"
+        "awslabs/redshift-infrastructure-mcp-server:latest"
       ]
     }
   }

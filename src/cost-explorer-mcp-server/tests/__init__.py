@@ -12,4 +12,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Tests for the cost-explorer-mcp-server package."""
+"""Tests for the cost-explorer-infrastructure-mcp-server package."""

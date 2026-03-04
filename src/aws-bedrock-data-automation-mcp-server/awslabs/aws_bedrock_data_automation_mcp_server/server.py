@@ -26,7 +26,7 @@ from typing import Annotated
 
 
 mcp = FastMCP(
-    'awslabs.aws-bedrock-data-automation-mcp-server',
+    'awslabs.aws-bedrock-data-automation-infrastructure-mcp-server',
     instructions="""
     AWS Bedrock Data Automation MCP Server provides tools to interact with Amazon Bedrock Data Automation.
 

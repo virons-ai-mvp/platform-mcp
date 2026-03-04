@@ -64,7 +64,7 @@ except Exception as e:
 
 # Create the MCP server Pwith detailed instructions
 mcp = FastMCP(
-    'awslabs-nova-canvas-mcp-server',
+    'awslabs-nova-canvas-infrastructure-mcp-server',
     instructions=f"""
 # Amazon Nova Canvas Image Generation
 
@@ -317,7 +317,7 @@ async def mcp_generate_image_with_colors(
 
 def main():
     """Run the MCP server with CLI argument support."""
-    logger.info('Starting nova-canvas-mcp-server MCP server')
+    logger.info('Starting nova-canvas-infrastructure-mcp-server MCP server')
     mcp.run()
 
 

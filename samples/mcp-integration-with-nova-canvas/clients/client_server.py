@@ -195,14 +195,14 @@ async def generate_image(request: ImageGenerationRequest) -> Dict[str, Any]:
             # Update the request with improved prompt
             request.prompt = improved_prompt
 
-        # Initialize MCP client using the awslabs.nova-canvas-mcp-server
-        logger.info('Initializing MCP client with awslabs.nova-canvas-mcp-server')
+        # Initialize MCP client using the awslabs.nova-canvas-infrastructure-mcp-server
+        logger.info('Initializing MCP client with awslabs.nova-canvas-infrastructure-mcp-server')
         mcp_client = MultiServerMCPClient(
             {
                 'nova_canvas': {
                     'transport': 'stdio',
                     'command': 'uvx',
-                    'args': ['awslabs.nova-canvas-mcp-server@latest'],
+                    'args': ['awslabs.nova-canvas-infrastructure-mcp-server@latest'],
                     'env': {
                         'AWS_PROFILE': os.getenv('AWS_PROFILE', 'default'),
                         'AWS_REGION': os.getenv('AWS_REGION', 'us-east-1'),

@@ -59,7 +59,7 @@ pip install "awslabs.openapi-mcp-server[all]"
 
 ```bash
 git clone https://github.com/awslabs/mcp.git
-cd mcp/src/openapi-mcp-server
+cd mcp/src/openapi-infrastructure-mcp-server
 pip install -e .
 ```
 
@@ -72,7 +72,7 @@ Example configuration for Kiro (`~/.kiro/settings/mcp.json`):
   "mcpServers": {
     "awslabs.openapi-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.openapi-mcp-server@latest"],
+      "args": ["awslabs.openapi-infrastructure-mcp-server@latest"],
       "env": {
         "API_NAME": "your-api-name",
         "API_BASE_URL": "https://api.example.com",
@@ -106,8 +106,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.openapi-mcp-server@latest",
-        "awslabs.openapi-mcp-server.exe"
+        "awslabs.openapi-infrastructure-mcp-server@latest",
+        "awslabs.openapi-infrastructure-mcp-server.exe"
       ],
       "env": {
           "API_NAME": "your-api-name",
@@ -130,27 +130,27 @@ For Windows users, the MCP server configuration format is slightly different:
 
 ```bash
 # Start with Petstore API example
-awslabs.openapi-mcp-server --api-name petstore --api-url https://petstore3.swagger.io/api/v3 --spec-url https://petstore3.swagger.io/api/v3/openapi.json
+awslabs.openapi-infrastructure-mcp-server --api-name petstore --api-url https://petstore3.swagger.io/api/v3 --spec-url https://petstore3.swagger.io/api/v3/openapi.json
 ```
 
 ### Custom API
 
 ```bash
 # Use a different API
-awslabs.openapi-mcp-server --api-name myapi --api-url https://api.example.com --spec-url https://api.example.com/openapi.json
+awslabs.openapi-infrastructure-mcp-server --api-name myapi --api-url https://api.example.com --spec-url https://api.example.com/openapi.json
 ```
 
 ### Authenticated API
 
 ```bash
 # Basic Authentication
-awslabs.openapi-mcp-server --api-url https://api.example.com --spec-url https://api.example.com/openapi.json --auth-type basic --auth-username YOUR_USERNAME --auth-password YOUR_PASSWORD # pragma: allowlist secret
+awslabs.openapi-infrastructure-mcp-server --api-url https://api.example.com --spec-url https://api.example.com/openapi.json --auth-type basic --auth-username YOUR_USERNAME --auth-password YOUR_PASSWORD # pragma: allowlist secret
 
 # Bearer Token Authentication
-awslabs.openapi-mcp-server --api-url https://api.example.com --spec-url https://api.example.com/openapi.json --auth-type bearer --auth-token YOUR_TOKEN # pragma: allowlist secret
+awslabs.openapi-infrastructure-mcp-server --api-url https://api.example.com --spec-url https://api.example.com/openapi.json --auth-type bearer --auth-token YOUR_TOKEN # pragma: allowlist secret
 
 # API Key Authentication (in header)
-awslabs.openapi-mcp-server --api-url https://api.example.com --spec-url https://api.example.com/openapi.json --auth-type api_key --auth-api-key YOUR_API_KEY --auth-api-key-name X-API-Key --auth-api-key-in header # pragma: allowlist secret
+awslabs.openapi-infrastructure-mcp-server --api-url https://api.example.com --spec-url https://api.example.com/openapi.json --auth-type api_key --auth-api-key YOUR_API_KEY --auth-api-key-name X-API-Key --auth-api-key-in header # pragma: allowlist secret
 ```
 
 For detailed information about authentication methods, configuration options, and examples, see [AUTHENTICATION.md](https://github.com/awslabs/mcp/blob/main/src/openapi-mcp-server/AUTHENTICATION.md).
@@ -159,7 +159,7 @@ For detailed information about authentication methods, configuration options, an
 
 ```bash
 # Use a local OpenAPI specification file
-awslabs.openapi-mcp-server --spec-path ./openapi.json
+awslabs.openapi-infrastructure-mcp-server --spec-path ./openapi.json
 ```
 
 ### YAML OpenAPI Specification
@@ -167,7 +167,7 @@ awslabs.openapi-mcp-server --spec-path ./openapi.json
 ```bash
 # Use a YAML OpenAPI specification file (requires pyyaml)
 pip install "awslabs.openapi-mcp-server[yaml]"
-awslabs.openapi-mcp-server --spec-path ./openapi.yaml
+awslabs.openapi-infrastructure-mcp-server --spec-path ./openapi.yaml
 ```
 
 ### Local Development and Testing
@@ -176,7 +176,7 @@ For local development and testing, you can use the `uvx` command with the `--ref
 
 ```bash
 # Run the server from the local directory with the Petstore API
-uvx --refresh --from . awslabs.openapi-mcp-server --api-url https://petstore3.swagger.io/api/v3 --spec-url https://petstore3.swagger.io/api/v3/openapi.json --log-level DEBUG
+uvx --refresh --from . awslabs.openapi-infrastructure-mcp-server --api-url https://petstore3.swagger.io/api/v3 --spec-url https://petstore3.swagger.io/api/v3/openapi.json --log-level DEBUG
 ```
 
 **Command Options Explained:**
@@ -260,10 +260,10 @@ The project includes a Dockerfile for containerized deployment. To build and run
 
 ```bash
 # Build the Docker image
-docker build -t openapi-mcp-server:latest .
+docker build -t openapi-infrastructure-mcp-server:latest .
 
 # Run with default settings
-docker run -p 8000:8000 openapi-mcp-server:latest
+docker run -p 8000:8000 openapi-infrastructure-mcp-server:latest
 
 # Run with custom configuration
 docker run -p 8000:8000 \
@@ -275,7 +275,7 @@ docker run -p 8000:8000 \
   -e ENABLE_OPERATION_PROMPTS=true \
   -e UVICORN_TIMEOUT_GRACEFUL_SHUTDOWN=5.0 \
   -e UVICORN_GRACEFUL_SHUTDOWN=true \
-  openapi-mcp-server:latest
+  openapi-infrastructure-mcp-server:latest
 ```
 
 For detailed information about Docker deployment, AWS service integration, and transport considerations, see the [DEPLOYMENT.md](https://github.com/awslabs/mcp/blob/main/src/openapi-mcp-server/DEPLOYMENT.md) file.
@@ -360,7 +360,7 @@ To test the OpenAPI MCP Server with Kiro, you need to configure Kiro to use your
        "awslabs.openapi-mcp-server": {
          "command": "python",
          "args": ["-m", "awslabs.openapi_mcp_server"],
-         "cwd": "/path/to/your/openapi-mcp-server",
+         "cwd": "/path/to/your/openapi-infrastructure-mcp-server",
          "env": {
            "API_NAME": "petstore",
            "API_BASE_URL": "https://petstore3.swagger.io/api/v3",
@@ -370,7 +370,7 @@ To test the OpenAPI MCP Server with Kiro, you need to configure Kiro to use your
            "ENABLE_OPERATION_PROMPTS": "true",
            "UVICORN_TIMEOUT_GRACEFUL_SHUTDOWN": "5.0",
            "UVICORN_GRACEFUL_SHUTDOWN": "true",
-           "PYTHONPATH": "/path/to/your/openapi-mcp-server"
+           "PYTHONPATH": "/path/to/your/openapi-infrastructure-mcp-server"
          },
          "disabled": false,
          "autoApprove": []

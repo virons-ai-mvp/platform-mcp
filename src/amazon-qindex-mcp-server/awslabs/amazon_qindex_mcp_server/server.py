@@ -115,7 +115,7 @@ AttributeFilter.model_rebuild()
 
 # Initialize MCP server
 mcp = FastMCP(
-    'awslabs.amazon-qindex-mcp-server',
+    'awslabs.amazon-qindex-infrastructure-mcp-server',
     instructions="Amazon Q index for ISVs MCP server provides access to your customers' enterprise data into your applications.",
     dependencies=[
         'pydantic',

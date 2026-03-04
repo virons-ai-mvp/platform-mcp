@@ -46,7 +46,7 @@ async def test_security_assessment_precheck(mock_ctx):
     # Check for code examples
     assert "```python" in result
     assert "await use_mcp_tool" in result
-    assert 'server_name="well-architected-security-mcp-server"' in result
+    assert 'server_name="well-architected-security-infrastructure-mcp-server"' in result
     assert 'tool_name="CheckSecurityServices"' in result
     assert 'tool_name="GetSecurityFindings"' in result
 

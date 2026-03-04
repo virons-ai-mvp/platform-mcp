@@ -1,4 +1,4 @@
-"""Additional tests to improve coverage for the server module of the lambda-tool-mcp-server."""
+"""Additional tests to improve coverage for the server module of the lambda-tool-infrastructure-mcp-server."""
 
 import json
 import logging

@@ -77,7 +77,7 @@ def register_module(mcp: FastMCP) -> None:
         client = boto3.client(
             'kafka',
             region_name=region,
-            config=Config(user_agent_extra=f'awslabs/mcp/aws-msk-mcp-server/{__version__}'),
+            config=Config(user_agent_extra=f'awslabs/mcp/aws-msk-infrastructure-mcp-server/{__version__}'),
         )
         return create_configuration(name, server_properties, client, description, kafka_versions)
 
@@ -119,7 +119,7 @@ def register_module(mcp: FastMCP) -> None:
         client = boto3.client(
             'kafka',
             region_name=region,
-            config=Config(user_agent_extra=f'awslabs/mcp/aws-msk-mcp-server/{__version__}'),
+            config=Config(user_agent_extra=f'awslabs/mcp/aws-msk-infrastructure-mcp-server/{__version__}'),
         )
 
         # Check if the resource has the "MCP Generated" tag
@@ -155,7 +155,7 @@ def register_module(mcp: FastMCP) -> None:
         client = boto3.client(
             'kafka',
             region_name=region,
-            config=Config(user_agent_extra=f'awslabs/mcp/aws-msk-mcp-server/{__version__}'),
+            config=Config(user_agent_extra=f'awslabs/mcp/aws-msk-infrastructure-mcp-server/{__version__}'),
         )
         return tag_resource(resource_arn, tags, client)
 
@@ -185,6 +185,6 @@ def register_module(mcp: FastMCP) -> None:
         client = boto3.client(
             'kafka',
             region_name=region,
-            config=Config(user_agent_extra=f'awslabs/mcp/aws-msk-mcp-server/{__version__}'),
+            config=Config(user_agent_extra=f'awslabs/mcp/aws-msk-infrastructure-mcp-server/{__version__}'),
         )
         return untag_resource(resource_arn, tag_keys, client)

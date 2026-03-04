@@ -42,7 +42,7 @@ from mcp.server.fastmcp import FastMCP
 
 # Create the FastMCP server
 mcp = FastMCP(
-    'awslabs.documentdb-mcp-server',
+    'awslabs.documentdb-infrastructure-mcp-server',
     instructions="""DocumentDB MCP Server provides tools to connect to and query AWS DocumentDB databases.
 
     Usage pattern:

@@ -26,7 +26,7 @@ class TestServer:
     def test_mcp_initialization(self):
         """Test that the MCP server is initialized with the correct parameters."""
         # Verify the MCP server is initialized with the correct name
-        assert mcp.name == 'awslabs.aws-serverless-mcp-server'
+        assert mcp.name == 'awslabs.aws-serverless-infrastructure-mcp-server'
         # Verify the MCP server has instructions
         assert mcp.instructions is not None
         assert 'AWS Serverless MCP' in mcp.instructions
@@ -166,7 +166,7 @@ class TestServer:
 
         # Verify AWS_EXECUTION_ENV is set
         assert os.environ.get('AWS_EXECUTION_ENV', '').startswith(
-            'awslabs/mcp/aws-serverless-mcp-server/'
+            'awslabs/mcp/aws-serverless-infrastructure-mcp-server/'
         )
 
     @patch('awslabs.aws_serverless_mcp_server.server.os.makedirs')
@@ -421,7 +421,7 @@ class TestServer:
                     main()
 
                     # Verify AWS_EXECUTION_ENV is set correctly
-                    expected_value = f'awslabs/mcp/aws-serverless-mcp-server/{__version__}'
+                    expected_value = f'awslabs/mcp/aws-serverless-infrastructure-mcp-server/{__version__}'
                     assert os.environ.get('AWS_EXECUTION_ENV') == expected_value
         finally:
             # Restore original value

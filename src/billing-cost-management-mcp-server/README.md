@@ -85,7 +85,7 @@ Configure the MCP server in your MCP client configuration (e.g., for Kiro, edit 
     "awslabs.billing-cost-management-mcp-server": {
       "command": "uvx",
       "args": [
-         "awslabs.billing-cost-management-mcp-server@latest"
+         "awslabs.billing-cost-management-infrastructure-mcp-server@latest"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -108,8 +108,8 @@ Configure the MCP server in your MCP client configuration (e.g., for Kiro, edit 
       "command": "uvx",
       "args": [
          "--from",
-         "awslabs.billing-cost-management-mcp-server@latest",
-         "awslabs.billing-cost-management-mcp-server.exe"
+         "awslabs.billing-cost-management-infrastructure-mcp-server@latest",
+         "awslabs.billing-cost-management-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -148,7 +148,7 @@ AWS_REGION=us-east-1
         "FASTMCP_LOG_LEVEL=ERROR",
         "--env-file",
         "/full/path/to/file/above/.env",
-        "awslabs/billing-cost-management-mcp-server:latest"
+        "awslabs/billing-cost-management-infrastructure-mcp-server:latest"
       ],
       "env": {},
       "disabled": false,

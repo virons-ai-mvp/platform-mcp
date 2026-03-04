@@ -32,7 +32,7 @@ Configure the MCP server in your MCP client configuration (e.g., for Kiro, edit 
     "awslabs.postgres-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.postgres-mcp-server@latest",
+        "awslabs.postgres-infrastructure-mcp-server@latest",
         "--allow_write_query"
       ],
       "env": {
@@ -63,8 +63,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.postgres-mcp-server@latest",
-        "awslabs.postgres-mcp-server.exe"
+        "awslabs.postgres-infrastructure-mcp-server@latest",
+        "awslabs.postgres-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -98,7 +98,7 @@ For Windows users, the MCP server configuration format is slightly different:
         "-e", "AWS_ACCESS_KEY_ID=[your data]",
         "-e", "AWS_SECRET_ACCESS_KEY=[your data]",
         "-e", "AWS_REGION=[your data]",
-        "awslabs/postgres-mcp-server:latest",
+        "awslabs/postgres-infrastructure-mcp-server:latest",
         "--allow_write_query"
       ]
     }

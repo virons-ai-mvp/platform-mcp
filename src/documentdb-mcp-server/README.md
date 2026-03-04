@@ -96,7 +96,7 @@ This mode is particularly useful for:
 ```python
 # Connect to a DocumentDB cluster
 connection_result = await use_mcp_tool(
-    server_name="awslabs.aws-documentdb-mcp-server",
+    server_name="awslabs.aws-documentdb-infrastructure-mcp-server",
     tool_name="connect",
     arguments={
         "connection_string": "mongodb://<username>:<password>@docdb-cluster.cluster-xyz.us-west-2.docdb.amazonaws.com:27017/?tls=true&tlsCAFile=global-bundle.pem"
@@ -106,7 +106,7 @@ connection_id = connection_result["connection_id"]
 
 # Query documents
 query_result = await use_mcp_tool(
-    server_name="awslabs.aws-documentdb-mcp-server",
+    server_name="awslabs.aws-documentdb-infrastructure-mcp-server",
     tool_name="find",
     arguments={
         "connection_id": connection_id,
@@ -119,7 +119,7 @@ query_result = await use_mcp_tool(
 
 # Close the connection when done
 await use_mcp_tool(
-    server_name="awslabs.aws-documentdb-mcp-server",
+    server_name="awslabs.aws-documentdb-infrastructure-mcp-server",
     tool_name="disconnect",
     arguments={"connection_id": connection_id}
 )
@@ -138,7 +138,7 @@ When the server is running with write operations enabled:
 ```python
 # This operation will succeed
 query_result = await use_mcp_tool(
-    server_name="awslabs.aws-documentdb-mcp-server",
+    server_name="awslabs.aws-documentdb-infrastructure-mcp-server",
     tool_name="find",
     arguments={
         "connection_id": connection_id,
@@ -150,7 +150,7 @@ query_result = await use_mcp_tool(
 
 # This operation will now succeed when --allow-write is used
 insert_result = await use_mcp_tool(
-    server_name="awslabs.aws-documentdb-mcp-server",
+    server_name="awslabs.aws-documentdb-infrastructure-mcp-server",
     tool_name="insert",
     arguments={
         "connection_id": connection_id,
@@ -178,7 +178,7 @@ Configure the MCP server in your MCP client configuration (e.g., for Kiro, edit 
     "awslabs.documentdb-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.documentdb-mcp-server@latest",
+        "awslabs.documentdb-infrastructure-mcp-server@latest",
       ],
       "env": {
         "AWS_PROFILE": "your-aws-profile",
@@ -207,8 +207,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.documentdb-mcp-server@latest",
-        "awslabs.documentdb-mcp-server.exe"
+        "awslabs.documentdb-infrastructure-mcp-server@latest",
+        "awslabs.documentdb-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",

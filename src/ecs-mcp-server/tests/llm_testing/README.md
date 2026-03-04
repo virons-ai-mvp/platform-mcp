@@ -47,7 +47,7 @@ tests/llm_testing/
 
 1. Execute the main script:
    ```bash
-   cd src/ecs-mcp-server/tests/llm_testing
+   cd src/ecs-infrastructure-mcp-server/tests/llm_testing
    ./run_tests.sh
    ```
 
@@ -64,7 +64,7 @@ tests/llm_testing/
 You can also run each scenario individually:
 
 ```bash
-cd src/ecs-mcp-server/tests/llm_testing/scenarios/01_cloudformation_failure
+cd src/ecs-infrastructure-mcp-server/tests/llm_testing/scenarios/01_cloudformation_failure
 ./01_create.sh
 # Wait for resources to be created and fail
 ./02_validate.sh

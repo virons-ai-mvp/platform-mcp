@@ -107,14 +107,14 @@ async def process_query(query: str, kb_id: str) -> Dict[str, Any]:
     logger.info(f"Processing query: '{query}' for KB ID: {kb_id}")
 
     try:
-        # Initialize MCP client using the awslabs.bedrock-kb-retrieval-mcp-server
-        logger.info('Initializing MCP client with awslabs.bedrock-kb-retrieval-mcp-server')
+        # Initialize MCP client using the awslabs.bedrock-kb-retrieval-infrastructure-mcp-server
+        logger.info('Initializing MCP client with awslabs.bedrock-kb-retrieval-infrastructure-mcp-server')
         mcp_client = MultiServerMCPClient(
             {
                 'bedrock_kb': {
                     'transport': 'stdio',
                     'command': 'uvx',
-                    'args': ['awslabs.bedrock-kb-retrieval-mcp-server@latest'],
+                    'args': ['awslabs.bedrock-kb-retrieval-infrastructure-mcp-server@latest'],
                     'env': {
                         'AWS_PROFILE': os.getenv('AWS_PROFILE', 'default'),
                         'AWS_REGION': os.getenv('AWS_REGION', 'us-west-2'),

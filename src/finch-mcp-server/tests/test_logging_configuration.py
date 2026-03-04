@@ -115,10 +115,10 @@ class TestGetDefaultLogPath:
             path = get_default_log_path()
 
             expected_path = os.path.join(
-                str(mock_home), '.finch', 'finch-mcp-server', 'finch_mcp_server.log'
+                str(mock_home), '.finch', 'finch-infrastructure-mcp-server', 'finch_mcp_server.log'
             )
             assert path == expected_path
-            expected_dir = os.path.join(str(mock_home), '.finch', 'finch-mcp-server')
+            expected_dir = os.path.join(str(mock_home), '.finch', 'finch-infrastructure-mcp-server')
             mock_makedirs.assert_called_once_with(expected_dir, exist_ok=True)
 
     def test_windows_default_path(self):
@@ -134,9 +134,9 @@ class TestGetDefaultLogPath:
             path = get_default_log_path()
 
             # Use os.path.join to handle path separators correctly
-            expected_path = os.path.join(mock_appdata, 'finch-mcp-server', 'finch_mcp_server.log')
+            expected_path = os.path.join(mock_appdata, 'finch-infrastructure-mcp-server', 'finch_mcp_server.log')
             assert path == expected_path
-            expected_dir = os.path.join(mock_appdata, 'finch-mcp-server')
+            expected_dir = os.path.join(mock_appdata, 'finch-infrastructure-mcp-server')
             mock_makedirs.assert_called_once_with(expected_dir, exist_ok=True)
 
     def test_windows_no_localappdata(self):

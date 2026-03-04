@@ -57,7 +57,7 @@ _workflow_store: dict[str, dict] = {}
 
 
 mcp = FastMCP(
-    'awslabs.ccapi-mcp-server',
+    'awslabs.ccapi-infrastructure-mcp-server',
     instructions="""
 # AWS Resource Management Protocol - MANDATORY INSTRUCTIONS
 

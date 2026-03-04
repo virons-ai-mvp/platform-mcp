@@ -80,7 +80,7 @@ async def create_error_response(
 
 
 mcp = FastMCP(
-    name='awslabs.aws-pricing-mcp-server',
+    name='awslabs.aws-pricing-infrastructure-mcp-server',
     instructions="""This server provides two primary functionalities:
 
     # USE CASE 1: AWS SERVICE CATALOG & PRICING DISCOVERY

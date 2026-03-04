@@ -14,10 +14,10 @@ Navigate to the project directory and build the Docker image:
 
 ```bash
 # Navigate to the project directory
-cd /path/to/openapi-mcp-server
+cd /path/to/openapi-infrastructure-mcp-server
 
 # Build the Docker image
-docker build -t openapi-mcp-server:latest .
+docker build -t openapi-infrastructure-mcp-server:latest .
 ```
 
 ### Running the Container Locally
@@ -30,7 +30,7 @@ docker run -p 8000:8000 \
   -e API_NAME=petstore \
   -e API_BASE_URL=https://petstore3.swagger.io/api/v3 \
   -e API_SPEC_URL=https://petstore3.swagger.io/api/v3/openapi.json \
-  openapi-mcp-server:latest
+  openapi-infrastructure-mcp-server:latest
 
 # Run with custom API configuration
 docker run -p 8000:8000 \
@@ -40,7 +40,7 @@ docker run -p 8000:8000 \
   -e SERVER_TRANSPORT=sse \
   -e ENABLE_PROMETHEUS=false \
   -e ENABLE_OPERATION_PROMPTS=true \
-  openapi-mcp-server:latest
+  openapi-infrastructure-mcp-server:latest
 ```
 
 ### Environment Variables for Docker
@@ -118,11 +118,11 @@ When running in container environments like Docker, Kubernetes, or ECS:
 aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin YOUR_AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com
 
 # Create ECR repository (if it doesn't exist)
-aws ecr create-repository --repository-name openapi-mcp-server
+aws ecr create-repository --repository-name openapi-infrastructure-mcp-server
 
 # Tag and push the image
-docker tag openapi-mcp-server:latest YOUR_AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/openapi-mcp-server:latest
-docker push YOUR_AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/openapi-mcp-server:latest
+docker tag openapi-infrastructure-mcp-server:latest YOUR_AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/openapi-infrastructure-mcp-server:latest
+docker push YOUR_AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/openapi-infrastructure-mcp-server:latest
 ```
 
 #### Health Checks and Monitoring
@@ -162,7 +162,7 @@ When deploying to Amazon EKS, SSE works well because containers can maintain per
 1. **Configure your EKS deployment** to use the SSE transport:
 
 ```yaml
-# openapi-mcp-server-deployment.yaml
+# openapi-infrastructure-mcp-server-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -171,14 +171,14 @@ spec:
   replicas: 2
   selector:
     matchLabels:
-      app: openapi-mcp-server
+      app: openapi-infrastructure-mcp-server
   template:
     metadata:
       labels:
         app: openapi-mcp-server
     spec:
       containers:
-      - name: openapi-mcp-server
+      - name: openapi-infrastructure-mcp-server
         image: YOUR_AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/openapi-mcp-server:latest
         ports:
         - containerPort: 8000
@@ -213,7 +213,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: openapi-mcp-server
+            name: openapi-infrastructure-mcp-server
             port:
               number: 80
 ```
@@ -267,7 +267,7 @@ AWS X-Ray provides end-to-end tracing capabilities that help you analyze and deb
    from aws_xray_sdk.core import xray_recorder
    from aws_xray_sdk.ext.flask.middleware import XRayMiddleware
 
-   xray_recorder.configure(service='openapi-mcp-server')
+   xray_recorder.configure(service='openapi-infrastructure-mcp-server')
    XRayMiddleware(app, xray_recorder)
    ```
 
@@ -324,7 +324,7 @@ For comprehensive metrics collection and monitoring, integrate with Amazon Manag
          max_shards: 200
 
    scrape_configs:
-     - job_name: 'openapi-mcp-server'
+     - job_name: 'openapi-infrastructure-mcp-server'
        static_configs:
          - targets: ['localhost:9090']
    ```

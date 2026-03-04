@@ -266,7 +266,7 @@ class ToolHandler:
 
 def create_healthlake_server(read_only: bool = False) -> Server:
     """Create and configure the HealthLake MCP server."""
-    server = Server('healthlake-mcp-server')
+    server = Server('healthlake-infrastructure-mcp-server')
     healthlake_client = HealthLakeClient()
     tool_handler = ToolHandler(healthlake_client, read_only=read_only)
 

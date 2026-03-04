@@ -25,7 +25,7 @@ from awslabs.well_architected_security_mcp_server import __version__
 
 # User agent configuration for AWS API calls
 USER_AGENT_CONFIG = Config(
-    user_agent_extra=f"awslabs/mcp/well-architected-security-mcp-server/{__version__}"
+    user_agent_extra=f"awslabs/mcp/well-architected-security-infrastructure-mcp-server/{__version__}"
 )
 
 

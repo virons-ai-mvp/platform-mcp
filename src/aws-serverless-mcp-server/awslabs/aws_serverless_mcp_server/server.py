@@ -67,7 +67,7 @@ from typing import Any, Dict
 schemas_client = get_aws_client('schemas', AWS_REGION)
 
 mcp = FastMCP(
-    'awslabs.aws-serverless-mcp-server',
+    'awslabs.aws-serverless-infrastructure-mcp-server',
     instructions="""AWS Serverless MCP
 
     AUTOMATIC TOOL SELECTION FOR STREAMING DATA SCENARIOS
@@ -281,7 +281,7 @@ async def deployment_details(project_name: str) -> Dict[str, Any]:
 def main() -> int:
     """Entry point for the AWS Serverless MCP server.
 
-    This function is called when the `awslabs.aws-serverless-mcp-server` command is run.
+    This function is called when the `awslabs.aws-serverless-infrastructure-mcp-server` command is run.
     It starts the MCP server and handles command-line arguments.
 
     Returns:
@@ -333,7 +333,7 @@ def main() -> int:
 
     # Set AWS_EXECUTION_ENV to configure user agent of boto3. Setting it through an environment variable
     # because SAM CLI does not support setting user agents directly
-    os.environ['AWS_EXECUTION_ENV'] = f'awslabs/mcp/aws-serverless-mcp-server/{__version__}'
+    os.environ['AWS_EXECUTION_ENV'] = f'awslabs/mcp/aws-serverless-infrastructure-mcp-server/{__version__}'
 
     mode_info = []
     if not args.allow_write:

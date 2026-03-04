@@ -86,7 +86,7 @@ Configure the MCP server in your MCP client configuration (e.g., for Kiro, edit 
   "mcpServers": {
     "awslabs.bedrock-kb-retrieval-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.bedrock-kb-retrieval-mcp-server@latest"],
+      "args": ["awslabs.bedrock-kb-retrieval-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "your-profile-name",
         "AWS_REGION": "us-east-1",
@@ -116,8 +116,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.bedrock-kb-retrieval-mcp-server@latest",
-        "awslabs.bedrock-kb-retrieval-mcp-server.exe"
+        "awslabs.bedrock-kb-retrieval-infrastructure-mcp-server@latest",
+        "awslabs.bedrock-kb-retrieval-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -158,7 +158,7 @@ AWS_SESSION_TOKEN=AQoEXAMPLEH4aoAH0gNCAPy...truncated...zrkuWJOgQs8IZZaIv2BXIa2R
           "AWS_REGION=us-east-1",
           "--env-file",
           "/full/path/to/file/above/.env",
-          "awslabs/bedrock-kb-retrieval-mcp-server:latest"
+          "awslabs/bedrock-kb-retrieval-infrastructure-mcp-server:latest"
         ],
         "env": {},
         "disabled": false,

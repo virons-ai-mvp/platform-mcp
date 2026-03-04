@@ -21,7 +21,7 @@ class TestMain:
     """Tests for the main function."""
 
     @patch('awslabs.cfn_mcp_server.server.mcp.run')
-    @patch('sys.argv', ['awslabs.cfn-mcp-server'])
+    @patch('sys.argv', ['awslabs.cfn-infrastructure-mcp-server'])
     def test_main_default(self, mock_run):
         """Test main function with default arguments."""
         # Call the main function

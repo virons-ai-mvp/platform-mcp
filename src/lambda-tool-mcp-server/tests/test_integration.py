@@ -1,4 +1,4 @@
-"""Integration tests for the lambda-tool-mcp-server."""
+"""Integration tests for the lambda-tool-infrastructure-mcp-server."""
 
 import pytest
 from mcp.server.fastmcp import Context, FastMCP
@@ -20,7 +20,7 @@ with pytest.MonkeyPatch().context() as CTX:
         def test_mcp_initialization(self, mock_lambda_client):
             """Test that the MCP server is initialized correctly."""
             # Check that the MCP server has the correct name
-            assert mcp.name == 'awslabs.lambda-tool-mcp-server'
+            assert mcp.name == 'awslabs.lambda-tool-infrastructure-mcp-server'
 
             # Check that the MCP server has instructions
             assert 'Use AWS Lambda functions' in mcp.instructions if mcp.instructions else ''

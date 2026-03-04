@@ -24,14 +24,14 @@ The tests are organized as follows:
 To run the tests, you can use the following command from the root of the repository:
 
 ```bash
-cd mcp/src/terraform-mcp-server
+cd mcp/src/terraform-infrastructure-mcp-server
 pytest tests/
 ```
 
 Or use the provided script:
 
 ```bash
-cd mcp/src/terraform-mcp-server
+cd mcp/src/terraform-infrastructure-mcp-server
 ./run_tests.sh
 ```
 

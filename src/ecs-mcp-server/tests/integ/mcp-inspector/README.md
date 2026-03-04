@@ -41,7 +41,7 @@ The test expects your MCP configuration at `/tmp/mcp-config.json` with the forma
       "command": "uv",
       "args": [
         "--directory",
-        "/path/to/ecs-mcp-server/src/ecs-mcp-server/awslabs/ecs_mcp_server",
+        "/path/to/ecs-infrastructure-mcp-server/src/ecs-infrastructure-mcp-server/awslabs/ecs_mcp_server",
         "run",
         "main.py"
       ],
@@ -49,7 +49,7 @@ The test expects your MCP configuration at `/tmp/mcp-config.json` with the forma
         "AWS_PROFILE": "default",
         "AWS_REGION": "us-west-2",
         "FASTMCP_LOG_LEVEL": "INFO",
-        "FASTMCP_LOG_FILE": "/tmp/ecs-mcp-server.log",
+        "FASTMCP_LOG_FILE": "/tmp/ecs-infrastructure-mcp-server.log",
         "ALLOW_WRITE": "true",
         "ALLOW_SENSITIVE_DATA": "true"
       }
@@ -65,7 +65,7 @@ The test expects your MCP configuration at `/tmp/mcp-config.json` with the forma
 To run the complete integration test suite:
 
 ```bash
-cd src/ecs-mcp-server/tests/integ/mcp-inspector
+cd src/ecs-infrastructure-mcp-server/tests/integ/mcp-inspector
 ./run-tests.sh
 ```
 
@@ -141,7 +141,7 @@ The test uses direct MCP Inspector CLI commands in this format:
 ```bash
 mcp-inspector \
   --config /tmp/mcp-config.json \
-  --server local-ecs-mcp-server \
+  --server local-ecs-infrastructure-mcp-server \
   --cli \
   --method tools/call \
   --tool-name ecs_troubleshooting_tool \

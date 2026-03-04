@@ -12,12 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""awslabs.postgres-mcp-server"""
+"""awslabs.postgres-infrastructure-mcp-server"""
 
 from importlib.metadata import version
 
 try:
-    __version__ = version('awslabs.postgres-mcp-server')
+    __version__ = version('awslabs.postgres-infrastructure-mcp-server')
 except Exception:
     __version__ = '1.0.17'
 

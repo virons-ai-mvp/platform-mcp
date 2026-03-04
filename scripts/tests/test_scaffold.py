@@ -109,6 +109,11 @@ def test_directory_tree_matches_expected():
     assert (server_dir / "COMPLIANCE.md").exists()
     assert (server_dir / ".gitignore").exists()
     assert (server_dir / ".python-version").exists()
+    
+    # Check DDD README files
+    assert (server_dir / "virons" / "README.md").exists()
+    assert (server_dir / "virons" / "infrastructure_mcp_server" / "README.md").exists()
+    assert (server_dir / "tests" / "README.md").exists()
 
 
 def test_idempotency_refuses_overwrite():

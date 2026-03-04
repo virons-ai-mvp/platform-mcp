@@ -193,7 +193,7 @@ class TestRegisterStateMachines:
     def test_mcp_server_initialization(self):
         """Test MCP server initialization."""
         # Verify server configuration
-        assert mcp.name == 'awslabs.stepfunctions-tool-mcp-server'
+        assert mcp.name == 'awslabs.stepfunctions-tool-infrastructure-mcp-server'
         assert (
             mcp.instructions is not None
             and 'Use AWS Step Functions state machines' in mcp.instructions

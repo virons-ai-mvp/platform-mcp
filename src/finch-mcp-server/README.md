@@ -40,7 +40,7 @@ By default, the server runs in a mode that prevents the creation of new AWS reso
   "mcpServers": {
     "awslabs.finch-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.finch-mcp-server@latest"],
+      "args": ["awslabs.finch-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "default",
         "AWS_REGION": "us-west-2",
@@ -69,8 +69,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.finch-mcp-server@latest",
-        "awslabs.finch-mcp-server.exe"
+        "awslabs.finch-infrastructure-mcp-server@latest",
+        "awslabs.finch-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -97,7 +97,7 @@ The server can also be set to enable AWS resource creation and modification by u
     "awslabs.finch-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.finch-mcp-server@latest",
+        "awslabs.finch-infrastructure-mcp-server@latest",
         "--enable-aws-resource-write"
       ],
       "env": {
@@ -237,9 +237,9 @@ Specify a custom log file path using the `FINCH_MCP_LOG_FILE` environment variab
   "mcpServers": {
     "awslabs.finch-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.finch-mcp-server@latest"],
+      "args": ["awslabs.finch-infrastructure-mcp-server@latest"],
       "env": {
-        "FINCH_MCP_LOG_FILE": "~/logs/finch-mcp-server.log"
+        "FINCH_MCP_LOG_FILE": "~/logs/finch-infrastructure-mcp-server.log"
       }
     }
   }
@@ -255,7 +255,7 @@ To log only to stderr (following strict MCP standards), disable file logging:
   "mcpServers": {
     "awslabs.finch-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.finch-mcp-server@latest"],
+      "args": ["awslabs.finch-infrastructure-mcp-server@latest"],
       "env": {
         "FINCH_DISABLE_FILE_LOGGING": "true"
       }
@@ -271,7 +271,7 @@ Or use the command line argument in the args array:
     "awslabs.finch-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.finch-mcp-server@latest",
+        "awslabs.finch-infrastructure-mcp-server@latest",
         "--disable-file-logging"
       ]
     }
@@ -306,11 +306,11 @@ The file format includes additional context (function name and line number) for 
   "mcpServers": {
     "awslabs.finch-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.finch-mcp-server@latest"],
+      "args": ["awslabs.finch-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "default",
         "AWS_REGION": "us-west-2",
-        "FINCH_MCP_LOG_FILE": "~/logs/finch-mcp-server.log"
+        "FINCH_MCP_LOG_FILE": "~/logs/finch-infrastructure-mcp-server.log"
       }
     }
   }

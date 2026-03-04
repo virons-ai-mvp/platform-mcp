@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Tests for the pricing_transformer module of the aws-pricing-mcp-server."""
+"""Tests for the pricing_transformer module of the aws-pricing-infrastructure-mcp-server."""
 
 import json
 import pytest

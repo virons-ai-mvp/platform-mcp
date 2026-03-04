@@ -14,4 +14,4 @@
 # limitations under the License.
 #
 
-"""Example diagrams for the aws-diagram-mcp-server MCP server tests."""
+"""Example diagrams for the aws-diagram-infrastructure-mcp-server MCP server tests."""

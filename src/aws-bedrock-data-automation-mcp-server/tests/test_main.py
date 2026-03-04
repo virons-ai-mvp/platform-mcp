@@ -18,7 +18,7 @@ class TestMain:
     """Tests for the main function."""
 
     @patch('awslabs.aws_bedrock_data_automation_mcp_server.server.mcp.run')
-    @patch('sys.argv', ['awslabs.aws-bedrock-data-automation-mcp-server'])
+    @patch('sys.argv', ['awslabs.aws-bedrock-data-automation-infrastructure-mcp-server'])
     def test_main_default(self, mock_run):
         """Test main function with default arguments."""
         # Call the main function

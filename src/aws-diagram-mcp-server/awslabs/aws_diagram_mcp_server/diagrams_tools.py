@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Diagram generation and example functions for the diagrams-mcp-server."""
+"""Diagram generation and example functions for the diagrams-infrastructure-mcp-server."""
 
 import diagrams
 import importlib

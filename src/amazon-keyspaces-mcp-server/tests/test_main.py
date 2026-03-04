@@ -18,7 +18,7 @@ class TestMain:
     """Tests for the main function."""
 
     @patch('awslabs.amazon_keyspaces_mcp_server.server.mcp.run')
-    @patch('sys.argv', ['awslabs.amazon-keyspaces-mcp-server'])
+    @patch('sys.argv', ['awslabs.amazon-keyspaces-infrastructure-mcp-server'])
     def test_main_default(self, mock_run):
         """Test main function with default arguments.
 

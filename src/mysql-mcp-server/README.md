@@ -46,7 +46,7 @@ Choose the connection method that best fits your environment and requirements.
     "awslabs.mysql-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.mysql-mcp-server@latest",
+        "awslabs.mysql-infrastructure-mcp-server@latest",
         "--resource_arn", "[your data]",
         "--secret_arn", "[your data]",
         "--database", "[your data]",
@@ -73,7 +73,7 @@ Choose the connection method that best fits your environment and requirements.
     "awslabs.mysql-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.mysql-mcp-server@latest",
+        "awslabs.mysql-infrastructure-mcp-server@latest",
         "--hostname", "[your data]",
         "--secret_arn", "[your data]",
         "--database", "[your data]",
@@ -110,8 +110,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.mysql-mcp-server@latest",
-        "awslabs.mysql-mcp-server.exe"
+        "awslabs.mysql-infrastructure-mcp-server@latest",
+        "awslabs.mysql-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -144,7 +144,7 @@ For Windows users, the MCP server configuration format is slightly different:
         "-e", "AWS_ACCESS_KEY_ID=[your data]",
         "-e", "AWS_SECRET_ACCESS_KEY=[your data]",
         "-e", "AWS_REGION=[your data]",
-        "awslabs/mysql-mcp-server:latest",
+        "awslabs/mysql-infrastructure-mcp-server:latest",
         "--resource_arn", "[your data]",
         "--secret_arn", "[your data]",
         "--database", "[your data]",

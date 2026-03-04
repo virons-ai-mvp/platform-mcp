@@ -55,7 +55,7 @@ async def create_mcp_server_async(config: Config) -> FastMCP:
 
     # Create the FastMCP server
     server = FastMCP(
-        'awslabs.openapi-mcp-server',
+        'awslabs.openapi-infrastructure-mcp-server',
         instructions='This server acts as a bridge between OpenAPI specifications and LLMs, allowing models to have a better understanding of available API capabilities without requiring manual tool definitions.',
     )
 

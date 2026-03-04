@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Test fixtures for the aws-pricing-mcp-server."""
+"""Test fixtures for the aws-pricing-infrastructure-mcp-server."""
 
 import json
 import pytest

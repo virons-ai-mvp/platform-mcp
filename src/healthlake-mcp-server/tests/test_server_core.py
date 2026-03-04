@@ -23,7 +23,7 @@ class TestServerCreation:
 
         server = create_healthlake_server()
 
-        assert server.name == 'healthlake-mcp-server'
+        assert server.name == 'healthlake-infrastructure-mcp-server'
         assert len(server.request_handlers) > 0
 
 

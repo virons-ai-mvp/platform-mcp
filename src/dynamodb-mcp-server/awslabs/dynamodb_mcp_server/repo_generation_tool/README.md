@@ -24,8 +24,8 @@ dynamodb_data_model.md → schema.json → Templates → Generated Code
 This tool is a module within the `dynamodb-mcp-server` package. Navigate to the package root before running commands:
 
 ```bash
-# Navigate to the dynamodb-mcp-server root directory
-cd src/dynamodb-mcp-server
+# Navigate to the dynamodb-infrastructure-mcp-server root directory
+cd src/dynamodb-infrastructure-mcp-server
 ```
 
 **Optional**: For realistic sample data in usage examples, create a `usage_data.json` file alongside your schema. See [docs/USAGE_DATA.md](docs/USAGE_DATA.md) for details.
@@ -35,7 +35,7 @@ cd src/dynamodb-mcp-server
 Dependencies are managed by the parent package. Ensure you have all dependencies installed:
 
 ```bash
-# Install all dependencies including dev tools (from dynamodb-mcp-server root)
+# Install all dependencies including dev tools (from dynamodb-infrastructure-mcp-server root)
 uv sync --all-groups
 
 # Or just install main dependencies (ruff linting will be skipped)

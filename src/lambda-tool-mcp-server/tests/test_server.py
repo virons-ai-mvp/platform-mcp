@@ -1,4 +1,4 @@
-"""Tests for the server module of the lambda-tool-mcp-server."""
+"""Tests for the server module of the lambda-tool-infrastructure-mcp-server."""
 
 import json
 import pytest
@@ -441,7 +441,7 @@ with pytest.MonkeyPatch().context() as CTX:
             mock_mcp.run.assert_called_once_with()
 
         @patch('awslabs.lambda_tool_mcp_server.server.mcp.run')
-        @patch('sys.argv', ['awslabs.lambda-tool-mcp-server'])
+        @patch('sys.argv', ['awslabs.lambda-tool-infrastructure-mcp-server'])
         def test_main_default(self, mock_run):
             """Test main function with default arguments."""
             # Call the main function

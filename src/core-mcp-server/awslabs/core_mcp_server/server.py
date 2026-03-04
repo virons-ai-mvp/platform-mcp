@@ -143,7 +143,7 @@ async def import_aws_knowledge_server(imported_servers: set) -> set:
     """
     config = {
         'mcpServers': {
-            'aws-knowledge-mcp-server': {
+            'aws-knowledge-infrastructure-mcp-server': {
                 'command': 'uvx',
                 'args': [
                     'mcp-proxy',

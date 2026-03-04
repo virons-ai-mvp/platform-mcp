@@ -52,7 +52,7 @@ Configure the MCP server in your MCP client configuration (e.g., for Kiro, edit 
   "mcpServers": {
     "awslabs.amazon-sns-sqs-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.amazon-sns-sqs-mcp-server@latest"],
+      "args": ["awslabs.amazon-sns-sqs-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "your-aws-profile",
         "AWS_REGION": "us-east-1"
@@ -77,8 +77,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.amazon-sns-sqs-mcp-server@latest",
-        "awslabs.amazon-sns-sqs-mcp-server.exe"
+        "awslabs.amazon-sns-sqs-infrastructure-mcp-server@latest",
+        "awslabs.amazon-sns-sqs-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -111,7 +111,7 @@ AWS_SESSION_TOKEN=<from the profile you set up>
           "--interactive",
           "--env-file",
           "/full/path/to/file/above/.env",
-          "awslabs/amazon-sns-sqs-mcp-server:latest"
+          "awslabs/amazon-sns-sqs-infrastructure-mcp-server:latest"
         ],
         "env": {},
         "disabled": false,
@@ -134,7 +134,7 @@ This flag is particularly useful for:
 
 Example:
 ```bash
-uv run awslabs.amazon-sns-sqs-mcp-server --disallow-resource-creation
+uv run awslabs.amazon-sns-sqs-infrastructure-mcp-server --disallow-resource-creation
 ```
 
 ### Security Features

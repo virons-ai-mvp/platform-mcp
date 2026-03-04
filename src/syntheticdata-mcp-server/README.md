@@ -40,7 +40,7 @@ This MCP server provides tools for generating synthetic data based on business d
   "mcpServers": {
     "awslabs.syntheticdata-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.syntheticdata-mcp-server"],
+      "args": ["awslabs.syntheticdata-infrastructure-mcp-server"],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
         "AWS_PROFILE": "your-aws-profile",
@@ -68,8 +68,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.syntheticdata-mcp-server@latest",
-        "awslabs.syntheticdata-mcp-server.exe"
+        "awslabs.syntheticdata-infrastructure-mcp-server@latest",
+        "awslabs.syntheticdata-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",

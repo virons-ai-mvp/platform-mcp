@@ -31,10 +31,10 @@ A Model Context Protocol (MCP) server for comprehensive AWS Identity and Access 
 
 ```bash
 # Install using uv (recommended)
-uv tool install awslabs.iam-mcp-server
+uv tool install awslabs.iam-infrastructure-mcp-server
 
 # Or install using pip
-pip install awslabs.iam-mcp-server
+pip install awslabs.iam-infrastructure-mcp-server
 ```
 
 ## Configuration
@@ -127,7 +127,7 @@ Add to your `~/.kiro/settings/mcp.json`:
   "mcpServers": {
     "awslabs.iam-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.iam-mcp-server@latest"],
+      "args": ["awslabs.iam-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "your-aws-profile",
         "AWS_REGION": "us-east-1",
@@ -146,7 +146,7 @@ Add to your `cline_mcp_settings.json`:
   "mcpServers": {
     "awslabs.iam-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.iam-mcp-server@latest"],
+      "args": ["awslabs.iam-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "your-aws-profile",
         "AWS_REGION": "us-east-1",
@@ -173,8 +173,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.iam-mcp-server@latest",
-        "awslabs.iam-mcp-server.exe"
+        "awslabs.iam-infrastructure-mcp-server@latest",
+        "awslabs.iam-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -201,7 +201,7 @@ Add to your `.cursor/mcp.json`:
   "mcpServers": {
     "awslabs.iam-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.iam-mcp-server@latest"],
+      "args": ["awslabs.iam-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "your-aws-profile",
         "AWS_REGION": "us-east-1",
@@ -226,7 +226,7 @@ Add the `--readonly` flag when starting the server:
 
 ```bash
 # Using uvx
-uvx awslabs.iam-mcp-server@latest --readonly
+uvx awslabs.iam-infrastructure-mcp-server@latest --readonly
 
 # Or if installed locally
 python -m awslabs.iam_mcp_server.server --readonly
@@ -240,7 +240,7 @@ python -m awslabs.iam_mcp_server.server --readonly
   "mcpServers": {
     "awslabs.iam-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.iam-mcp-server@latest", "--readonly"],
+      "args": ["awslabs.iam-infrastructure-mcp-server@latest", "--readonly"],
       "env": {
         "AWS_PROFILE": "your-aws-profile",
         "AWS_REGION": "us-east-1"

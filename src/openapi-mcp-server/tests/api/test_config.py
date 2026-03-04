@@ -21,7 +21,7 @@ from unittest.mock import MagicMock
 def test_config_default_values():
     """Test that Config has the expected default values."""
     config = Config()
-    assert config.api_name == 'awslabs-openapi-mcp-server'
+    assert config.api_name == 'awslabs-openapi-infrastructure-mcp-server'
     assert config.api_base_url == 'https://localhost:8000'
     assert config.auth_type == 'none'
     assert config.host == '127.0.0.1'  # Default host should be localhost for security

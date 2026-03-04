@@ -13,6 +13,6 @@
 # limitations under the License.
 
 
-"""awslabs.aws-bedrock-data-automation-mcp-server"""
+"""awslabs.aws-bedrock-data-automation-infrastructure-mcp-server"""
 
 __version__ = '0.0.15'

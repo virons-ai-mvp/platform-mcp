@@ -37,7 +37,7 @@ AWS Credentials:
 """
 
 mcp = FastMCP(
-    'awslabs.amazon-qbusiness-anonymous-mcp-server',
+    'awslabs.amazon-qbusiness-anonymous-infrastructure-mcp-server',
     instructions='Use this MCP server to query the Amazon Q Business application created using anonymous mode to get responses based on the content you have ingested in it.',
     dependencies=['pydantic', 'loguru', 'boto3'],
 )

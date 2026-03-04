@@ -31,7 +31,7 @@ Configure the MCP server in your MCP client configuration:
   "mcpServers": {
     "awslabs.aws-documentation-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.aws-documentation-mcp-server@latest"],
+      "args": ["awslabs.aws-documentation-infrastructure-mcp-server@latest"],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
         "AWS_DOCUMENTATION_PARTITION": "aws",
@@ -64,8 +64,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.aws-documentation-mcp-server@latest",
-        "awslabs.aws-documentation-mcp-server.exe"
+        "awslabs.aws-documentation-infrastructure-mcp-server@latest",
+        "awslabs.aws-documentation-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",

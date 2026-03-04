@@ -52,10 +52,10 @@ Before installing the ECS MCP Server, ensure you have the following prerequisite
 
 ```bash
 # Install using uv
-uv pip install awslabs.ecs-mcp-server
+uv pip install awslabs.ecs-infrastructure-mcp-server
 
 # Or install using pip
-pip install awslabs.ecs-mcp-server
+pip install awslabs.ecs-infrastructure-mcp-server
 ```
 
 You can also run the MCP server directly from a local clone of the GitHub repository:
@@ -65,7 +65,7 @@ You can also run the MCP server directly from a local clone of the GitHub reposi
 git clone https://github.com/awslabs/mcp.git
 
 # Run the server directly using uv
-uv --directory /path/to/ecs-mcp-server/src/ecs-mcp-server/awslabs/ecs_mcp_server run main.py
+uv --directory /path/to/ecs-infrastructure-mcp-server/src/ecs-infrastructure-mcp-server/awslabs/ecs_mcp_server run main.py
 ```
 
 To setup your preferred MCP client (ie. Kiro, Cline, Cursor, VS Code, etc.) with the ECS MCP Server, proceed to the [Configuration](#configuration) section.
@@ -147,12 +147,12 @@ Add the ECS MCP Server to your MCP client configuration:
   "mcpServers": {
     "awslabs.ecs-mcp-server": {
       "command": "uvx",
-      "args": ["--from", "awslabs-ecs-mcp-server", "ecs-mcp-server"],
+      "args": ["--from", "awslabs-ecs-infrastructure-mcp-server", "ecs-infrastructure-mcp-server"],
       "env": {
         "AWS_PROFILE": "your-aws-profile", // Optional - uses your local AWS configuration if not specified
         "AWS_REGION": "your-aws-region", // Optional - uses your local AWS configuration if not specified
         "FASTMCP_LOG_LEVEL": "ERROR",
-        "FASTMCP_LOG_FILE": "/path/to/ecs-mcp-server.log",
+        "FASTMCP_LOG_FILE": "/path/to/ecs-infrastructure-mcp-server.log",
         "ALLOW_WRITE": "false",
         "ALLOW_SENSITIVE_DATA": "false"
       }
@@ -176,14 +176,14 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.ecs-mcp-server@latest",
-        "ecs-mcp-server.exe"
+        "awslabs.ecs-infrastructure-mcp-server@latest",
+        "ecs-infrastructure-mcp-server.exe"
       ],
      "env": {
         "AWS_PROFILE": "your-aws-profile", // Optional - uses your local AWS configuration if not specified
         "AWS_REGION": "your-aws-region", // Optional - uses your local AWS configuration if not specified
         "FASTMCP_LOG_LEVEL": "ERROR",
-        "FASTMCP_LOG_FILE": "/path/to/ecs-mcp-server.log",
+        "FASTMCP_LOG_FILE": "/path/to/ecs-infrastructure-mcp-server.log",
         "ALLOW_WRITE": "false",
         "ALLOW_SENSITIVE_DATA": "false"
       }
@@ -202,7 +202,7 @@ If running from a local repository, configure the MCP client like this:
       "command": "uv",
       "args": [
         "--directory",
-        "/path/to/ecs-mcp-server/src/ecs-mcp-server/awslabs/ecs_mcp_server",
+        "/path/to/ecs-infrastructure-mcp-server/src/ecs-infrastructure-mcp-server/awslabs/ecs_mcp_server",
         "run",
         "main.py"
       ],
@@ -210,7 +210,7 @@ If running from a local repository, configure the MCP client like this:
         "AWS_PROFILE": "your-aws-profile",
         "AWS_REGION": "your-aws-region",
         "FASTMCP_LOG_LEVEL": "DEBUG",
-        "FASTMCP_LOG_FILE": "/path/to/ecs-mcp-server.log",
+        "FASTMCP_LOG_FILE": "/path/to/ecs-infrastructure-mcp-server.log",
         "ALLOW_WRITE": "false",
         "ALLOW_SENSITIVE_DATA": "false"
       }
@@ -235,7 +235,7 @@ If you installed via PyPI (recommended), updates are automatic:
 If you want to manually update to ensure you have the latest version:
 
 ```bash
-uv pip install --upgrade awslabs.ecs-mcp-server
+uv pip install --upgrade awslabs.ecs-infrastructure-mcp-server
 ```
 
 ### Local Repository Updates

@@ -13,6 +13,6 @@
 # limitations under the License.
 
 
-"""awslabs.timestream-for-influxdb-mcp-server"""
+"""awslabs.timestream-for-influxdb-infrastructure-mcp-server"""
 
 __version__ = '0.0.13'

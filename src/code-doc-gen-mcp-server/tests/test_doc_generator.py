@@ -322,11 +322,11 @@ def test_generate_diagram_placeholder():
     # Assert
     assert '## AWS Architecture' in arch_placeholder
     assert 'PLACEHOLDER' in arch_placeholder
-    assert 'awslabs.aws-diagram-mcp-server' in arch_placeholder
+    assert 'awslabs.aws-diagram-infrastructure-mcp-server' in arch_placeholder
 
     assert '## System Architecture' in overview_placeholder
     assert f'Project Type: {analysis.project_type}' in overview_placeholder
     assert 'Key Components: Frontend, Backend' in overview_placeholder
 
     assert '## Data Flow Diagram' in dataflow_placeholder
-    assert 'awslabs.aws-diagram-mcp-server' in dataflow_placeholder
+    assert 'awslabs.aws-diagram-infrastructure-mcp-server' in dataflow_placeholder

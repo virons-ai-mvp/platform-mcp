@@ -57,11 +57,11 @@ def get_default_log_path():
         app_data = os.environ.get('LOCALAPPDATA')
         if not app_data:
             return None  # No suitable location found
-        log_dir = os.path.join(app_data, 'finch-mcp-server')
+        log_dir = os.path.join(app_data, 'finch-infrastructure-mcp-server')
     else:  # Unix/Linux/macOS
-        # Use ~/.finch/finch-mcp-server/ for persistent logs
+        # Use ~/.finch/finch-infrastructure-mcp-server/ for persistent logs
         if 'HOME' in os.environ:
-            log_dir = os.path.join(Path.home(), '.finch', 'finch-mcp-server')
+            log_dir = os.path.join(Path.home(), '.finch', 'finch-infrastructure-mcp-server')
         else:
             return None  # No suitable location found
 
@@ -75,7 +75,7 @@ def get_default_log_path():
         return None
 
 
-def configure_logging(server_name: str = 'finch-mcp-server'):
+def configure_logging(server_name: str = 'finch-infrastructure-mcp-server'):
     """Configure logging based on environment variables and command line arguments.
 
     Args:

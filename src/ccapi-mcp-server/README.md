@@ -185,7 +185,7 @@ Configure the MCP server in your MCP client configuration (e.g., for Kiro, edit 
   "mcpServers": {
     "awslabs.ccapi-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.ccapi-mcp-server@latest"],
+      "args": ["awslabs.ccapi-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "your-named-profile",
         "DEFAULT_TAGS": "enabled",
@@ -214,8 +214,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.ccapi-mcp-server@latest",
-        "awslabs.ccapi-mcp-server.exe"
+        "awslabs.ccapi-infrastructure-mcp-server@latest",
+        "awslabs.ccapi-infrastructure-mcp-server.exe"
       ],
       "env": {
         "AWS_PROFILE": "your-named-profile",
@@ -240,7 +240,7 @@ You have control on enabling/disabling Checkov security scanning on all infrastr
   "mcpServers": {
     "awslabs.ccapi-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.ccapi-mcp-server@latest"],
+      "args": ["awslabs.ccapi-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "your-named-profile",
         "DEFAULT_TAGS": "enabled",
@@ -261,7 +261,7 @@ You have control on enabling/disabling Checkov security scanning on all infrastr
   "mcpServers": {
     "awslabs.ccapi-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.ccapi-mcp-server@latest"],
+      "args": ["awslabs.ccapi-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "your-sso-profile",
         "DEFAULT_TAGS": "enabled",
@@ -282,7 +282,7 @@ _Note: Run `aws sso login --profile your-sso-profile` before starting the MCP se
   "mcpServers": {
     "awslabs.ccapi-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.ccapi-mcp-server@latest"],
+      "args": ["awslabs.ccapi-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_REGION": "us-west-2",
         "DEFAULT_TAGS": "enabled",
@@ -305,7 +305,7 @@ To prevent the MCP server from performing any mutating actions (Create/Update/De
   "mcpServers": {
     "awslabs.ccapi-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.ccapi-mcp-server@latest", "--readonly"],
+      "args": ["awslabs.ccapi-infrastructure-mcp-server@latest", "--readonly"],
       "env": {
         "AWS_PROFILE": "your-named-profile",
         "FASTMCP_LOG_LEVEL": "ERROR"
@@ -337,7 +337,7 @@ AWS_SESSION_TOKEN=AQoEXAMPLEH4aoAH0gNCAPy...truncated...zrkuWJOgQs8IZZaIv2BXIa2R
         "--interactive",
         "--env-file",
         "/full/path/to/file/above/.env",
-        "awslabs/ccapi-mcp-server:latest",
+        "awslabs/ccapi-infrastructure-mcp-server:latest",
         "--readonly" // Optional paramter if you would like to restrict the MCP to only read actions
       ],
       "env": {},

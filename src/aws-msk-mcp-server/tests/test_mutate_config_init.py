@@ -110,7 +110,7 @@ class TestMutateConfigInit:
 
         # Assert
         mock_config.assert_called_once_with(
-            user_agent_extra='awslabs/mcp/aws-msk-mcp-server/1.0.0'
+            user_agent_extra='awslabs/mcp/aws-msk-infrastructure-mcp-server/1.0.0'
         )
         mock_boto3_client.assert_called_once_with(
             'kafka', region_name='us-east-1', config=mock_config_instance
@@ -190,7 +190,7 @@ class TestMutateConfigInit:
 
         # Verify that the boto3 client and check_mcp_generated_tag were called, but update_configuration was not
         mock_config.assert_called_once_with(
-            user_agent_extra='awslabs/mcp/aws-msk-mcp-server/1.0.0'
+            user_agent_extra='awslabs/mcp/aws-msk-infrastructure-mcp-server/1.0.0'
         )
         mock_boto3_client.assert_called_once_with(
             'kafka', region_name='us-east-1', config=mock_config_instance
@@ -243,7 +243,7 @@ class TestMutateConfigInit:
 
         # Assert
         mock_config.assert_called_once_with(
-            user_agent_extra='awslabs/mcp/aws-msk-mcp-server/1.0.0'
+            user_agent_extra='awslabs/mcp/aws-msk-infrastructure-mcp-server/1.0.0'
         )
         mock_boto3_client.assert_called_once_with(
             'kafka', region_name='us-east-1', config=mock_config_instance
@@ -299,7 +299,7 @@ class TestMutateConfigInit:
 
         # Assert
         mock_config.assert_called_once_with(
-            user_agent_extra='awslabs/mcp/aws-msk-mcp-server/1.0.0'
+            user_agent_extra='awslabs/mcp/aws-msk-infrastructure-mcp-server/1.0.0'
         )
         mock_boto3_client.assert_called_once_with(
             'kafka', region_name='us-east-1', config=mock_config_instance

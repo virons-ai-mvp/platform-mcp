@@ -125,7 +125,7 @@ def main() -> None:
 
     # Set the execution environment
     os.environ['AWS_EXECUTION_ENV'] = (
-        f'awslabs/mcp/aws-bedrock-custom-model-import-mcp-server/{__version__}'
+        f'awslabs/mcp/aws-bedrock-custom-model-import-infrastructure-mcp-server/{__version__}'
     )
 
     mcp.run()

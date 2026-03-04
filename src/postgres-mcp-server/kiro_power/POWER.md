@@ -281,7 +281,7 @@ The power uses the Aurora Postgres MCP server with the following configuration:
     "postgres": {
       "command": "uvx",
       "args": [
-        "awslabs.postgres-mcp-server@latest"
+        "awslabs.postgres-infrastructure-mcp-server@latest"
       ]
     }
   }

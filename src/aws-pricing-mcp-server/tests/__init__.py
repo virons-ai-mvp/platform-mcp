@@ -12,4 +12,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Tests for the aws-pricing-mcp-server."""
+"""Tests for the aws-pricing-infrastructure-mcp-server."""

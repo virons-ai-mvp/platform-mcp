@@ -71,7 +71,7 @@ knowledge_server = 'https://d38p8g9d7yc7ms.cloudfront.net'
 knowledge_timeout = 30.0
 
 mcp = FastMCP(
-    'awslabs-aurora-dsql-mcp-server',
+    'awslabs-aurora-dsql-infrastructure-mcp-server',
     instructions="""
     # Aurora DSQL MCP server.
     Provides tools to execute SQL queries on Aurora DSQL cluster.

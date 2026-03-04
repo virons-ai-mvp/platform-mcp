@@ -21,10 +21,10 @@ Operations teams can use the `CheckSecurityServices` tool to monitor if critical
 
 ```bash
 # Install using uv
-uv pip install awslabs.well-architected-security-mcp-server
+uv pip install awslabs.well-architected-security-infrastructure-mcp-server
 
 # Or install using pip
-pip install awslabs.well-architected-security-mcp-server
+pip install awslabs.well-architected-security-infrastructure-mcp-server
 ```
 
 You can also run the MCP server directly from a local clone of the GitHub repository:
@@ -34,7 +34,7 @@ You can also run the MCP server directly from a local clone of the GitHub reposi
 git clone https://github.com/awslabs/mcp.git
 
 # Run the server directly using uv
-uv --directory /path/to/well-architected-security-mcp-server/src/well-architected-security-mcp-server/awslabs/well_architected_security_mcp_server run server.py
+uv --directory /path/to/well-architected-security-infrastructure-mcp-server/src/well-architected-security-infrastructure-mcp-server/awslabs/well_architected_security_mcp_server run server.py
 ```
 
 ## Usage Environments
@@ -89,7 +89,7 @@ Add the AWS Well-Architected Security Assessment Tool MCP Server to your MCP cli
   "mcpServers": {
     "well-architected-security-mcp-server": {
       "command": "uvx",
-      "args": ["--from", "awslabs.well-architected-security-mcp-server", "well-architected-security-mcp-server"],
+      "args": ["--from", "awslabs.well-architected-security-infrastructure-mcp-server", "well-architected-security-infrastructure-mcp-server"],
       "env": {
         "AWS_PROFILE": "your-aws-profile", // Optional - uses your local AWS configuration if not specified
         "AWS_REGION": "your-aws-region", // Optional - uses your local AWS configuration if not specified
@@ -109,7 +109,7 @@ If running from a local repository, configure the MCP client like this:
       "command": "uv",
       "args": [
         "--directory",
-        "/path/to/well-architected-security-mcp-server/src/well-architected-security-mcp-server/awslabs/well_architected_security_mcp_server",
+        "/path/to/well-architected-security-infrastructure-mcp-server/src/well-architected-security-infrastructure-mcp-server/awslabs/well_architected_security_mcp_server",
         "run",
         "server.py"
       ],
