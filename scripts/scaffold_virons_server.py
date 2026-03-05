@@ -107,12 +107,8 @@ def create_server() -> FastMCP:
     return server
 
 
-def main() -> FastMCP:
-    """Main entry point for the MCP server.
-    
-    Returns:
-        Running FastMCP server instance
-    """
+def main():
+    """Run the MCP server with CLI argument support."""
     global mcp
     
     parser = argparse.ArgumentParser(description=f"Virons {{name.title()}} MCP Server")
@@ -149,7 +145,6 @@ def main() -> FastMCP:
     #         raise
     
     mcp.run()
-    return mcp
 
 
 if __name__ == "__main__":
