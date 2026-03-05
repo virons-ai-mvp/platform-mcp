@@ -465,11 +465,11 @@ packages = ["virons"]
 
 [tool.ruff]
 target-version = "py310"
-line-length = 120
+line-length = 99
 
 [tool.ruff.lint]
-select = ["E", "F", "W", "I", "N", "D", "UP", "ANN", "S", "B", "A", "C4", "DTZ", "T10", "EM", "ISC", "ICN", "G", "PIE", "T20", "PT", "Q", "RSE", "RET", "SIM", "TID", "ARG", "PTH", "PD", "PGH", "PL", "TRY", "NPY", "RUF"]
-ignore = ["ANN101", "ANN102", "D203", "D213"]
+select = ["C", "D", "E", "F", "I", "W"]
+ignore = ["C901", "E501", "E741", "F402", "F823", "D100", "D106"]
 
 [tool.ruff.lint.per-file-ignores]
 "tests/**/*.py" = ["S101", "D", "ANN"]
