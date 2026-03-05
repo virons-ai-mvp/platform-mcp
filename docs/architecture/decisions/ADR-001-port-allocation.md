@@ -25,32 +25,91 @@ Allocate MCP server ports in the **9100-9199 range** with context-based segmenta
 
 | Context | Port Range | Capacity | Current Usage |
 |---------|------------|----------|---------------|
-| **Security** | 9100-9109 | 10 servers | 2 (gitleaks, compliance-gate) |
+| **Security** | 9100-9109 | 10 servers | 5 (gitleaks, compliance-gate, cloudtrail, iam, well-architected-security) |
 | **Governance** | 9110-9119 | 10 servers | 2 (org-governance, workflow-governance) |
-| **Operations** | 9120-9129 | 10 servers | 1 (secrets-rotation) |
-| **Compliance** | 9130-9139 | 10 servers | 1 (compliance-checklist) |
-| **Reserved** | 9140-9199 | 60 servers | Future contexts |
+| **Operations** | 9120-9129 | 10 servers | 5 (secrets-rotation, eks, lambda, ecs, stepfunctions) |
+| **Compliance** | 9130-9139 | 10 servers | 3 (compliance-checklist, cost-explorer, billing) |
+| **Infrastructure** | 9140-9149 | 10 servers | 5 (cdk, cfn, terraform, iac, network) |
+| **Data-Relational** | 9150-9159 | 10 servers | 4 (postgres, mysql, aurora-dsql, redshift) |
+| **AI-ML** | 9160-9169 | 10 servers | 3 (sagemaker, bedrock-kb, kendra) |
+| **Messaging** | 9170-9179 | 10 servers | 2 (sns-sqs, msk) |
+| **Data-NoSQL** | 9180-9189 | 10 servers | 6 (dynamodb, documentdb, keyspaces, neptune, elasticache, s3-tables) |
+| **Monitoring** | 9190-9199 | 10 servers | 4 (cloudwatch, prometheus, appsignals, applicationsignals) |
+
+**Total Allocated**: 39 servers (6 existing + 33 AWS MCP Tier 1)  
+**Total Reserved**: 61 ports for future expansion
 
 ### Port Registry
 
 ```yaml
-# Security Context
+# Security Context (9100-9109)
 9100: gitleaks
 9101: compliance-gate
-9102-9109: reserved
+9102: cloudtrail-mcp-server
+9103: iam-mcp-server
+9104: well-architected-security-mcp-server
+9105-9109: reserved
 
-# Governance Context
+# Governance Context (9110-9119)
 9110: org-governance
 9111: workflow-governance
 9112-9119: reserved
 
-# Operations Context
+# Operations Context (9120-9129)
 9120: secrets-rotation
-9121-9129: reserved
+9121: eks-mcp-server
+9122: lambda-tool-mcp-server
+9123: ecs-mcp-server
+9124: stepfunctions-tool-mcp-server
+9125-9129: reserved
 
-# Compliance Context
+# Compliance Context (9130-9139)
 9130: compliance-checklist
-9131-9139: reserved
+9131: cost-explorer-mcp-server
+9132: billing-cost-management-mcp-server
+9133-9139: reserved
+
+# Infrastructure Context (9140-9149)
+9140: cdk-mcp-server
+9141: cfn-mcp-server
+9142: terraform-mcp-server
+9143: aws-iac-mcp-server
+9144: aws-network-mcp-server
+9145-9149: reserved
+
+# Data-Relational Context (9150-9159)
+9150: postgres-mcp-server
+9151: mysql-mcp-server
+9152: aurora-dsql-mcp-server
+9153: redshift-mcp-server
+9154-9159: reserved
+
+# AI-ML Context (9160-9169)
+9160: sagemaker-ai-mcp-server
+9161: bedrock-kb-retrieval-mcp-server
+9162: amazon-kendra-index-mcp-server
+9163-9169: reserved
+
+# Messaging Context (9170-9179)
+9170: amazon-sns-sqs-mcp-server
+9171: aws-msk-mcp-server
+9172-9179: reserved
+
+# Data-NoSQL Context (9180-9189)
+9180: dynamodb-mcp-server
+9181: documentdb-mcp-server
+9182: amazon-keyspaces-mcp-server
+9183: amazon-neptune-mcp-server
+9184: elasticache-mcp-server
+9185: s3-tables-mcp-server
+9186-9189: reserved
+
+# Monitoring Context (9190-9199)
+9190: cloudwatch-mcp-server
+9191: prometheus-mcp-server
+9192: cloudwatch-appsignals-mcp-server
+9193: cloudwatch-applicationsignals-mcp-server
+9194-9199: reserved
 ```
 
 ## Rationale
