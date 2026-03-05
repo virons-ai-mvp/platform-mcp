@@ -37,9 +37,23 @@ We conducted a systematic audit using a weighted scoring framework:
 
 ***
 
-### Integrate 33 Tier 1 AWS MCP Servers
+### Integrate 40 Tier 1 AWS MCP Servers in Two Groups
 
-We will integrate 33 AWS MCP servers (Tier 1) into virons-mcp-server, expanding from 4 to 10 bounded contexts to accommodate all high-value servers while maintaining 10-port capacity per context.
+We will integrate 40 AWS MCP servers (Tier 1) into virons-mcp-server, separated into two distinct groups:
+
+**Group 1: Platform Servers (24 servers)** - Port range 9100-9149, 9190-9199
+- Purpose: Development, operations, compliance, security, infrastructure, monitoring
+- Users: Internal teams (platform engineers, security, compliance, operations)
+- Deployment: `platform-mcp` namespace
+- Cost: Platform operations budget
+
+**Group 2: Business Logic Servers (16 servers)** - Port range 9150-9189
+- Purpose: Virons AI product features (forensic analysis, ML, data services)
+- Users: Virons services (:9300-9415 forensic, :9420-9424 ML)
+- Deployment: `virons-services-mcp` namespace
+- Cost: Product development budget
+
+This separation ensures clear ownership, different deployment strategies, and appropriate cost allocation.
 
 ### Context Expansion
 
@@ -57,59 +71,77 @@ We will integrate 33 AWS MCP servers (Tier 1) into virons-mcp-server, expanding 
 - Data-NoSQL (9180-9189)
 - Monitoring (9190-9199)
 
-### Tier 1 Server List (33 Servers)
+### Tier 1 Server List (40 Servers)
 
-#### Security Context (3 new)
-1. **cloudtrail-mcp-server** (9102) - Score: 71 - Audit trail, security investigations
-2. **iam-mcp-server** (9103) - Score: 61 - Access control, IAM management
-3. **well-architected-security-mcp-server** (9104) - Score: 56 - Security posture assessment
+#### GROUP 1: PLATFORM SERVERS (24 servers)
 
-#### Operations Context (4 new)
-4. **eks-mcp-server** (9121) - Score: 54 - Kubernetes cluster management
-5. **lambda-tool-mcp-server** (9122) - Score: 48 - Serverless function management
-6. **ecs-mcp-server** (9123) - Score: 46 - Container orchestration
-7. **stepfunctions-tool-mcp-server** (9124) - Score: 46 - Workflow orchestration
+##### Security Context (3 servers)
+1. **cloudtrail-mcp-server** (9102) - Score: 71 - Platform audit trail
+2. **iam-mcp-server** (9103) - Score: 61 - Platform IAM management
+3. **well-architected-security-mcp-server** (9104) - Score: 56 - Platform security posture
 
-#### Compliance Context (2 new)
-8. **cost-explorer-mcp-server** (9131) - Score: 43 - Cost transparency (BaFin AT 8.1)
-9. **billing-cost-management-mcp-server** (9132) - Score: 41 - Financial controls
+##### Operations Context (4 servers)
+4. **eks-mcp-server** (9121) - Score: 54 - Platform Kubernetes management
+5. **lambda-tool-mcp-server** (9122) - Score: 48 - Platform Lambda management
+6. **ecs-mcp-server** (9123) - Score: 46 - Platform container orchestration
+7. **stepfunctions-tool-mcp-server** (9124) - Score: 46 - Platform workflow orchestration
 
-#### Infrastructure Context (5 new)
-10. **cfn-mcp-server** (9141) - Score: 54 - CloudFormation stack management
-11. **cdk-mcp-server** (9140) - Score: 53 - AWS CDK infrastructure as code
-12. **terraform-mcp-server** (9142) - Score: 52 - Terraform IaC operations
-13. **aws-network-mcp-server** (9144) - Score: 49 - VPC and network management
-14. **aws-iac-mcp-server** (9143) - Score: 46 - General IaC operations
+##### Compliance Context (2 servers)
+8. **cost-explorer-mcp-server** (9131) - Score: 43 - Platform cost analysis
+9. **billing-cost-management-mcp-server** (9132) - Score: 41 - Platform budget management
 
-#### Data-Relational Context (4 new)
-15. **postgres-mcp-server** (9150) - Score: 59 - PostgreSQL, audit log storage
-16. **dynamodb-mcp-server** (9180) - Score: 57 - NoSQL transactions (moved to NoSQL context)
-17. **aurora-dsql-mcp-server** (9152) - Score: 54 - Aurora distributed SQL
-18. **redshift-mcp-server** (9153) - Score: 52 - Data warehouse, analytics
-19. **mysql-mcp-server** (9151) - Score: 52 - MySQL operations
+##### Infrastructure Context (5 servers)
+10. **cfn-mcp-server** (9141) - Score: 54 - Platform CloudFormation
+11. **cdk-mcp-server** (9140) - Score: 53 - Platform CDK IaC
+12. **terraform-mcp-server** (9142) - Score: 52 - Platform Terraform
+13. **aws-network-mcp-server** (9144) - Score: 49 - Platform VPC management
+14. **aws-iac-mcp-server** (9143) - Score: 46 - Platform IaC operations
 
-#### AI-ML Context (3 new)
-20. **sagemaker-ai-mcp-server** (9160) - Score: 54 - ML training/inference
-21. **bedrock-kb-retrieval-mcp-server** (9161) - Score: 46 - RAG, semantic search
-22. **amazon-kendra-index-mcp-server** (9162) - Score: 44 - Intelligent search
+##### Monitoring Context (4 servers)
+15. **cloudwatch-mcp-server** (9190) - Score: 62 - Platform monitoring
+16. **prometheus-mcp-server** (9191) - Score: 51 - Platform metrics
+17. **cloudwatch-appsignals-mcp-server** (9192) - Score: 52 - Platform service monitoring
+18. **cloudwatch-applicationsignals-mcp-server** (9193) - Score: 45 - Platform app monitoring
 
-#### Messaging Context (2 new)
-23. **amazon-sns-sqs-mcp-server** (9170) - Score: 49 - Pub/sub messaging, queues
-24. **aws-msk-mcp-server** (9171) - Score: 49 - Kafka streaming
+##### Governance Context (2 servers - existing)
+19. **org-governance** (9110) - Organization policy enforcement
+20. **workflow-governance** (9111) - Workflow validation
 
-#### Data-NoSQL Context (6 new)
-25. **dynamodb-mcp-server** (9180) - Score: 57 - NoSQL key-value, transactions
-26. **s3-tables-mcp-server** (9185) - Score: 42 - Iceberg tables, data lake
-27. **amazon-neptune-mcp-server** (9183) - Score: 42 - Graph database, fraud detection
-28. **documentdb-mcp-server** (9181) - Score: 40 - MongoDB-compatible document DB
-29. **amazon-keyspaces-mcp-server** (9182) - Score: 40 - Cassandra-compatible wide-column
-30. **elasticache-mcp-server** (9184) - Score: 40 - Redis caching, session management
+##### Security Context (2 servers - existing)
+21. **gitleaks** (9100) - Pre-commit secret scanning
+22. **compliance-gate** (9101) - Pre-commit compliance checks
 
-#### Monitoring Context (4 new)
-31. **cloudwatch-mcp-server** (9190) - Score: 62 - Metrics, logs, alarms
-32. **cloudwatch-appsignals-mcp-server** (9192) - Score: 52 - Service-level monitoring
-33. **prometheus-mcp-server** (9191) - Score: 51 - Time-series metrics
-34. **cloudwatch-applicationsignals-mcp-server** (9193) - Score: 45 - Application performance
+##### Operations Context (1 server - existing)
+23. **secrets-rotation** (9120) - Platform secret rotation
+
+##### Compliance Context (1 server - existing)
+24. **compliance-checklist** (9130) - Platform compliance validation
+
+#### GROUP 2: BUSINESS LOGIC SERVERS (16 servers)
+
+##### Data-Relational Context (4 servers)
+25. **postgres-mcp-server** (9150) - Score: 59 - Transaction data, forensic audit logs
+26. **mysql-mcp-server** (9151) - Score: 52 - Application data storage
+27. **aurora-dsql-mcp-server** (9152) - Score: 54 - Distributed SQL transactions
+28. **redshift-mcp-server** (9153) - Score: 52 - Forensic analytics, ML feature store
+
+##### AI-ML Context (3 servers)
+29. **sagemaker-ai-mcp-server** (9160) - Score: 54 - ML training/inference (:9420-9424)
+30. **bedrock-kb-retrieval-mcp-server** (9161) - Score: 46 - RAG for forensic analysis
+31. **amazon-kendra-index-mcp-server** (9162) - Score: 44 - Intelligent search
+
+##### Messaging Context (2 servers)
+32. **amazon-sns-sqs-mcp-server** (9170) - Score: 49 - Business event streaming
+33. **aws-msk-mcp-server** (9171) - Score: 49 - Real-time transaction ingestion
+
+##### Data-NoSQL Context (7 servers)
+34. **dynamodb-mcp-server** (9180) - Score: 57 - Transaction ledger, blockchain data
+35. **documentdb-mcp-server** (9181) - Score: 40 - Transaction metadata
+36. **amazon-keyspaces-mcp-server** (9182) - Score: 40 - Transaction time-series
+37. **amazon-neptune-mcp-server** (9183) - Score: 42 - Fraud detection graph analysis
+38. **elasticache-mcp-server** (9184) - Score: 40 - Session management, API caching
+39. **s3-tables-mcp-server** (9185) - Score: 42 - Forensic data lake, ML training data
+40. **valkey-mcp-server** (9186) - Score: 38 - Caching (promoted from Tier 2)
 
 ### Tier 2 Servers (25 Servers) - Phase 2 Integration
 
