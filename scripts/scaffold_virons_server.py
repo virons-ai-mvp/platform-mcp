@@ -39,6 +39,28 @@ def create_directory_structure(name: str, output_dir: Path) -> Path:
     (server_dir / "virons" / f"{package_name}_mcp_server").mkdir(parents=True)
     (server_dir / "tests").mkdir(parents=True)
     
+    # Create docs structure mirroring platform-infrastructure
+    docs_dirs = [
+        "docs",
+        "docs/architecture",
+        "docs/architecture/decisions",
+        "docs/architecture/diagrams",
+        "docs/compliance",
+        "docs/compliance/audits",
+        "docs/compliance/evidence",
+        "docs/compliance/policies",
+        "docs/development",
+        "docs/development/contributing",
+        "docs/development/testing",
+        "docs/getting-started",
+        "docs/operations",
+        "docs/operations/runbooks",
+        "docs/reference",
+    ]
+    
+    for docs_dir in docs_dirs:
+        (server_dir / docs_dir).mkdir(parents=True, exist_ok=True)
+    
     return server_dir
 
 
@@ -987,6 +1009,70 @@ tests/
     )
 
 
+def create_docs_readmes(server_dir: Path, name: str) -> None:
+    """Create README.md files in docs directories using template.
+    
+    Args:
+        server_dir: Server root directory
+        name: Server name
+    """
+    # Map of directory to purpose
+    docs_structure = {
+        "docs": "Documentation root for virons-{name}-mcp-server",
+        "docs/architecture": "Architecture documentation and decisions",
+        "docs/architecture/decisions": "Architecture Decision Records (ADRs)",
+        "docs/architecture/diagrams": "System architecture diagrams",
+        "docs/compliance": "Compliance documentation (BaFin, GDPR, DORA, EU AI Act)",
+        "docs/compliance/audits": "Audit reports and findings",
+        "docs/compliance/evidence": "Compliance evidence and artifacts",
+        "docs/compliance/policies": "Compliance policies and procedures",
+        "docs/development": "Development guides and standards",
+        "docs/development/contributing": "Contribution guidelines",
+        "docs/development/testing": "Testing documentation and reports",
+        "docs/getting-started": "Quick start and onboarding guides",
+        "docs/operations": "Operational documentation",
+        "docs/operations/runbooks": "Operational runbooks and procedures",
+        "docs/reference": "Reference documentation and style guides",
+    }
+    
+    for docs_dir, purpose in docs_structure.items():
+        readme_path = server_dir / docs_dir / "README.md"
+        dir_name = docs_dir.split("/")[-1]
+        
+        readme_path.write_text(
+            f"""# {dir_name.replace('-', ' ').title()}
+
+{purpose.format(name=name)}
+
+## Purpose
+
+This directory contains documentation for the virons-{name}-mcp-server.
+
+## Structure
+
+_To be populated as documentation is added._
+
+## Compliance
+
+All documentation follows:
+- BaFin MaRisk AT 8.1 (audit trail requirements)
+- GDPR Art 25, 32 (data protection by design)
+- DORA Art 11 (ICT risk management)
+- EU AI Act (technical documentation for high-risk AI)
+
+## Maintenance
+
+Documentation is maintained alongside code changes. All updates must be reviewed
+and approved through the standard PR process.
+
+---
+
+**Last Updated**: {Path(__file__).stat().st_mtime}  
+**Maintained By**: Virons Fintech Engineering Team
+"""
+        )
+
+
 def print_validation_summary(server_dir: Path, name: str, port: str) -> None:
     """Print validation summary after scaffolding.
     
@@ -1062,6 +1148,7 @@ def main() -> int:
     create_metadata_files(server_dir, args.name, args.description, args.port, deps)
     create_readme_files(server_dir, args.name)
     create_docker_files(server_dir, args.name)
+    create_docs_readmes(server_dir, args.name)
     
     # Print validation summary
     print_validation_summary(server_dir, args.name, args.port)
