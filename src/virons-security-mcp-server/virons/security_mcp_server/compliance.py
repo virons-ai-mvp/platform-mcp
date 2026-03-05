@@ -1,6 +1,6 @@
 # Copyright Virons Fintech. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0
-"""Compliance hooks for virons-infrastructure-mcp-server.
+"""Compliance hooks for virons-security-mcp-server.
 
 Integrates virons.common compliance utilities:
 - BaFin MaRisk AT 8.1: write_audit()
@@ -51,7 +51,7 @@ async def audit_write_operation(
         Audit trail ID
     """
     audit_id = await write_audit(
-        service_name="virons-infrastructure-mcp-server",
+        service_name="virons-security-mcp-server",
         calculation_type=operation_name,
         entity_id=entity_id,
         input_data=input_data,

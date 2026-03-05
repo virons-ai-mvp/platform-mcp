@@ -1,7 +1,7 @@
 [project]
-name = "virons.infrastructure-mcp-server"
+name = "virons.security-mcp-server"
 version = "0.1.0"
-description = "Infrastructure orchestrator - wraps CDK, CloudFormation, Terraform, IaC MCP servers"
+description = "Security orchestrator - wraps CloudTrail, IAM, Well-Architected Security, Gitleaks, Compliance Gate MCP servers"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
@@ -31,7 +31,7 @@ homepage = "https://virons.ai"
 repository = "https://github.com/virons-fintech/virons-ai-mvp.git"
 
 [project.scripts]
-virons-infrastructure-mcp-server = "virons.infrastructure_mcp_server.server:main"
+virons-security-mcp-server = "virons.security_mcp_server.server:main"
 
 [dependency-groups]
 dev = [

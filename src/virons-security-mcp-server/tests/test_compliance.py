@@ -3,7 +3,7 @@
 """Tests for compliance hooks."""
 
 import pytest
-from virons.infrastructure_mcp_server.compliance import (
+from virons.security_mcp_server.compliance import (
     audit_write_operation,
 )
 
@@ -20,4 +20,3 @@ async def test_audit_write_operation():
     assert audit_id
     assert isinstance(audit_id, str)
     assert len(audit_id) > 0
-

@@ -1,0 +1,9 @@
+[tool.uv.workspace]
+members = [
+    "src/virons-common",
+    "src/virons-infrastructure-mcp-server",
+    "src/virons-security-mcp-server",
+]
+
+[tool.uv.sources]
+"virons.common" = { workspace = true }
