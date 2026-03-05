@@ -487,6 +487,7 @@ testpaths = ["tests"]
 python_files = ["test_*.py"]
 python_classes = ["Test*"]
 python_functions = ["test_*"]
+asyncio_mode = "auto"
 addopts = "--strict-markers --tb=short"
 
 [tool.coverage.run]
