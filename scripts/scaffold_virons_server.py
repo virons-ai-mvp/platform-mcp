@@ -75,7 +75,7 @@ def create_python_files(server_dir: Path, name: str, port: str) -> None:
 import argparse
 import os
 import sys
-from mcp.server.fastmcp import FastMCP
+from mcp.server.fastmcp import FastMCP, Context
 from loguru import logger
 
 from .compliance import setup_compliance_hooks
@@ -136,10 +136,17 @@ def main() -> FastMCP:
     mcp = create_server()
     
     # TODO: Register your tool handlers here
+    # Example with Context for error reporting:
     # @mcp.tool()
-    # async def example_tool(param: str) -> str:
+    # async def example_tool(ctx: Context, param: str) -> str:
     #     """Example tool implementation."""
-    #     return f"Result: {{param}}"
+    #     try:
+    #         result = f"Result: {{param}}"
+    #         return result
+    #     except Exception as e:
+    #         logger.error(f"Error in example_tool: {{str(e)}}")
+    #         await ctx.error(f"Error: {{str(e)}}")
+    #         raise
     
     mcp.run()
     return mcp
