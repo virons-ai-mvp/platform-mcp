@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-"""Tests for the scanner module of the diagrams-mcp-server."""
+"""Tests for the scanner module of the diagrams-infrastructure-mcp-server."""
 
 import pytest
 from awslabs.aws_diagram_mcp_server.scanner import (

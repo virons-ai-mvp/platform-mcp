@@ -30,7 +30,7 @@ class TestAwsUtils:
     def test_get_aws_config(self):
         """Test get_aws_config function."""
         config = get_aws_config()
-        assert "awslabs/mcp/ecs-mcp-server" in config.user_agent_extra
+        assert "awslabs/mcp/ecs-infrastructure-mcp-server" in config.user_agent_extra
 
 
 class TestAwsClientAsync:

@@ -135,7 +135,7 @@ async def test_lambda_layer_documentation_provider_python(mock_context):
     assert 'documentation_usage_guide' in result
     assert 'code_generation_guidance' in result
     assert result['layer_type'] == 'python'
-    assert result['documentation_source']['server'] == 'awslabs.aws-documentation-mcp-server'
+    assert result['documentation_source']['server'] == 'awslabs.aws-documentation-infrastructure-mcp-server'
     assert result['documentation_source']['tool'] == 'read_documentation'
     assert result['documentation_source']['parameters']['max_length'] == 10000
     assert (

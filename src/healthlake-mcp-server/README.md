@@ -74,31 +74,31 @@ Choose your preferred installation method:
 
 ```bash
 # Install and run latest version automatically
-uvx awslabs.healthlake-mcp-server@latest
+uvx awslabs.healthlake-infrastructure-mcp-server@latest
 ```
 
 ### Option 2: uv install
 
 ```bash
-uv tool install awslabs.healthlake-mcp-server
-awslabs.healthlake-mcp-server
+uv tool install awslabs.healthlake-infrastructure-mcp-server
+awslabs.healthlake-infrastructure-mcp-server
 ```
 
 ### Option 3: Docker
 
 ```bash
 # Build and run with Docker
-docker build -t healthlake-mcp-server .
-docker run -e AWS_ACCESS_KEY_ID=xxx -e AWS_SECRET_ACCESS_KEY=yyy healthlake-mcp-server
+docker build -t healthlake-infrastructure-mcp-server .
+docker run -e AWS_ACCESS_KEY_ID=xxx -e AWS_SECRET_ACCESS_KEY=yyy healthlake-infrastructure-mcp-server
 
 # Or use pre-built image with environment variables
-docker run -e AWS_ACCESS_KEY_ID=your_key -e AWS_SECRET_ACCESS_KEY=your_secret -e AWS_REGION=us-east-1 awslabs/healthlake-mcp-server
+docker run -e AWS_ACCESS_KEY_ID=your_key -e AWS_SECRET_ACCESS_KEY=your_secret -e AWS_REGION=us-east-1 awslabs/healthlake-infrastructure-mcp-server
 
 # With AWS profile (mount credentials)
-docker run -v ~/.aws:/root/.aws -e AWS_PROFILE=your-profile awslabs/healthlake-mcp-server
+docker run -v ~/.aws:/root/.aws -e AWS_PROFILE=your-profile awslabs/healthlake-infrastructure-mcp-server
 
 # Read-only mode
-docker run -e AWS_ACCESS_KEY_ID=your_key -e AWS_SECRET_ACCESS_KEY=your_secret -e AWS_REGION=us-east-1 awslabs/healthlake-mcp-server --readonly
+docker run -e AWS_ACCESS_KEY_ID=your_key -e AWS_SECRET_ACCESS_KEY=your_secret -e AWS_REGION=us-east-1 awslabs/healthlake-infrastructure-mcp-server --readonly
 ```
 
 [↑ Back to Table of Contents](#table-of-contents)
@@ -117,7 +117,7 @@ For global configuration, edit `~/.kiro/settings/mcp.json`. For project-specific
   "mcpServers": {
     "healthlake": {
       "command": "uvx",
-      "args": ["awslabs.healthlake-mcp-server@latest"],
+      "args": ["awslabs.healthlake-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_REGION": "us-east-1",
         "AWS_PROFILE": "your-profile-name",
@@ -134,7 +134,7 @@ For global configuration, edit `~/.kiro/settings/mcp.json`. For project-specific
   "mcpServers": {
     "healthlake-readonly": {
       "command": "uvx",
-      "args": ["awslabs.healthlake-mcp-server@latest", "--readonly"],
+      "args": ["awslabs.healthlake-infrastructure-mcp-server@latest", "--readonly"],
       "env": {
         "AWS_REGION": "us-east-1",
         "AWS_PROFILE": "your-profile-name",
@@ -159,7 +159,7 @@ For global configuration, edit `~/.kiro/settings/mcp.json`. For project-specific
         "-e", "AWS_SECRET_ACCESS_KEY=your_secret",
         "-e", "AWS_REGION=us-east-1",
         "-e", "MCP_LOG_LEVEL=INFO",
-        "awslabs/healthlake-mcp-server"
+        "awslabs/healthlake-infrastructure-mcp-server"
       ]
     }
   }
@@ -177,7 +177,7 @@ For global configuration, edit `~/.kiro/settings/mcp.json`. For project-specific
         "-v", "~/.aws:/root/.aws",
         "-e", "AWS_PROFILE=your-profile",
         "-e", "MCP_LOG_LEVEL=INFO",
-        "awslabs/healthlake-mcp-server"
+        "awslabs/healthlake-infrastructure-mcp-server"
       ]
     }
   }
@@ -196,7 +196,7 @@ For global configuration, edit `~/.kiro/settings/mcp.json`. For project-specific
         "-e", "AWS_SECRET_ACCESS_KEY=your_secret",
         "-e", "AWS_REGION=us-east-1",
         "-e", "MCP_LOG_LEVEL=INFO",
-        "awslabs/healthlake-mcp-server",
+        "awslabs/healthlake-infrastructure-mcp-server",
         "--readonly"
       ]
     }
@@ -225,7 +225,7 @@ Add the `--readonly` flag when starting the server:
 
 ```bash
 # Using uvx
-uvx awslabs.healthlake-mcp-server@latest --readonly
+uvx awslabs.healthlake-infrastructure-mcp-server@latest --readonly
 
 # Or if installed locally
 python -m awslabs.healthlake_mcp_server.main --readonly
@@ -418,7 +418,7 @@ Set environment variable for detailed logging:
 ```bash
 export PYTHONPATH=.
 export MCP_LOG_LEVEL=DEBUG
-awslabs.healthlake-mcp-server
+awslabs.healthlake-infrastructure-mcp-server
 ```
 
 [↑ Back to Table of Contents](#table-of-contents)
@@ -431,7 +431,7 @@ awslabs.healthlake-mcp-server
 
 ```bash
 git clone <repository-url>
-cd healthlake-mcp-server
+cd healthlake-infrastructure-mcp-server
 uv sync --dev
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 ```
@@ -440,7 +440,7 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
 ```bash
 git clone <repository-url>
-cd healthlake-mcp-server
+cd healthlake-infrastructure-mcp-server
 
 # Create virtual environment
 python -m venv .venv
@@ -454,7 +454,7 @@ pip install -e ".[dev]"
 
 ```bash
 git clone <repository-url>
-cd healthlake-mcp-server
+cd healthlake-infrastructure-mcp-server
 
 # Create conda environment
 conda create -n healthlake-mcp python=3.10
@@ -471,7 +471,7 @@ pip install -e ".[dev]"
 python -m awslabs.healthlake_mcp_server.main
 
 # Or using the installed script
-awslabs.healthlake-mcp-server
+awslabs.healthlake-infrastructure-mcp-server
 ```
 
 ### Development Workflow

@@ -161,7 +161,7 @@ Available Tools:
 def create_server():
     """Create and configure the MCP server instance."""
     return FastMCP(
-        'awslabs.healthimaging-mcp-server',
+        'awslabs.healthimaging-infrastructure-mcp-server',
         instructions=SERVER_INSTRUCTIONS,
     )
 

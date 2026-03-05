@@ -1,1 +1,1 @@
-"""Tests for the amazon-mq-mcp-server."""
+"""Tests for the amazon-mq-infrastructure-mcp-server."""

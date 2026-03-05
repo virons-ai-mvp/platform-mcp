@@ -46,7 +46,7 @@ To add this MCP server to Kiro or Claude, add the following to your MCP config f
   "mcpServers": {
     "awslabs.git-repo-research-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.git-repo-research-mcp-server@latest"],
+      "args": ["awslabs.git-repo-research-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "your-profile-name",
         "AWS_REGION": "us-west-2",
@@ -75,8 +75,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.git-repo-research-mcp-server@latest",
-        "awslabs.git-repo-research-mcp-server.exe"
+        "awslabs.git-repo-research-infrastructure-mcp-server@latest",
+        "awslabs.git-repo-research-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",

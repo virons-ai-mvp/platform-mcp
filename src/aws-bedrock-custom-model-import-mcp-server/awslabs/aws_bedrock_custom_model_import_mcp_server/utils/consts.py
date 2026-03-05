@@ -18,7 +18,7 @@ import os
 
 
 # Server information
-SERVER_NAME = 'awslabs.aws-bedrock-custom-model-import-mcp-server'
+SERVER_NAME = 'awslabs.aws-bedrock-custom-model-import-infrastructure-mcp-server'
 
 # AWS Region configuration
 AWS_REGION = os.getenv('AWS_REGION', 'us-east-1')

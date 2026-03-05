@@ -21,7 +21,7 @@ The AWS HealthOmics MCP Server uses a comprehensive testing framework built on *
 
 ```bash
 # Navigate to the project directory
-cd src/aws-healthomics-mcp-server
+cd src/aws-healthomics-infrastructure-mcp-server
 
 # Install dependencies (if not already installed)
 pip install -e .
@@ -73,7 +73,7 @@ tests/
 ```bash
 # Clone the repository (if not already done)
 git clone <repository-url>
-cd src/aws-healthomics-mcp-server
+cd src/aws-healthomics-infrastructure-mcp-server
 
 # Install in development mode with test dependencies
 pip install -e ".[dev]"

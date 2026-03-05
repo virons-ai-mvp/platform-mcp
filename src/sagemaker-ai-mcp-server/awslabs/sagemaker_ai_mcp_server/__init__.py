@@ -15,6 +15,6 @@
 # This file is part of the awslabs namespace.
 # It is intentionally minimal to support PEP 420 namespace packages.
 
-"""awslabs.sagemaker-ai-mcp-server"""
+"""awslabs.sagemaker-ai-infrastructure-mcp-server"""
 
 __version__ = '1.0.6'

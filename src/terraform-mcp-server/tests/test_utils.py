@@ -1,4 +1,4 @@
-"""Tests for the utils module of the terraform-mcp-server."""
+"""Tests for the utils module of the terraform-infrastructure-mcp-server."""
 
 from awslabs.terraform_mcp_server.impl.tools.utils import (
     clean_description,

@@ -26,5 +26,5 @@ repos:
               fi
             done
             exit $c'
-        files: src/aurora-dsql-mcp-server/skills/dsql-skill/SKILL\.md$
+        files: src/aurora-dsql-infrastructure-mcp-server/skills/dsql-skill/SKILL\.md$
         pass_filenames: false

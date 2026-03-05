@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""awslabs.cloudtrail-mcp-server"""
+"""awslabs.cloudtrail-infrastructure-mcp-server"""
 
 __version__ = '0.0.10'
 MCP_SERVER_VERSION = __version__

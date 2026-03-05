@@ -20,7 +20,7 @@ def test_server_initialization():
 
     # Assert
     assert server is not None
-    assert server.name == 'awslabs.aws-healthomics-mcp-server'
+    assert server.name == 'awslabs.aws-healthomics-infrastructure-mcp-server'
     assert server.instructions is not None
     assert 'AWS HealthOmics MCP Server' in server.instructions
 

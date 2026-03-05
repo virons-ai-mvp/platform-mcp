@@ -489,7 +489,7 @@ Example configuration for Kiro MCP settings (`~/.kiro/settings/mcp.json`):
     "awslabs-core-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.core-mcp-server@latest"
+        "awslabs.core-infrastructure-mcp-server@latest"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
@@ -517,8 +517,8 @@ When configuring MCP servers on Windows, you'll need to use a slightly different
         "tool",
         "run",
         "--from",
-        "awslabs.core-mcp-server@latest",
-        "awslabs.core-mcp-server.exe"
+        "awslabs.core-infrastructure-mcp-server@latest",
+        "awslabs.core-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
@@ -535,12 +535,12 @@ If you have problems with MCP configuration or want to check if the appropriate 
 $ timeout 15s uv tool run <MCP Name> <args> 2>&1 || echo "Command completed or timed out"
 
 # Example (Aurora MySQL MCP Server)
-$ timeout 15s uv tool run awslabs.mysql-mcp-server --resource_arn <Your Resource ARN> --secret_arn <Your Secret ARN> ... 2>&1 || echo "Command completed or timed out"
+$ timeout 15s uv tool run awslabs.mysql-infrastructure-mcp-server --resource_arn <Your Resource ARN> --secret_arn <Your Secret ARN> ... 2>&1 || echo "Command completed or timed out"
 
 # If the arguments are not set appropriately, you may see the following message:
-usage: awslabs.mysql-mcp-server [-h] --resource_arn RESOURCE_ARN --secret_arn SECRET_ARN --database DATABASE
+usage: awslabs.mysql-infrastructure-mcp-server [-h] --resource_arn RESOURCE_ARN --secret_arn SECRET_ARN --database DATABASE
                                 --region REGION --readonly READONLY
-awslabs.mysql-mcp-server: error: the following arguments are required: --resource_arn, --secret_arn, --database, --region, --readonly
+awslabs.mysql-infrastructure-mcp-server: error: the following arguments are required: --resource_arn, --secret_arn, --database, --region, --readonly
 ```
 
 **Note about performance when using `uvx` *"@latest"* suffix:**
@@ -584,7 +584,7 @@ Docker images for each MCP server are published to the [public AWS ECR registry]
           "/full/path/to/.env",
           "--volume",
           "/full/path/to/.aws:/app/.aws",
-          "public.ecr.aws/awslabs-mcp/awslabs/nova-canvas-mcp-server:latest"
+          "public.ecr.aws/awslabs-mcp/awslabs/nova-canvas-infrastructure-mcp-server:latest"
         ],
         "env": {}
       }
@@ -623,7 +623,7 @@ For macOS/Linux:
   "mcpServers": {
     "awslabs-core-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.core-mcp-server@latest"],
+      "args": ["awslabs.core-infrastructure-mcp-server@latest"],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
       }
@@ -646,8 +646,8 @@ For Windows:
         "tool",
         "run",
         "--from",
-        "awslabs.core-mcp-server@latest",
-        "awslabs.core-mcp-server.exe"
+        "awslabs.core-infrastructure-mcp-server@latest",
+        "awslabs.core-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
@@ -697,7 +697,7 @@ For macOS/Linux:
    "mcpServers": {
      "awslabs-core-mcp-server": {
        "command": "uvx",
-       "args": ["awslabs.core-mcp-server@latest"],
+       "args": ["awslabs.core-infrastructure-mcp-server@latest"],
        "env": {
          "FASTMCP_LOG_LEVEL": "ERROR",
          "MCP_SETTINGS_PATH": "path to your mcp settings file"
@@ -721,8 +721,8 @@ For Windows:
         "tool",
         "run",
         "--from",
-        "awslabs.core-mcp-server@latest",
-        "awslabs.core-mcp-server.exe"
+        "awslabs.core-infrastructure-mcp-server@latest",
+        "awslabs.core-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -804,7 +804,7 @@ For macOS/Linux:
   "mcpServers": {
     "awslabs-core-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.core-mcp-server@latest"],
+      "args": ["awslabs.core-infrastructure-mcp-server@latest"],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
       }
@@ -827,8 +827,8 @@ For Windows:
         "tool",
         "run",
         "--from",
-        "awslabs.core-mcp-server@latest",
-        "awslabs.core-mcp-server.exe"
+        "awslabs.core-infrastructure-mcp-server@latest",
+        "awslabs.core-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
@@ -872,7 +872,7 @@ For macOS/Linux:
    "mcpServers": {
      "awslabs-core-mcp-server": {
        "command": "uvx",
-       "args": ["awslabs.core-mcp-server@latest"],
+       "args": ["awslabs.core-infrastructure-mcp-server@latest"],
        "env": {
          "FASTMCP_LOG_LEVEL": "ERROR",
          "MCP_SETTINGS_PATH": "path to your mcp settings file"
@@ -896,8 +896,8 @@ For Windows:
         "tool",
         "run",
         "--from",
-        "awslabs.core-mcp-server@latest",
-        "awslabs.core-mcp-server.exe"
+        "awslabs.core-infrastructure-mcp-server@latest",
+        "awslabs.core-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -926,7 +926,7 @@ For macOS/Linux:
   "mcpServers": {
     "awslabs-core-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.core-mcp-server@latest"],
+      "args": ["awslabs.core-infrastructure-mcp-server@latest"],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
       }
@@ -949,8 +949,8 @@ For Windows:
         "tool",
         "run",
         "--from",
-        "awslabs.core-mcp-server@latest",
-        "awslabs.core-mcp-server.exe"
+        "awslabs.core-infrastructure-mcp-server@latest",
+        "awslabs.core-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
@@ -976,21 +976,21 @@ Configure MCP servers in Claude Code through the CLI or in `.mcp.json`
 
    ```bash
    # Add core AWS services
-   claude mcp add aws-api uvx awslabs.aws-api-mcp-server@latest
-   claude mcp add aws-cdk uvx awslabs.cdk-mcp-server@latest
-   claude mcp add aws-docs uvx awslabs.aws-documentation-mcp-server@latest
-   claude mcp add aws-support uvx awslabs.aws-support-mcp-server@latest
-   claude mcp add aws-pricing uvx awslabs.aws-pricing-mcp-server@latest
+   claude mcp add aws-api uvx awslabs.aws-api-infrastructure-mcp-server@latest
+   claude mcp add aws-cdk uvx awslabs.cdk-infrastructure-mcp-server@latest
+   claude mcp add aws-docs uvx awslabs.aws-documentation-infrastructure-mcp-server@latest
+   claude mcp add aws-support uvx awslabs.aws-support-infrastructure-mcp-server@latest
+   claude mcp add aws-pricing uvx awslabs.aws-pricing-infrastructure-mcp-server@latest
 
    # Add AI/ML and Bedrock services
-   claude mcp add bedrock-kb uvx awslabs.bedrock-kb-retrieval-mcp-server@latest
-   claude mcp add nova-canvas uvx awslabs.nova-canvas-mcp-server@latest
-   claude mcp add synthetic-data uvx awslabs.syntheticdata-mcp-server@latest
+   claude mcp add bedrock-kb uvx awslabs.bedrock-kb-retrieval-infrastructure-mcp-server@latest
+   claude mcp add nova-canvas uvx awslabs.nova-canvas-infrastructure-mcp-server@latest
+   claude mcp add synthetic-data uvx awslabs.syntheticdata-infrastructure-mcp-server@latest
 
    # Add data and analytics services
-   claude mcp add aws-dataprocessing uvx awslabs.aws-dataprocessing-mcp-server@latest
-   claude mcp add aurora-dsql uvx awslabs.aurora-dsql-mcp-server@latest
-   claude mcp add valkey uvx awslabs.valkey-mcp-server@latest
+   claude mcp add aws-dataprocessing uvx awslabs.aws-dataprocessing-infrastructure-mcp-server@latest
+   claude mcp add aurora-dsql uvx awslabs.aurora-dsql-infrastructure-mcp-server@latest
+   claude mcp add valkey uvx awslabs.valkey-infrastructure-mcp-server@latest
 
    # List installed servers
    claude mcp list
@@ -1009,14 +1009,14 @@ For macOS/Linux:
   "mcpServers": {
     "awslabs.cdk-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.cdk-mcp-server@latest"],
+      "args": ["awslabs.cdk-infrastructure-mcp-server@latest"],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
       }
     },
     "awslabs.aws-documentation-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.aws-documentation-mcp-server@latest"],
+      "args": ["awslabs.aws-documentation-infrastructure-mcp-server@latest"],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
         "AWS_DOCUMENTATION_PARTITION": "aws"

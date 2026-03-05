@@ -228,7 +228,7 @@ REQUIRED_FIELD_CLUSTER_NAME = Field(
 )
 
 mcp = FastMCP(
-    'awslabs.timestream-for-influxdb-mcp-server',
+    'awslabs.timestream-for-influxdb-infrastructure-mcp-server',
     instructions="""
     This MCP server provides tools to interact with AWS Timestream for InfluxDB APIs.
     It allows you to create and manage databases, users, and perform other operations

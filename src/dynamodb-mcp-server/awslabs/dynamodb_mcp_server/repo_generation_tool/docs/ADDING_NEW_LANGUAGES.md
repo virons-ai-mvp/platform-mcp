@@ -131,7 +131,7 @@ Update documentation:
 ### Development Testing
 
 ```bash
-# Test basic generation (from dynamodb-mcp-server root)
+# Test basic generation (from dynamodb-infrastructure-mcp-server root)
 uv run python -m awslabs.dynamodb_mcp_server.repo_generation_tool.codegen --schema sample_schema.json --language {language}
 
 # Test with all options

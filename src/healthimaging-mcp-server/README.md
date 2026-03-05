@@ -32,7 +32,7 @@ Add the following configuration to your MCP client config file (e.g., for Kiro, 
     "awslabs.healthimaging-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.healthimaging-mcp-server@latest"
+        "awslabs.healthimaging-infrastructure-mcp-server@latest"
       ],
       "env": {
         "AWS_REGION": "us-east-1"
@@ -53,8 +53,8 @@ Add the following configuration to your MCP client config file (e.g., for Kiro, 
       "command": "uvx",
       "args": [
         "--from",
-        "awslabs.healthimaging-mcp-server@latest",
-        "awslabs.healthimaging-mcp-server.exe"
+        "awslabs.healthimaging-infrastructure-mcp-server@latest",
+        "awslabs.healthimaging-infrastructure-mcp-server.exe"
       ],
       "env": {
         "AWS_REGION": "us-east-1"
@@ -75,7 +75,7 @@ Add the following configuration to your MCP client config file (e.g., for Kiro, 
 
 **Step 1: Install the package**
 ```bash
-pip install awslabs.healthimaging-mcp-server
+pip install awslabs.healthimaging-infrastructure-mcp-server
 ```
 
 **Step 2: Configure your MCP client**
@@ -117,7 +117,7 @@ You can isolate the MCP server by running it in a Docker container.
         "AWS_REGION=us-east-1",
         "--volume",
         "/full/path/to/.aws:/app/.aws",
-        "awslabs/healthimaging-mcp-server:latest"
+        "awslabs/healthimaging-infrastructure-mcp-server:latest"
       ],
       "env": {}
     }
@@ -375,7 +375,7 @@ Set environment variable for detailed logging:
 ```bash
 export PYTHONPATH=.
 export AWS_LOG_LEVEL=DEBUG
-awslabs.healthimaging-mcp-server
+awslabs.healthimaging-infrastructure-mcp-server
 ```
 
 ## Development
@@ -395,7 +395,7 @@ awslabs.healthimaging-mcp-server
 
 ```bash
 git clone <repository-url>
-cd healthimaging-mcp-server
+cd healthimaging-infrastructure-mcp-server
 uv sync --dev
 source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 ```
@@ -404,7 +404,7 @@ source .venv/bin/activate  # On Windows: .venv\Scripts\activate
 
 ```bash
 git clone <repository-url>
-cd healthimaging-mcp-server
+cd healthimaging-infrastructure-mcp-server
 
 # Create virtual environment
 python -m venv .venv
@@ -421,7 +421,7 @@ pip install -e ".[dev]"
 python -m awslabs.healthimaging_mcp_server.main
 
 # Or using the installed script
-awslabs.healthimaging-mcp-server
+awslabs.healthimaging-infrastructure-mcp-server
 ```
 
 ### Development Workflow

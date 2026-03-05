@@ -109,7 +109,7 @@ def create_documentation_context(
 
 
 mcp = FastMCP(
-    'awslabs.code-doc-gen-mcp-server',
+    'awslabs.code-doc-gen-infrastructure-mcp-server',
     instructions="""Use this server to generate comprehensive code documentation.
 
 WORKFLOW:
@@ -154,7 +154,7 @@ IMPORTANT:
   5. Use your analysis to create accurate content
 
 RECOMMENDED COMPANION MCP SERVERS:
-- awslabs.aws-diagram-mcp-server: For generating architecture diagrams
+- awslabs.aws-diagram-infrastructure-mcp-server: For generating architecture diagrams
 
 This companion server is not required but will enhance the documentation with visual diagrams.""",
     dependencies=['pydantic', 'loguru', 'repomix'],
@@ -499,17 +499,17 @@ async def generate_documentation(
 
             # Add specialized messages based on file type
             if path.name == 'README.md':
-                message = "Create a comprehensive README with installation instructions, usage examples, and a concise overview of the project's purpose and capabilities. When possible, enhance the Architecture Diagram section by using the AWS Diagram MCP Server (awslabs.aws-diagram-mcp-server) to create visual representations of the system architecture."
+                message = "Create a comprehensive README with installation instructions, usage examples, and a concise overview of the project's purpose and capabilities. When possible, enhance the Architecture Diagram section by using the AWS Diagram MCP Server (awslabs.aws-diagram-infrastructure-mcp-server) to create visual representations of the system architecture."
             elif path.name == 'API.md':
                 message = 'Document all API endpoints, request/response formats, and provide usage examples. Include authentication requirements if applicable.'
             elif path.name == 'BACKEND.md':
-                message = 'Explain the backend architecture, database schema, and key components. The Data Flow section contains guidance for creating diagrams. When possible, enhance your documentation by using the AWS Diagram MCP Server (awslabs.aws-diagram-mcp-server) to create visual representations of data flow and component relationships.'
+                message = 'Explain the backend architecture, database schema, and key components. The Data Flow section contains guidance for creating diagrams. When possible, enhance your documentation by using the AWS Diagram MCP Server (awslabs.aws-diagram-infrastructure-mcp-server) to create visual representations of data flow and component relationships.'
             elif path.name == 'FRONTEND.md':
                 message = 'Document the frontend structure, components, and state management approach. Include screenshots of key UI elements if available.'
 
             # Add suggestions for companion MCP servers
             if 'architecture' in str(path).lower():
-                message += '\n\nTo add architecture diagrams, consider using the AWS Diagram MCP Server (awslabs.aws-diagram-mcp-server).'
+                message += '\n\nTo add architecture diagrams, consider using the AWS Diagram MCP Server (awslabs.aws-diagram-infrastructure-mcp-server).'
 
             doc = GeneratedDocument(
                 path=str(path),
@@ -525,7 +525,7 @@ async def generate_documentation(
                 'Documentation structure generated successfully. '
                 'For enhanced documentation with architecture diagrams, '
                 "it's recommended to also use the following MCP server:\n"
-                '- awslabs.aws-diagram-mcp-server: For generating architecture diagrams'
+                '- awslabs.aws-diagram-infrastructure-mcp-server: For generating architecture diagrams'
             )
 
         # Update context status

@@ -124,7 +124,7 @@ class AwsHelper:
     def create_boto3_client(cls, service_name: str, region_name: Optional[str] = None) -> Any:
         """Create a boto3 client with the appropriate profile and region.
 
-        The client is configured with a custom user agent suffix 'awslabs/mcp/aws-dataprocessing-mcp-server/0.1.0'
+        The client is configured with a custom user agent suffix 'awslabs/mcp/aws-dataprocessing-infrastructure-mcp-server/0.1.0'
         to identify API calls made by the Dataprocessing MCP Server.
 
         Args:
@@ -142,7 +142,7 @@ class AwsHelper:
 
         # Create config with user agent suffix
         config = Config(
-            user_agent_extra=f'awslabs/mcp/aws-dataprocessing-mcp-server/{__version__}'
+            user_agent_extra=f'awslabs/mcp/aws-dataprocessing-infrastructure-mcp-server/{__version__}'
         )
 
         # Create session with profile if specified

@@ -58,7 +58,7 @@ lambda_client = session.client('lambda')
 schemas_client = session.client('schemas')
 
 mcp = FastMCP(
-    'awslabs.lambda-tool-mcp-server',
+    'awslabs.lambda-tool-infrastructure-mcp-server',
     instructions="""Use AWS Lambda functions to improve your answers.
     These Lambda functions give you additional capabilities and access to AWS services and resources in an AWS account.""",
     dependencies=['pydantic', 'boto3'],

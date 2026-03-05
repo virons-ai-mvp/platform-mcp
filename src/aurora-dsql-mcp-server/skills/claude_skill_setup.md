@@ -24,7 +24,7 @@ cd .dsql_skill_repos
 git clone --filter=blob:none --no-checkout https://github.com/awslabs/mcp.git
 cd mcp
 git sparse-checkout init --cone
-git sparse-checkout set src/aurora-dsql-mcp-server/skills/dsql-skill
+git sparse-checkout set src/aurora-dsql-infrastructure-mcp-server/skills/dsql-skill
 git checkout
 cd ../..
 ```

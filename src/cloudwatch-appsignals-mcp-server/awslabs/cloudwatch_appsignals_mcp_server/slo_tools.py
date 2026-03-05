@@ -28,7 +28,7 @@ async def get_slo(
 ) -> str:
     """Get detailed information about a specific Service Level Objective (SLO).
 
-    **IMPORTANT**: This tool and server is being deprecated. If available, please use the get_slo tool in the cloudwatch-applicationsignals-mcp-server instead.
+    **IMPORTANT**: This tool and server is being deprecated. If available, please use the get_slo tool in the cloudwatch-applicationsignals-infrastructure-mcp-server instead.
 
     **RECOMMENDED WORKFLOW AFTER USING THIS TOOL:**
     After getting SLO configuration details, use `audit_slos()` with `auditors="all"` for comprehensive root cause analysis:
@@ -63,7 +63,7 @@ async def get_slo(
     """
     start_time_perf = timer()
     logger.info(f'Starting get_service_level_objective request for SLO: {slo_id}')
-    msg = 'get_slo tool in cloudwatch-appsignals-mcp-server is deprecated. Please use the get_slo tool in cloudwatch-applicationsignals-mcp-server instead.'
+    msg = 'get_slo tool in cloudwatch-appsignals-infrastructure-mcp-server is deprecated. Please use the get_slo tool in cloudwatch-applicationsignals-infrastructure-mcp-server instead.'
     warnings.warn(msg, DeprecationWarning, stacklevel=1)
 
     try:
@@ -294,7 +294,7 @@ async def list_slos(
 ) -> str:
     """List all Service Level Objectives (SLOs) in Application Signals.
 
-    **IMPORTANT**: This tool and server is being deprecated. If available, please use the list_slos tool in the cloudwatch-applicationsignals-mcp-server instead.
+    **IMPORTANT**: This tool and server is being deprecated. If available, please use the list_slos tool in the cloudwatch-applicationsignals-infrastructure-mcp-server instead.
 
     Use this tool to:
     - Get a complete list of all SLOs in your account
@@ -316,7 +316,7 @@ async def list_slos(
     """
     start_time_perf = timer()
     logger.debug('Starting list_slos request')
-    msg = 'list_slos tool in cloudwatch-appsignals-mcp-server is deprecated. Please use the list_slos tool in cloudwatch-applicationsignals-mcp-server instead.'
+    msg = 'list_slos tool in cloudwatch-appsignals-infrastructure-mcp-server is deprecated. Please use the list_slos tool in cloudwatch-applicationsignals-infrastructure-mcp-server instead.'
     warnings.warn(msg, DeprecationWarning, stacklevel=1)
 
     try:

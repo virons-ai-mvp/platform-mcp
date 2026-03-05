@@ -38,7 +38,7 @@ Configure the MCP server in your MCP client configuration (e.g., for Kiro, edit 
       "awslabs_support_mcp_server": {
          "command": "uvx",
          "args": [
-            "-m", "awslabs.aws-support-mcp-server@latest",
+            "-m", "awslabs.aws-support-infrastructure-mcp-server@latest",
             "--debug",
             "--log-file",
             "./logs/mcp_support_server.log"
@@ -95,8 +95,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.aws-support-mcp-server@latest",
-        "awslabs.aws-support-mcp-server.exe"
+        "awslabs.aws-support-infrastructure-mcp-server@latest",
+        "awslabs.aws-support-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",

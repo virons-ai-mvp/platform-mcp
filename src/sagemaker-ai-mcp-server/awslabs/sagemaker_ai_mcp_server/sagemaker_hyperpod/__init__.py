@@ -12,6 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""SageMaker HyperPod AI tools - Part of awslabs.sagemaker-ai-mcp-server"""
+"""SageMaker HyperPod AI tools - Part of awslabs.sagemaker-ai-infrastructure-mcp-server"""
 
 __version__ = '1.0.0'

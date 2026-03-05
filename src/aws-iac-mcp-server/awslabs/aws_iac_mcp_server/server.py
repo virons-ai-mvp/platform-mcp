@@ -38,7 +38,7 @@ from typing import Optional
 
 # Initialize FastMCP server
 mcp = FastMCP(
-    name='aws-iac-mcp-server',
+    name='aws-iac-infrastructure-mcp-server',
     instructions="""
                 # AWS IaC MCP Server
 

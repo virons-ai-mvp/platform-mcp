@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Common fixtures for well-architected-security-mcp-server tests."""
+"""Common fixtures for well-architected-security-infrastructure-mcp-server tests."""
 
 from unittest import mock
 

@@ -39,7 +39,7 @@ class TestArgumentParsing:
             mock_parse.return_value = mock_args
 
             # Import and run the main block
-            with patch('sys.argv', ['finch-mcp-server']):
+            with patch('sys.argv', ['finch-infrastructure-mcp-server']):
                 # This would normally be in the if __name__ == '__main__' block
                 parser = argparse.ArgumentParser(description='Run the Finch MCP server')
                 parser.add_argument(
@@ -537,7 +537,7 @@ class TestRealWorldCliScenarios:
         parser.add_argument('--disable-file-logging', action='store_true')
 
         # Production scenario: enable AWS writes with custom log file
-        production_log_path = create_test_path('var', 'log', 'finch-mcp-server.log')
+        production_log_path = create_test_path('var', 'log', 'finch-infrastructure-mcp-server.log')
         args = parser.parse_args(
             ['--enable-aws-resource-write', '--log-file', production_log_path]
         )

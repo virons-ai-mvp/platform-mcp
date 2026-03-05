@@ -12,6 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""awslabs.aws-iot-sitewise-mcp-server"""
+"""awslabs.aws-iot-sitewise-infrastructure-mcp-server"""
 
 __version__ = '11.0.11'

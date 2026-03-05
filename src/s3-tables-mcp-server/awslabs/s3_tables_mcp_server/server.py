@@ -78,7 +78,7 @@ class S3TablesMCPServer(FastMCP):
         elif os_name == 'windows':
             self.log_dir = os.path.expanduser('~/AppData/Local/Logs')
         else:
-            self.log_dir = os.path.expanduser('~/.local/share/s3-tables-mcp-server/logs/')
+            self.log_dir = os.path.expanduser('~/.local/share/s3-tables-infrastructure-mcp-server/logs/')
 
 
 # Initialize FastMCP app
@@ -122,7 +122,7 @@ def log_tool_call_with_response(func):
         # Log the call
         try:
             os.makedirs(app.log_dir, exist_ok=True)
-            log_file = os.path.join(app.log_dir, 'mcp-server-awslabs.s3-tables-mcp-server.log')
+            log_file = os.path.join(app.log_dir, 'infrastructure-mcp-server-awslabs.s3-tables-infrastructure-mcp-server.log')
             log_entry = {
                 'timestamp': datetime.now(timezone.utc).isoformat(),
                 'tool': tool_name,
@@ -191,7 +191,7 @@ def log_tool_call(tool_name, *args, **kwargs):
     """
     try:
         os.makedirs(app.log_dir, exist_ok=True)
-        log_file = os.path.join(app.log_dir, 'mcp-server-awslabs.s3-tables-mcp-server.log')
+        log_file = os.path.join(app.log_dir, 'infrastructure-mcp-server-awslabs.s3-tables-infrastructure-mcp-server.log')
         log_entry = {
             'timestamp': datetime.now(timezone.utc).isoformat(),
             'tool': tool_name,

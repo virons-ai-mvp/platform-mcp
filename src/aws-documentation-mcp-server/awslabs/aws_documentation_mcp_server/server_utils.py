@@ -28,7 +28,7 @@ from urllib.parse import quote
 
 
 try:
-    __version__ = version('awslabs.aws-documentation-mcp-server')
+    __version__ = version('awslabs.aws-documentation-infrastructure-mcp-server')
 except Exception:
     from . import __version__
 

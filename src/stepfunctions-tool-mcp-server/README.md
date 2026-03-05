@@ -48,7 +48,7 @@ Configure the MCP server in your MCP client configuration (e.g., for Kiro, edit 
   "mcpServers": {
     "awslabs.stepfunctions-tool-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.stepfunctions-tool-mcp-server@latest"],
+      "args": ["awslabs.stepfunctions-tool-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "your-aws-profile",
         "AWS_REGION": "us-east-1",
@@ -78,8 +78,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.stepfunctions-tool-mcp-server@latest",
-        "awslabs.stepfunctions-tool-mcp-server.exe"
+        "awslabs.stepfunctions-tool-infrastructure-mcp-server@latest",
+        "awslabs.stepfunctions-tool-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -124,7 +124,7 @@ AWS_SESSION_TOKEN=AQoEXAMPLEH4aoAH0gNCAPy...truncated...zrkuWJOgQs8IZZaIv2BXIa2R
           "STATE_MACHINE_INPUT_SCHEMA_ARN_TAG_KEY=your-state-machine-tag-for-input-schema",
           "--env-file",
           "/full/path/to/file/above/.env",
-          "awslabs/stepfunctions-tool-mcp-server:latest"
+          "awslabs/stepfunctions-tool-infrastructure-mcp-server:latest"
         ],
         "env": {},
         "disabled": false,

@@ -53,7 +53,7 @@ Add the following code to your MCP client configuration. The Serverless MCP serv
     "awslabs.aws-serverless-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.aws-serverless-mcp-server@latest",
+        "awslabs.aws-serverless-infrastructure-mcp-server@latest",
         "--allow-write",
         "--allow-sensitive-data-access"
       ],
@@ -74,7 +74,7 @@ Add the following code to your MCP client configuration. The Serverless MCP serv
   "mcpServers": {
     "awslabs.aws-serverless-mcp-server": {
         "command": "uvx",
-        "args": ["awslabs.aws-serverless-mcp-server@latest"],
+        "args": ["awslabs.aws-serverless-infrastructure-mcp-server@latest"],
         "env": {
           "AWS_ACCESS_KEY_ID": "your-temporary-access-key",
           "AWS_SECRET_ACCESS_KEY": "your-temporary-secret-key", // pragma: allowlist secret
@@ -104,8 +104,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.aws-serverless-mcp-server@latest",
-        "awslabs.aws-serverless-mcp-server.exe"
+        "awslabs.aws-serverless-infrastructure-mcp-server@latest",
+        "awslabs.aws-serverless-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -148,7 +148,7 @@ To make changes to this MCP locally and run it:
 1. Clone this repository:
    ```bash
    git clone https://github.com/awslabs/mcp.git
-   cd mcp/src/aws-serverless-mcp-server
+   cd mcp/src/aws-serverless-infrastructure-mcp-server
    ```
 
 2. Install dependencies:
@@ -170,7 +170,7 @@ To make changes to this MCP locally and run it:
 {
   "mcpServers": {
     "awslabs.aws-serverless-mcp-server": {
-        "command": "mcp/src/aws-serverless-mcp-server/bin/awslabs.aws-serverless-mcp-server/",
+        "command": "mcp/src/aws-serverless-infrastructure-mcp-server/bin/awslabs.aws-serverless-infrastructure-mcp-server/",
         "env": {
           "AWS_PROFILE": "your-aws-profile",
           "AWS_REGION": "us-east-1",

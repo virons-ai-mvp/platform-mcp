@@ -22,7 +22,7 @@ class TestMain:
 
     @patch('awslabs.eks_mcp_server.aws_helper.AwsHelper.create_boto3_client')
     @patch('awslabs.eks_mcp_server.server.create_server')
-    @patch('sys.argv', ['awslabs.eks-mcp-server'])
+    @patch('sys.argv', ['awslabs.eks-infrastructure-mcp-server'])
     def test_main_default(self, mock_create_server, mock_boto3_client):
         """Test main function with default arguments."""
         # Create a mock AWS client
@@ -72,7 +72,7 @@ class TestMain:
             # Check that FastMCP was called with the correct parameters
             mock_fastmcp.assert_called_once()
             args, kwargs = mock_fastmcp.call_args
-            assert args[0] == 'awslabs.eks-mcp-server'
+            assert args[0] == 'awslabs.eks-infrastructure-mcp-server'
             assert 'instructions' in kwargs
             assert 'dependencies' in kwargs
             assert 'EKS MCP Server' in kwargs['instructions']

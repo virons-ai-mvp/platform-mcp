@@ -54,7 +54,7 @@ Configure the MCP server in your MCP client configuration (e.g., for Kiro, edit 
   "mcpServers": {
     "awslabs.s3-tables-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.s3-tables-mcp-server@latest"],
+      "args": ["awslabs.s3-tables-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "your-aws-profile",
         "AWS_REGION": "us-east-1"
@@ -79,8 +79,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.s3-tables-mcp-server@latest",
-        "awslabs.s3-tables-mcp-server.exe"
+        "awslabs.s3-tables-infrastructure-mcp-server@latest",
+        "awslabs.s3-tables-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -113,7 +113,7 @@ AWS_SESSION_TOKEN=<from the profile you set up>
         "--interactive",
         "--env-file",
         "/full/path/to/file/above/.env",
-        "awslabs/s3-tables-mcp-server:latest"
+        "awslabs/s3-tables-infrastructure-mcp-server:latest"
       ],
       "env": {},
       "disabled": false,
@@ -147,7 +147,7 @@ Example:
     "awslabs.s3-tables-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.s3-tables-mcp-server@latest",
+        "awslabs.s3-tables-infrastructure-mcp-server@latest",
         "--allow-write"
       ],
       "env": {
@@ -175,7 +175,7 @@ You can override the default by providing the `--log-dir` flag with a custom pat
     "awslabs.s3-tables-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.s3-tables-mcp-server@latest",
+        "awslabs.s3-tables-infrastructure-mcp-server@latest",
         "--log-dir",
         "/tmp/s3-tables-logs"
       ],

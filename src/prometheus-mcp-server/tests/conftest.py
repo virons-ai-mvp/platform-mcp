@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Pytest configuration for the awslabs.prometheus-mcp-server package."""
+"""Pytest configuration for the awslabs.prometheus-infrastructure-mcp-server package."""
 
 import pytest
 from unittest.mock import AsyncMock, MagicMock

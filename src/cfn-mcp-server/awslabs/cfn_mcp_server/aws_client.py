@@ -21,7 +21,7 @@ from os import environ
 
 session = Session(profile_name=environ.get('AWS_PROFILE'))
 session_config = botocore.config.Config(
-    user_agent_extra='cfn-mcp-server/1.0.0',
+    user_agent_extra='cfn-infrastructure-mcp-server/1.0.0',
 )
 
 

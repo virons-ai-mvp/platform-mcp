@@ -31,7 +31,7 @@ async def test_server_initialization():
     server = create_server()
 
     # Test that the server is initialized with the correct name
-    assert server.name == 'awslabs.eks-mcp-server'
+    assert server.name == 'awslabs.eks-infrastructure-mcp-server'
     # Test that the server has the correct instructions
     assert server.instructions is not None and 'EKS MCP Server' in server.instructions
     # Test that the server has the correct dependencies

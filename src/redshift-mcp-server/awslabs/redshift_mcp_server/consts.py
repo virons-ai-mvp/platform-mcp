@@ -18,7 +18,7 @@
 CLIENT_CONNECT_TIMEOUT = 60
 CLIENT_READ_TIMEOUT = 600
 CLIENT_RETRIES = {'max_attempts': 5, 'mode': 'adaptive'}
-CLIENT_USER_AGENT_NAME = 'awslabs/mcp/redshift-mcp-server'
+CLIENT_USER_AGENT_NAME = 'awslabs/mcp/redshift-infrastructure-mcp-server'
 DEFAULT_LOG_LEVEL = 'WARNING'
 QUERY_TIMEOUT = 3600
 QUERY_POLL_INTERVAL = 1

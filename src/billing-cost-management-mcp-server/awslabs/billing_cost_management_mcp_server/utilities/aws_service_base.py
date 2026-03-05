@@ -131,7 +131,7 @@ def create_aws_client(service_name: str, region_name: Optional[str] = None) -> A
     # Configure the client with user agent and security settings
     config = Config(
         region_name=region,
-        user_agent_extra=f'awslabs/mcp/aws-finops-mcp-server/{__version__}',
+        user_agent_extra=f'awslabs/mcp/aws-finops-infrastructure-mcp-server/{__version__}',
         retries={'max_attempts': 3, 'mode': 'standard'},
     )
 

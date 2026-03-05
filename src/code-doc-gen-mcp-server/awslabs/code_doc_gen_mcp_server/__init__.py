@@ -12,6 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""awslabs.code-doc-gen-mcp-server"""
+"""awslabs.code-doc-gen-infrastructure-mcp-server"""
 
 __version__ = '1.0.10'

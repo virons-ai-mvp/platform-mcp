@@ -62,7 +62,7 @@ Add the MCP server to your configuration file (for [Kiro](https://kiro.dev/docs/
   "mcpServers": {
     "awslabs-dynamodb-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.dynamodb-mcp-server@latest"],
+      "args": ["awslabs.dynamodb-infrastructure-mcp-server@latest"],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
       },
@@ -89,8 +89,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.dynamodb-mcp-server@latest",
-        "awslabs.dynamodb-mcp-server.exe"
+        "awslabs.dynamodb-infrastructure-mcp-server@latest",
+        "awslabs.dynamodb-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
@@ -115,7 +115,7 @@ After a successful `docker build -t awslabs/dynamodb-mcp-server .`:
         "--interactive",
         "--env",
         "FASTMCP_LOG_LEVEL=ERROR",
-        "awslabs/dynamodb-mcp-server:latest"
+        "awslabs/dynamodb-infrastructure-mcp-server:latest"
       ],
       "env": {},
       "disabled": false,
@@ -260,7 +260,7 @@ Add these environment variables to enable MySQL integration:
   "mcpServers": {
     "awslabs-dynamodb-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.dynamodb-mcp-server@latest"],
+      "args": ["awslabs.dynamodb-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "default",
         "AWS_REGION": "us-west-2",
@@ -284,7 +284,7 @@ Add these environment variables to enable MySQL integration:
   "mcpServers": {
     "awslabs.dynamodb-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.dynamodb-mcp-server@latest"],
+      "args": ["awslabs.dynamodb-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "default",
         "AWS_REGION": "us-west-2",

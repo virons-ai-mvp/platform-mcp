@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Tests for the awslabs.sagemaker-ai-mcp-server package."""
+"""Tests for the awslabs.sagemaker-ai-infrastructure-mcp-server package."""
 
 import importlib
 import re

@@ -52,7 +52,7 @@ class AwsHelper:
     def create_boto3_client(cls, service_name: str, region_name: Optional[str] = None) -> Any:
         """Create or retrieve a cached boto3 client with the appropriate profile and region.
 
-        The client is configured with a custom user agent suffix 'awslabs/mcp/eks-mcp-server/{version}'
+        The client is configured with a custom user agent suffix 'awslabs/mcp/eks-infrastructure-mcp-server/{version}'
         to identify API calls made by the EKS MCP Server. Clients are cached to improve performance
         and reduce resource usage.
 
@@ -84,7 +84,7 @@ class AwsHelper:
                 return cls._client_cache[cache_key]
 
             # Create config with user agent suffix
-            config = Config(user_agent_extra=f'awslabs/mcp/eks-mcp-server/{__version__}')
+            config = Config(user_agent_extra=f'awslabs/mcp/eks-infrastructure-mcp-server/{__version__}')
 
             # Create session with profile if specified
             if profile:

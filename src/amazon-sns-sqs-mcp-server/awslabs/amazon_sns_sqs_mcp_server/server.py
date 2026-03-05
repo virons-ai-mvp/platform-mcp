@@ -22,7 +22,7 @@ from mcp.server.fastmcp import FastMCP
 
 # instantiate base server
 mcp = FastMCP(
-    'awslabs.amazon-sns-sqs-mcp-server',
+    'awslabs.amazon-sns-sqs-infrastructure-mcp-server',
     instructions="""Manage Amazon SNS topics, subscriptions, and Amazon SQS queues for messaging.""",
     dependencies=['pydantic', 'boto3'],
 )

@@ -1,0 +1,55 @@
+# Copyright Virons Fintech. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+# Governance manifest entry for platform-mcp
+# Add this to .github-repo/governance/repo-manifest.yaml
+
+platform-mcp:
+  profile: mcp-servers
+  description: "Virons AI MCP server infrastructure and shared compliance utilities"
+  owner: platform-team
+  
+  compliance:
+    - bafin-marisk-at-8.1
+    - gdpr-art-25
+    - gdpr-art-32
+    - dora-art-11
+    - eu-ai-act
+  
+  required_checks:
+    - virons-compliance-gate
+    - python-tests
+    - ruff-lint
+    - pyright-typecheck
+  
+  required_mcp_servers:
+    - virons.common  # Shared compliance baseline
+  
+  branch_protection:
+    main:
+      required_reviewers: 2
+      require_codeowner_review: true
+      dismiss_stale_reviews: true
+      require_status_checks:
+        - virons-compliance-gate
+        - python-tests
+    develop:
+      required_reviewers: 1
+      require_status_checks:
+        - virons-compliance-gate
+  
+  namespaces:
+    forensic:
+      ports: 9300-9415
+      servers:
+        - virons-infrastructure-mcp-server
+        - virons-development-mcp-server
+    ml:
+      ports: 9420-9424
+      servers:
+        - virons-gateway-mcp-server
+        - virons-anomaly-detector-mcp-server
+  
+  high_risk_servers:
+    - virons-anomaly-detector-mcp-server
+    - virons-grandmaster-mcp-server

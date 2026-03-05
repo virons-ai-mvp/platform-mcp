@@ -12,6 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""awslabs.amazon-qbusiness-anonymous-mcp-server"""
+"""awslabs.amazon-qbusiness-anonymous-infrastructure-mcp-server"""
 
 __version__ = '0.0.12'

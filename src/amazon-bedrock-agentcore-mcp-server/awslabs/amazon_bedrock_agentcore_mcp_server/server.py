@@ -19,7 +19,7 @@ from .utils import cache
 from mcp.server.fastmcp import FastMCP
 
 
-APP_NAME = 'amazon-bedrock-agentcore-mcp-server'
+APP_NAME = 'amazon-bedrock-agentcore-infrastructure-mcp-server'
 mcp = FastMCP(APP_NAME)
 
 mcp.tool()(docs.search_agentcore_docs)

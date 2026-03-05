@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Tests for the server module of the aws-pricing-mcp-server."""
+"""Tests for the server module of the aws-pricing-infrastructure-mcp-server."""
 
 import pytest
 from awslabs.aws_pricing_mcp_server.models import PricingFilter

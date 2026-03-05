@@ -43,7 +43,7 @@ Here are some ways you can work with MCP (e.g. for Kiro, `~/.kiro/settings/mcp.j
   "mcpServers": {
     "awslabs.memcached-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.memcached-mcp-server@latest"],
+      "args": ["awslabs.memcached-infrastructure-mcp-server@latest"],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
         "MEMCACHED_HOST": "your-memcached-host",
@@ -63,7 +63,7 @@ To run in readonly mode:
   "mcpServers": {
     "awslabs.memcached-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.memcached-mcp-server@latest", "--readonly"],
+      "args": ["awslabs.memcached-infrastructure-mcp-server@latest", "--readonly"],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
         "MEMCACHED_HOST": "your-memcached-host",
@@ -92,8 +92,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.memcached-mcp-server@latest",
-        "awslabs.memcached-mcp-server.exe"
+        "awslabs.memcached-infrastructure-mcp-server@latest",
+        "awslabs.memcached-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -116,8 +116,8 @@ To run in readonly mode:
         "tool",
         "run",
         "--from",
-        "awslabs.memcached-mcp-server@latest",
-        "awslabs.memcached-mcp-server.exe",
+        "awslabs.memcached-infrastructure-mcp-server@latest",
+        "awslabs.memcached-infrastructure-mcp-server.exe",
         "--readonly"
       ],
       "env": {
@@ -149,7 +149,7 @@ or docker after a successful `docker build -t awslabs/memcached-mcp-server .`:
         "MEMCACHED_HOST=your-memcached-host",
         "--env",
         "MEMCACHED_PORT=11211",
-        "awslabs/memcached-mcp-server:latest"
+        "awslabs/memcached-infrastructure-mcp-server:latest"
       ],
       "env": {},
       "disabled": false,
@@ -176,7 +176,7 @@ To run in readonly mode with Docker:
         "MEMCACHED_HOST=your-memcached-host",
         "--env",
         "MEMCACHED_PORT=11211",
-        "awslabs/memcached-mcp-server:latest",
+        "awslabs/memcached-infrastructure-mcp-server:latest",
         "--readonly"
       ],
       "env": {},
@@ -234,7 +234,7 @@ uv run --frozen pytest
 
 ### Building Docker Image
 ```bash
-docker build -t awslabs/memcached-mcp-server .
+docker build -t awslabs/memcached-infrastructure-mcp-server .
 ```
 
 ### Running Docker Container
@@ -242,7 +242,7 @@ docker build -t awslabs/memcached-mcp-server .
 docker run -p 8080:8080 \
   -e MEMCACHED_HOST=host.docker.internal \
   -e MEMCACHED_PORT=11211 \
-  awslabs/memcached-mcp-server
+  awslabs/memcached-infrastructure-mcp-server
 ```
 
 To run in readonly mode:
@@ -250,5 +250,5 @@ To run in readonly mode:
 docker run -p 8080:8080 \
   -e MEMCACHED_HOST=host.docker.internal \
   -e MEMCACHED_PORT=11211 \
-  awslabs/memcached-mcp-server --readonly
+  awslabs/memcached-infrastructure-mcp-server --readonly
 ```

@@ -42,7 +42,7 @@ Configure the MCP server in your MCP client configuration (e.g., for Kiro, edit 
       "mcpServers": {
             "awslabs.amazon-qbusiness-anonymous-mcp-server": {
                   "command": "uvx",
-                  "args": ["awslabs.qbusiness-anonymous-mcp-server"],
+                  "args": ["awslabs.qbusiness-anonymous-infrastructure-mcp-server"],
                   "env": {
                     "FASTMCP_LOG_LEVEL": "ERROR",
                     "QBUSINESS_APPLICATION_ID": "[Your Amazon Q Business application id]",
@@ -71,8 +71,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.amazon-qbusiness-anonymous-mcp-server@latest",
-        "awslabs.amazon-qbusiness-anonymous-mcp-server.exe"
+        "awslabs.amazon-qbusiness-anonymous-infrastructure-mcp-server@latest",
+        "awslabs.amazon-qbusiness-anonymous-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -105,7 +105,7 @@ AWS_SESSION_TOKEN=<from the profile you set up>
           "--interactive",
           "--env-file",
           "/full/path/to/file/above/.env",
-          "awslabs/amazon-qbusiness-anonymous-mcp-server:latest"
+          "awslabs/amazon-qbusiness-anonymous-infrastructure-mcp-server:latest"
         ],
         "env": {},
         "disabled": false,

@@ -12,6 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""awslabs.frontend-mcp-server"""
+"""awslabs.frontend-infrastructure-mcp-server"""
 
 __version__ = '1.0.11'

@@ -38,7 +38,7 @@ from mcp.server.fastmcp import FastMCP
 
 # Initialize FastMCP app
 mcp = FastMCP(
-    'awslabs.aws-appsync-mcp-server',
+    'awslabs.aws-appsync-infrastructure-mcp-server',
     instructions="""
     AWS AppSync MCP Server provides tools to interact with AWS AppSync API services.
 

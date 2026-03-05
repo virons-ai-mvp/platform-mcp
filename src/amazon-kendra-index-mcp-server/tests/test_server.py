@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Tests for the amazon-kendra-index-mcp-server MCP Server."""
+"""Tests for the amazon-kendra-index-infrastructure-mcp-server MCP Server."""
 
 import pytest
 from awslabs.amazon_kendra_index_mcp_server.server import (

@@ -246,7 +246,7 @@ class TestServerHandlers:
         server = create_healthlake_server()
 
         # Test server creation
-        assert server.name == 'healthlake-mcp-server'
+        assert server.name == 'healthlake-infrastructure-mcp-server'
         assert len(server.request_handlers) > 0
 
     @patch('awslabs.healthlake_mcp_server.server.HealthLakeClient')

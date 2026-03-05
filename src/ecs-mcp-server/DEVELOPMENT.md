@@ -25,7 +25,7 @@ cd mcp
 
 ```bash
 # Create and activate a virtual environment using uv
-cd src/ecs-mcp-server
+cd src/ecs-infrastructure-mcp-server
 uv venv
 source .venv/bin/activate  # On Unix/macOS
 .venv\Scripts\activate     # On Windows
@@ -54,7 +54,7 @@ You can also run the MCP server directly from a local clone of the GitHub reposi
 git clone https://github.com/awslabs/mcp.git
 
 # Run the server directly using uv
-uv --directory /path/to/ecs-mcp-server/src/ecs-mcp-server/awslabs/ecs_mcp_server run main.py
+uv --directory /path/to/ecs-infrastructure-mcp-server/src/ecs-infrastructure-mcp-server/awslabs/ecs_mcp_server run main.py
 ```
 
 ## Running the Server Locally
@@ -62,14 +62,14 @@ uv --directory /path/to/ecs-mcp-server/src/ecs-mcp-server/awslabs/ecs_mcp_server
 To run the server during development:
 
 ```bash
-cd src/ecs-mcp-server
+cd src/ecs-infrastructure-mcp-server
 python -m awslabs.ecs_mcp_server.main
 ```
 
 Alternatively, you can use `uv` to run the server:
 
 ```bash
-uv --directory /path/to/ecs-mcp-server/src/ecs-mcp-server/awslabs/ecs_mcp_server run main.py
+uv --directory /path/to/ecs-infrastructure-mcp-server/src/ecs-infrastructure-mcp-server/awslabs/ecs_mcp_server run main.py
 ```
 
 ## Configuration
@@ -83,7 +83,7 @@ Add the ECS MCP Server to your MCP client configuration:
       "command": "uv",
       "args": [
         "--directory",
-        "/path/to/ecs-mcp-server/src/ecs-mcp-server/awslabs/ecs_mcp_server",
+        "/path/to/ecs-infrastructure-mcp-server/src/ecs-infrastructure-mcp-server/awslabs/ecs_mcp_server",
         "run",
         "main.py"
       ],
@@ -91,7 +91,7 @@ Add the ECS MCP Server to your MCP client configuration:
         "AWS_PROFILE": "your-aws-profile",
         "AWS_REGION": "your-aws-region",
         "FASTMCP_LOG_LEVEL": "DEBUG",
-        "FASTMCP_LOG_FILE": "/path/to/logs/ecs-mcp-server.log"
+        "FASTMCP_LOG_FILE": "/path/to/logs/ecs-infrastructure-mcp-server.log"
       }
     }
   }
@@ -116,7 +116,7 @@ To adjust log verbosity, set `FASTMCP_LOG_LEVEL` to one of: `DEBUG`, `INFO`, `WA
 To run all unit tests:
 
 ```bash
-cd src/ecs-mcp-server
+cd src/ecs-infrastructure-mcp-server
 python -m pytest tests/unit
 ```
 
@@ -137,7 +137,7 @@ python -m pytest tests/unit/test_main.py::TestMain::test_server_tools -v
 Integration tests are available in the `tests/llm_testing` directory and are run using the `run_tests.sh` script:
 
 ```bash
-cd src/ecs-mcp-server/tests/llm_testing
+cd src/ecs-infrastructure-mcp-server/tests/llm_testing
 ./run_tests.sh
 ```
 
@@ -184,6 +184,6 @@ All changes should comply with the guidelines in the parent repository's [DEVELO
 To build the package:
 
 ```bash
-cd src/ecs-mcp-server
+cd src/ecs-infrastructure-mcp-server
 python -m build
 ```

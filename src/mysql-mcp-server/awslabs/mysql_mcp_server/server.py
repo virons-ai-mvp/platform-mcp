@@ -79,7 +79,7 @@ def parse_execute_response(response: dict) -> list[dict]:
 
 
 mcp = FastMCP(
-    'awslabs.mysql-mcp-server',
+    'awslabs.mysql-infrastructure-mcp-server',
     instructions='You are an expert MySQL assistant. Use run_query and get_table_schema to interfact with the database.',
     dependencies=['loguru', 'boto3', 'pydantic'],
 )

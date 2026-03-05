@@ -35,7 +35,7 @@ class TestMCPServer:
 
     def test_server_initialization(self):
         """Test MCP server initialization."""
-        assert mcp.name == 'awslabs.amazon-qindex-mcp-server'
+        assert mcp.name == 'awslabs.amazon-qindex-infrastructure-mcp-server'
         assert 'pydantic' in mcp.dependencies
         assert 'loguru' in mcp.dependencies
         assert 'boto3' in mcp.dependencies

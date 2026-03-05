@@ -34,7 +34,7 @@ Add the following configuration to your MCP client config file (e.g., for Kiro, 
     "awslabs.aws-api-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.aws-api-mcp-server@latest"
+        "awslabs.aws-api-infrastructure-mcp-server@latest"
       ],
       "env": {
         "AWS_REGION": "us-east-1"
@@ -55,8 +55,8 @@ Add the following configuration to your MCP client config file (e.g., for Kiro, 
       "command": "uvx",
       "args": [
         "--from",
-        "awslabs.aws-api-mcp-server@latest",
-        "awslabs.aws-api-mcp-server.exe"
+        "awslabs.aws-api-infrastructure-mcp-server@latest",
+        "awslabs.aws-api-infrastructure-mcp-server.exe"
       ],
       "env": {
         "AWS_REGION": "us-east-1"
@@ -78,7 +78,7 @@ Add the following configuration to your MCP client config file (e.g., for Kiro, 
 
 **Step 1: Install the package**
 ```bash
-pip install awslabs.aws-api-mcp-server
+pip install awslabs.aws-api-infrastructure-mcp-server
 ```
 
 **Step 2: Configure your MCP client**
@@ -122,7 +122,7 @@ You can isolate the MCP server by running it in a Docker container. The Docker i
         "AWS_REGION=us-east-1",
         "--volume",
         "/full/path/to/.aws:/app/.aws",
-        "public.ecr.aws/awslabs-mcp/awslabs/aws-api-mcp-server:latest"
+        "public.ecr.aws/awslabs-mcp/awslabs/aws-api-infrastructure-mcp-server:latest"
       ],
       "env": {}
     }
@@ -144,7 +144,7 @@ Optionally configure the host and port with `AWS_API_MCP_HOST` and `AWS_API_MCP_
 
 #### For Linux/macOS:
 ```bash
-AWS_API_MCP_TRANSPORT=streamable-http AUTH_TYPE=no-auth uvx awslabs.aws-api-mcp-server@latest
+AWS_API_MCP_TRANSPORT=streamable-http AUTH_TYPE=no-auth uvx awslabs.aws-api-infrastructure-mcp-server@latest
 ```
 
 #### For Windows (Command Prompt):

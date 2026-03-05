@@ -25,7 +25,7 @@ Configure the MCP server in your MCP client configuration (e.g., for Kiro, edit 
   "mcpServers": {
     "awslabs.aws-diagram-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.aws-diagram-mcp-server"],
+      "args": ["awslabs.aws-diagram-infrastructure-mcp-server"],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
       },
@@ -51,8 +51,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.aws-diagram-mcp-server@latest",
-        "awslabs.aws-diagram-mcp-server.exe"
+        "awslabs.aws-diagram-infrastructure-mcp-server@latest",
+        "awslabs.aws-diagram-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -78,7 +78,7 @@ or docker after a successful `docker build -t awslabs/aws-diagram-mcp-server .`:
           "--interactive",
           "--env",
           "FASTMCP_LOG_LEVEL=ERROR",
-          "awslabs/aws-diagram-mcp-server:latest"
+          "awslabs/aws-diagram-infrastructure-mcp-server:latest"
         ],
         "env": {},
         "disabled": false,

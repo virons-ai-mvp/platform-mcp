@@ -152,7 +152,7 @@ For global configuration, edit ~/.kiro/settings/mcp.json. For project-specific c
     "aws.dp-mcp": {
       "command": "uvx",
       "args": [
-        "awslabs.aws-dataprocessing-mcp-server@latest",
+        "awslabs.aws-dataprocessing-infrastructure-mcp-server@latest",
         "--allow-write"
       ],
       "env": {
@@ -207,8 +207,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.aws-dataprocessing-mcp-server@latest",
-        "awslabs.aws-dataprocessing-mcp-server.exe"
+        "awslabs.aws-dataprocessing-infrastructure-mcp-server@latest",
+        "awslabs.aws-dataprocessing-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",

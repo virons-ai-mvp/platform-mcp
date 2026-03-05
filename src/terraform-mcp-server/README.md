@@ -74,7 +74,7 @@ Configure the MCP server in your MCP client configuration (e.g., for Kiro, edit 
   "mcpServers": {
     "awslabs.terraform-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.terraform-mcp-server@latest"],
+      "args": ["awslabs.terraform-infrastructure-mcp-server@latest"],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
       },
@@ -100,8 +100,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.terraform-mcp-server@latest",
-        "awslabs.terraform-mcp-server.exe"
+        "awslabs.terraform-infrastructure-mcp-server@latest",
+        "awslabs.terraform-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -127,7 +127,7 @@ or docker after a successful `docker build -t awslabs/terraform-mcp-server .`:
           "--interactive",
           "--env",
           "FASTMCP_LOG_LEVEL=ERROR",
-          "awslabs/terraform-mcp-server:latest"
+          "awslabs/terraform-infrastructure-mcp-server:latest"
         ],
         "env": {},
         "disabled": false,

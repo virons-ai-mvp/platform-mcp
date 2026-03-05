@@ -39,7 +39,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual(args[0], 'iotsitewise')
         self.assertEqual(kwargs['region_name'], 'us-east-1')
         self.assertIn('config', kwargs)
-        self.assertIn('awslabs/mcp/aws-iot-sitewise-mcp-server', kwargs['config'].user_agent_extra)
+        self.assertIn('awslabs/mcp/aws-iot-sitewise-infrastructure-mcp-server', kwargs['config'].user_agent_extra)
         self.assertEqual(result, mock_client)
 
     @patch('awslabs.aws_iot_sitewise_mcp_server.client.boto3.client')
@@ -69,7 +69,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual(args[0], 'iam')
         self.assertEqual(kwargs['region_name'], 'us-east-1')
         self.assertIn('config', kwargs)
-        self.assertIn('awslabs/mcp/aws-iot-sitewise-mcp-server', kwargs['config'].user_agent_extra)
+        self.assertIn('awslabs/mcp/aws-iot-sitewise-infrastructure-mcp-server', kwargs['config'].user_agent_extra)
         self.assertEqual(result, mock_client)
 
     @patch('awslabs.aws_iot_sitewise_mcp_server.client.boto3.client')
@@ -99,7 +99,7 @@ class TestClient(unittest.TestCase):
         self.assertEqual(args[0], 'iottwinmaker')
         self.assertEqual(kwargs['region_name'], 'us-east-1')
         self.assertIn('config', kwargs)
-        self.assertIn('awslabs/mcp/aws-iot-sitewise-mcp-server', kwargs['config'].user_agent_extra)
+        self.assertIn('awslabs/mcp/aws-iot-sitewise-infrastructure-mcp-server', kwargs['config'].user_agent_extra)
         self.assertEqual(result, mock_client)
 
     @patch('awslabs.aws_iot_sitewise_mcp_server.client.boto3.client')

@@ -526,7 +526,7 @@ async def lambda_layer_documentation_provider(
         return {
             'layer_type': 'python',
             'documentation_source': {
-                'server': 'awslabs.aws-documentation-mcp-server',
+                'server': 'awslabs.aws-documentation-infrastructure-mcp-server',
                 'tool': 'read_documentation',
                 'parameters': {'url': LambdaLayerParser.PYTHON_LAYER_URL, 'max_length': 10000},
             },

@@ -216,7 +216,7 @@ Example configuration for Kiro (~/.kiro/settings/mcp.json):
       "disabled": false,
       "command": "uvx",
       "args": [
-        "awslabs.cloudwatch-appsignals-mcp-server@latest"
+        "awslabs.cloudwatch-appsignals-infrastructure-mcp-server@latest"
       ],
       "env": {
         "AWS_PROFILE": "[The AWS Profile Name to use for AWS access]",
@@ -243,7 +243,7 @@ On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
     "mcpServers": {
       "awslabs.cloudwatch-appsignals-mcp-server": {
         "command": "uvx",
-        "args": ["--from", "/absolute/path/to/cloudwatch-appsignals-mcp-server", "awslabs.cloudwatch-appsignals-mcp-server"],
+        "args": ["--from", "/absolute/path/to/cloudwatch-appsignals-infrastructure-mcp-server", "awslabs.cloudwatch-appsignals-infrastructure-mcp-server"],
         "env": {
           "AWS_PROFILE": "[The AWS Profile Name to use for AWS access]",
           "AWS_REGION": "[AWS Region]"
@@ -262,7 +262,7 @@ On Windows: `%APPDATA%/Claude/claude_desktop_config.json`
     "mcpServers": {
       "awslabs.cloudwatch-appsignals-mcp-server": {
         "command": "uvx",
-        "args": ["awslabs.cloudwatch-appsignals-mcp-server@latest"],
+        "args": ["awslabs.cloudwatch-appsignals-infrastructure-mcp-server@latest"],
         "env": {
           "AWS_PROFILE": "[The AWS Profile Name to use for AWS access]",
           "AWS_REGION": "[AWS Region]"
@@ -289,8 +289,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.cloudwatch-appsignals-mcp-server@latest",
-        "awslabs.cloudwatch-appsignals-mcp-server.exe"
+        "awslabs.cloudwatch-appsignals-infrastructure-mcp-server@latest",
+        "awslabs.cloudwatch-appsignals-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -321,7 +321,7 @@ For Windows users, the MCP server configuration format is slightly different:
         "-v", "${HOME}/.aws:/root/.aws:ro",
         "-e", "AWS_PROFILE=[The AWS Profile Name to use for AWS access]",
         "-e", "AWS_REGION=[AWS Region]",
-        "awslabs/cloudwatch-appsignals-mcp-server:latest"
+        "awslabs/cloudwatch-appsignals-infrastructure-mcp-server:latest"
       ]
     }
   }
@@ -333,14 +333,14 @@ For Windows users, the MCP server configuration format is slightly different:
 You can use the MCP inspector to debug the server. For `uvx` installations:
 
 ```bash
-npx @modelcontextprotocol/inspector uvx awslabs.cloudwatch-appsignals-mcp-server
+npx @modelcontextprotocol/inspector uvx awslabs.cloudwatch-appsignals-infrastructure-mcp-server
 ```
 
 Or if you've installed the package in a specific directory:
 
 ```bash
-cd /path/to/cloudwatch-appsignals-mcp-server
-npx @modelcontextprotocol/inspector uv run awslabs.cloudwatch-appsignals-mcp-server
+cd /path/to/cloudwatch-appsignals-infrastructure-mcp-server
+npx @modelcontextprotocol/inspector uv run awslabs.cloudwatch-appsignals-infrastructure-mcp-server
 ```
 
 ## Usage Examples
@@ -691,7 +691,7 @@ This server is part of the AWS Labs MCP collection. For development and contribu
 To run the comprehensive test suite that validates all use case examples and tool functionality:
 
 ```bash
-cd src/cloudwatch-appsignals-mcp-server
+cd src/cloudwatch-appsignals-infrastructure-mcp-server
 python -m pytest tests/test_use_case_examples.py -v
 ```
 

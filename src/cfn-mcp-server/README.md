@@ -35,7 +35,7 @@ Configure the MCP server in your MCP client configuration (e.g., for Kiro, edit 
     "awslabs.cfn-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.cfn-mcp-server@latest"
+        "awslabs.cfn-infrastructure-mcp-server@latest"
       ],
       "env": {
         "AWS_PROFILE": "your-named-profile"
@@ -55,7 +55,7 @@ If you would like to prevent the MCP from taking any mutating actions (i.e. Crea
     "awslabs.cfn-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.cfn-mcp-server@latest",
+        "awslabs.cfn-infrastructure-mcp-server@latest",
         "--readonly"
       ],
       "env": {
@@ -84,8 +84,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.cfn-mcp-server@latest",
-        "awslabs.cfn-mcp-server.exe"
+        "awslabs.cfn-infrastructure-mcp-server@latest",
+        "awslabs.cfn-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -117,7 +117,7 @@ AWS_SESSION_TOKEN=AQoEXAMPLEH4aoAH0gNCAPy...truncated...zrkuWJOgQs8IZZaIv2BXIa2R
           "--interactive",
           "--env-file",
           "/full/path/to/file/above/.env",
-          "awslabs/cfn-mcp-server:latest",
+          "awslabs/cfn-infrastructure-mcp-server:latest",
           "--readonly" // Optional paramter if you would like to restrict the MCP to only read actions
         ],
         "env": {},

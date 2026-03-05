@@ -22,7 +22,7 @@ from mcp.server.fastmcp import FastMCP
 
 
 mcp = FastMCP(
-    'awslabs.cloudwatch-mcp-server',
+    'awslabs.cloudwatch-infrastructure-mcp-server',
     instructions='Use this MCP server to run read-only commands and analyze CloudWatch Logs, Metrics, and Alarms. Supports discovering log groups, running CloudWatch Log Insight Queries, retrieving CloudWatch Metrics information, and getting active alarms with region information. With CloudWatch Logs Insights, you can interactively search and analyze your log data. With CloudWatch Metrics, you can get information about system and application metrics. With CloudWatch Alarms, you can retrieve all currently active alarms for operational awareness, with clear indication of which AWS region was checked.',
     dependencies=[
         'pydantic',

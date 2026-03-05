@@ -47,7 +47,7 @@ mkdir -p ~/.kiro/settings/
     "prometheus": {
       "command": "uvx",
       "args": [
-        "awslabs.prometheus-mcp-server@latest"
+        "awslabs.prometheus-infrastructure-mcp-server@latest"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "DEBUG"
@@ -72,8 +72,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.prometheus-mcp-server@latest",
-        "awslabs.prometheus-mcp-server.exe"
+        "awslabs.prometheus-infrastructure-mcp-server@latest",
+        "awslabs.prometheus-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -93,7 +93,7 @@ For Windows users, the MCP server configuration format is slightly different:
     "prometheus": {
       "command": "uvx",
       "args": [
-        "awslabs.prometheus-mcp-server@latest",
+        "awslabs.prometheus-infrastructure-mcp-server@latest",
         "--url",
         "https://aps-workspaces.<AWS Region>.amazonaws.com/workspaces/ws-<Workspace ID>",
         "--region",

@@ -81,10 +81,10 @@ This MCP server can be used by AI assistants to help users manage their Amazon M
 To use this MCP server with your MCP client, add the following configuration to your MCP client settings:
 
 ```json
-"awslabs.aws-msk-mcp-server": {
+"awslabs.aws-msk-infrastructure-mcp-server": {
     "command": "uvx",
     "args": [
-        "awslabs.aws-msk-mcp-server@latest",
+        "awslabs.aws-msk-infrastructure-mcp-server@latest",
         "--allow-writes"
     ],
     "env": {
@@ -110,8 +110,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.aws-msk-mcp-server@latest",
-        "awslabs.aws-msk-mcp-server.exe"
+        "awslabs.aws-msk-infrastructure-mcp-server@latest",
+        "awslabs.aws-msk-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",

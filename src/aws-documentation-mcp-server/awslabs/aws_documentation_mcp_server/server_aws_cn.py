@@ -36,7 +36,7 @@ from typing import Union
 SESSION_UUID = str(uuid.uuid4())
 
 mcp = FastMCP(
-    'awslabs.aws-documentation-mcp-server',
+    'awslabs.aws-documentation-infrastructure-mcp-server',
     instructions="""
     # AWS China Documentation MCP Server
 

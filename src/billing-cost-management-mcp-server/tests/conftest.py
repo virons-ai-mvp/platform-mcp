@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Test fixtures for the billing-cost-management-mcp-server."""
+"""Test fixtures for the billing-cost-management-infrastructure-mcp-server."""
 
 import asyncio
 import os

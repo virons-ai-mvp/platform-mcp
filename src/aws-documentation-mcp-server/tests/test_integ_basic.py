@@ -11,7 +11,7 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-"""Basic integration test for aws-documentation-mcp-server using the official MCP SDK."""
+"""Basic integration test for aws-documentation-infrastructure-mcp-server using the official MCP SDK."""
 
 import asyncio
 import logging

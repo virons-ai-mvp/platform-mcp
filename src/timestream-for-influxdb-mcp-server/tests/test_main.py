@@ -22,7 +22,7 @@ class TestMain:
     """Tests for the main function."""
 
     @patch('awslabs.timestream_for_influxdb_mcp_server.server.mcp.run')
-    @patch('sys.argv', ['awslabs.timestream-for-influxdb-mcp-server'])
+    @patch('sys.argv', ['awslabs.timestream-for-influxdb-infrastructure-mcp-server'])
     def test_main_default(self, mock_run):
         """Test main function with default arguments."""
         # Call the main function

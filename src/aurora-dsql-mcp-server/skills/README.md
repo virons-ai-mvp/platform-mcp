@@ -25,6 +25,6 @@ via the repo's `pre-commit.yml` workflow.
 To run locally:
 
 ```bash
-cd src/aurora-dsql-mcp-server
+cd src/aurora-dsql-infrastructure-mcp-server
 pre-commit run sync-dsql-skill-aliases --all-files
 ```

@@ -419,7 +419,7 @@ class TestVersionImport:
         importlib.reload(server_utils)
 
         # Verify the version was retrieved from metadata
-        mock_version.assert_called_once_with('awslabs.aws-documentation-mcp-server')
+        mock_version.assert_called_once_with('awslabs.aws-documentation-infrastructure-mcp-server')
         assert '1.1.3' in server_utils.DEFAULT_USER_AGENT
         assert 'ModelContextProtocol/1.1.3' in server_utils.DEFAULT_USER_AGENT
 
@@ -440,7 +440,7 @@ class TestVersionImport:
         importlib.reload(server_utils)
 
         # Verify it fell back to the __init__.py version
-        mock_version.assert_called_once_with('awslabs.aws-documentation-mcp-server')
+        mock_version.assert_called_once_with('awslabs.aws-documentation-infrastructure-mcp-server')
         assert version in server_utils.DEFAULT_USER_AGENT
         assert f'ModelContextProtocol/{version}' in server_utils.DEFAULT_USER_AGENT
 

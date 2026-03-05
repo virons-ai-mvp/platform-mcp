@@ -1,1 +1,1 @@
-"""Tests for the stepfunctions-tool-mcp-server."""
+"""Tests for the stepfunctions-tool-infrastructure-mcp-server."""

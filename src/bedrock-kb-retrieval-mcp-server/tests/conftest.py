@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Test fixtures for the bedrock-kb-retrieval-mcp-server tests."""
+"""Test fixtures for the bedrock-kb-retrieval-infrastructure-mcp-server tests."""
 
 import pytest
 from unittest.mock import MagicMock, patch

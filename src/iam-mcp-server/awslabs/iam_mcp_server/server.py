@@ -44,7 +44,7 @@ from typing import Any, Dict, List, Optional, Union
 
 
 mcp = FastMCP(
-    'awslabs.iam-mcp-server',
+    'awslabs.iam-infrastructure-mcp-server',
     instructions="""
     # AWS IAM MCP Server
 

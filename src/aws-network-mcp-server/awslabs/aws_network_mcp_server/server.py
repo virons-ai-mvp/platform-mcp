@@ -36,7 +36,7 @@ logger = logging.getLogger(__name__)
 
 
 mcp = FastMCP(
-    name='awslabs.aws-core-network-mcp-server',
+    name='awslabs.aws-core-network-infrastructure-mcp-server',
     instructions="""
     AWS Core Network MCP Server - Read-only troubleshooting tools for AWS networking services.
 

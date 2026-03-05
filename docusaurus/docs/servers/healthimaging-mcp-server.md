@@ -40,13 +40,13 @@ A comprehensive Model Context Protocol (MCP) server for AWS HealthImaging operat
 ### Option 1: uvx (Recommended)
 
 ```bash
-uvx awslabs.healthimaging-mcp-server@latest
+uvx awslabs.healthimaging-infrastructure-mcp-server@latest
 ```
 
 ### Option 2: uv install
 
 ```bash
-uv add awslabs.healthimaging-mcp-server
+uv add awslabs.healthimaging-infrastructure-mcp-server
 ```
 
 ### Option 3: Docker
@@ -56,7 +56,7 @@ docker run -it --rm \
   -e AWS_REGION=us-east-1 \
   -e AWS_PROFILE=your-profile \
   -v ~/.aws:/root/.aws:ro \
-  public.ecr.aws/awslabs/healthimaging-mcp-server:latest
+  public.ecr.aws/awslabs/healthimaging-infrastructure-mcp-server:latest
 ```
 
 ## MCP Client Configuration
@@ -68,7 +68,7 @@ docker run -it --rm \
   "mcpServers": {
     "healthimaging": {
       "command": "uvx",
-      "args": ["awslabs.healthimaging-mcp-server@latest"],
+      "args": ["awslabs.healthimaging-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_REGION": "us-east-1",
         "AWS_PROFILE": "your-profile",
@@ -88,7 +88,7 @@ For other MCP clients like Claude Desktop, add this to your configuration:
   "mcpServers": {
     "healthimaging": {
       "command": "uvx",
-      "args": ["awslabs.healthimaging-mcp-server@latest"],
+      "args": ["awslabs.healthimaging-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_REGION": "us-east-1",
         "AWS_PROFILE": "your-profile"
@@ -291,7 +291,7 @@ Enable debug logging:
 
 ```bash
 export FASTMCP_LOG_LEVEL=DEBUG
-uvx awslabs.healthimaging-mcp-server@latest
+uvx awslabs.healthimaging-infrastructure-mcp-server@latest
 ```
 
 ## Development
@@ -301,7 +301,7 @@ uvx awslabs.healthimaging-mcp-server@latest
 1. Clone the repository:
 ```bash
 git clone https://github.com/awslabs/mcp-server-collection.git
-cd mcp-server-collection/src/healthimaging-mcp-server
+cd infrastructure-mcp-server-collection/src/healthimaging-infrastructure-mcp-server
 ```
 
 2. Install dependencies:

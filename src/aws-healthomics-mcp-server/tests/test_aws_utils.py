@@ -240,7 +240,7 @@ class TestGetAwsSession:
             region_name='eu-west-1', botocore_session=mock_botocore_instance
         )
         assert result == mock_boto3_instance
-        assert 'awslabs/mcp/aws-healthomics-mcp-server/' in mock_botocore_instance.user_agent_extra
+        assert 'awslabs/mcp/aws-healthomics-infrastructure-mcp-server/' in mock_botocore_instance.user_agent_extra
 
     @patch('awslabs.aws_healthomics_mcp_server.utils.aws_utils.boto3.Session')
     @patch('awslabs.aws_healthomics_mcp_server.utils.aws_utils.botocore.session.Session')
@@ -321,7 +321,7 @@ class TestGetAwsSessionAgentHeader:
 
         get_aws_session()
 
-        assert 'aws-healthomics-mcp-server' in mock_botocore_instance.user_agent_extra
+        assert 'aws-healthomics-infrastructure-mcp-server' in mock_botocore_instance.user_agent_extra
         assert 'agent/kiro' in mock_botocore_instance.user_agent_extra
 
 
@@ -1000,7 +1000,7 @@ class TestUserAgentInjectionProperties:
             get_aws_session()
 
             ua = mock_bc_instance.user_agent_extra
-            assert 'aws-healthomics-mcp-server' in ua, (
+            assert 'aws-healthomics-infrastructure-mcp-server' in ua, (
                 f'Server identifier missing from user_agent_extra: {ua}'
             )
             assert f'agent/{agent_value.lower()}' in ua, (
@@ -1070,7 +1070,7 @@ class TestAgentUserAgentIntegration:
         assert 'agent/kiro' in user_agent, (
             f'agent/kiro not found in User-Agent header: {user_agent}'
         )
-        assert 'aws-healthomics-mcp-server' in user_agent
+        assert 'aws-healthomics-infrastructure-mcp-server' in user_agent
 
     def test_no_agent_in_user_agent_when_not_set(self):
         """Verify agent/ is absent from User-Agent when AGENT env var is not set."""

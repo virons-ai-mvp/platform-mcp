@@ -381,7 +381,7 @@ The validator enforces these business rules:
 For quick schema validation without code generation, use the `--validate-only` flag:
 
 ```bash
-# Quick validation for development (from dynamodb-mcp-server root)
+# Quick validation for development (from dynamodb-infrastructure-mcp-server root)
 uv run python -m awslabs.dynamodb_mcp_server.repo_generation_tool.codegen --schema schema.json --validate-only
 
 # Perfect for CI/CD pipelines

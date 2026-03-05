@@ -33,7 +33,7 @@ You can modify the settings of your MCP client to run your local server (e.g. fo
   "mcpServers": {
     "awslabs.timestream-for-influxdb-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.timestream-for-influxdb-mcp-server@latest"],
+      "args": ["awslabs.timestream-for-influxdb-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "your-aws-profile",
         "AWS_REGION": "us-east-1",
@@ -64,8 +64,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.timestream-for-influxdb-mcp-server@latest",
-        "awslabs.timestream-for-influxdb-mcp-server.exe"
+        "awslabs.timestream-for-influxdb-infrastructure-mcp-server@latest",
+        "awslabs.timestream-for-influxdb-infrastructure-mcp-server.exe"
       ],
       "env": {
         "AWS_PROFILE": "your-aws-profile",

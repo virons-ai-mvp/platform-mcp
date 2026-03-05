@@ -37,7 +37,7 @@ This method is ideal when you're developing or modifying the HealthOmics MCP ser
 
 1. **Navigate to the HealthOmics server directory** (IMPORTANT - must be in this directory):
    ```bash
-   cd src/aws-healthomics-mcp-server
+   cd src/aws-healthomics-infrastructure-mcp-server
    ```
 
 2. **Install dependencies**:
@@ -106,7 +106,7 @@ This method uses the published package, suitable for testing the released versio
 
 1. **Install the server globally**:
    ```bash
-   uvx install awslabs.aws-healthomics-mcp-server
+   uvx install awslabs.aws-healthomics-infrastructure-mcp-server
    ```
 
 2. **Set environment variables**:
@@ -120,7 +120,7 @@ This method uses the published package, suitable for testing the released versio
 
 3. **Start the MCP Inspector**:
    ```bash
-   npx @modelcontextprotocol/inspector uvx awslabs.aws-healthomics-mcp-server
+   npx @modelcontextprotocol/inspector uvx awslabs.aws-healthomics-infrastructure-mcp-server
    ```
 
 ### Method 3: Using a Configuration File
@@ -280,7 +280,7 @@ For detailed debugging, start with maximum logging:
 
 ```bash
 export FASTMCP_LOG_LEVEL=DEBUG
-cd src/aws-healthomics-mcp-server
+cd src/aws-healthomics-infrastructure-mcp-server
 npx @modelcontextprotocol/inspector uv run python awslabs/aws_healthomics_mcp_server/server.py
 ```
 
@@ -342,21 +342,21 @@ If you have a `.env` file in your `src/aws-healthomics-mcp-server` directory, yo
 
 1. **Source the .env file before running** (recommended):
    ```bash
-   cd src/aws-healthomics-mcp-server
+   cd src/aws-healthomics-infrastructure-mcp-server
    source .env
    npx @modelcontextprotocol/inspector uv run python awslabs/aws_healthomics_mcp_server/server.py
    ```
 
 2. **Load and run in one command**:
    ```bash
-   cd src/aws-healthomics-mcp-server
+   cd src/aws-healthomics-infrastructure-mcp-server
    source .env && npx @modelcontextprotocol/inspector uv run python awslabs/aws_healthomics_mcp_server/server.py
    ```
 
 3. **Use a shell script** (create `run-inspector.sh`):
    ```bash
    #!/bin/bash
-   cd src/aws-healthomics-mcp-server
+   cd src/aws-healthomics-infrastructure-mcp-server
    source .env
    npx @modelcontextprotocol/inspector uv run python awslabs/aws_healthomics_mcp_server/server.py
    ```
@@ -397,7 +397,7 @@ If you're working on the HealthOmics MCP server source code:
 
 1. **One-time setup**:
    ```bash
-   cd src/aws-healthomics-mcp-server
+   cd src/aws-healthomics-infrastructure-mcp-server
    uv sync
    # Create or edit your .env file with your settings
    ```

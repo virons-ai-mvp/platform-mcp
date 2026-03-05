@@ -57,7 +57,7 @@ SEARCH_TERM_DOMAIN_MODIFIERS = [
 
 
 mcp = FastMCP(
-    'awslabs.aws-documentation-mcp-server',
+    'awslabs.aws-documentation-infrastructure-mcp-server',
     instructions="""
     # AWS Documentation MCP Server
 

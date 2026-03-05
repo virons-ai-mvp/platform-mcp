@@ -1,4 +1,4 @@
-"""Additional tests for the utils module of the terraform-mcp-server."""
+"""Additional tests for the utils module of the terraform-infrastructure-mcp-server."""
 
 import pytest
 from awslabs.terraform_mcp_server.impl.tools.utils import (

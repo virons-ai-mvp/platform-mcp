@@ -100,7 +100,7 @@ class StrandsConversationHandler:
             lambda: stdio_client(
                 StdioServerParameters(
                     command='uvx',
-                    args=['awslabs.dynamodb-mcp-server@latest'],
+                    args=['awslabs.dynamodb-infrastructure-mcp-server@latest'],
                 )
             )
         )

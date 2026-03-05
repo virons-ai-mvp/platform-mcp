@@ -61,7 +61,7 @@ def _setup_logging() -> logging.Logger:
         except Exception as e:
             logging.error(f"Failed to set up log file {log_file}: {e}")
 
-    return logging.getLogger("ecs-mcp-server")
+    return logging.getLogger("ecs-infrastructure-mcp-server")
 
 
 @asynccontextmanager
@@ -72,7 +72,7 @@ async def server_lifespan(server):
     Provides safe access to async server methods during startup for
     operations like tool transformations.
     """
-    logger = logging.getLogger("ecs-mcp-server")
+    logger = logging.getLogger("ecs-infrastructure-mcp-server")
     logger.info("Server initializing")
 
     # Safe async operations can be performed here

@@ -18,7 +18,7 @@ from evals.core import Task
 from pathlib import Path
 
 
-# Samples root: base.py -> applicationsignals/ -> tasks/ -> evals/ -> cloudwatch-applicationsignals-mcp-server/ -> src/ -> root/ -> samples/cloudwatch-applicationsignals-mcp
+# Samples root: base.py -> applicationsignals/ -> tasks/ -> evals/ -> cloudwatch-applicationsignals-infrastructure-mcp-server/ -> src/ -> root/ -> samples/cloudwatch-applicationsignals-mcp
 SAMPLES_ROOT = (
     Path(__file__).parent.parent.parent.parent.parent.parent
     / 'samples'
@@ -35,7 +35,7 @@ class ApplicationSignalsTask(Task):
     def get_server_root_directory(self) -> Path:
         """Return MCP server root directory.
 
-        MCP server working directory: base.py -> applicationsignals/ -> tasks/ -> evals/ -> cloudwatch-applicationsignals-mcp-server/
+        MCP server working directory: base.py -> applicationsignals/ -> tasks/ -> evals/ -> cloudwatch-applicationsignals-infrastructure-mcp-server/
         """
         return Path(__file__).parent.parent.parent.parent
 

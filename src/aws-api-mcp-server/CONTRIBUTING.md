@@ -30,7 +30,7 @@ To make changes to this MCP locally and run it:
 1. Clone this repository:
 ```bash
 git clone https://github.com/awslabs/mcp.git
-cd mcp/src/aws-api-mcp-server
+cd mcp/src/aws-api-infrastructure-mcp-server
 ```
 
 2. Install gh from the [installation guide](https://cli.github.com/)
@@ -103,7 +103,7 @@ git checkout -b feat/your-feature-name  # Use descriptive prefix: feat/, fix/, d
 2. **Make your changes and validate**:
 ```bash
 # Ensure you're in the correct directory
-cd mcp/src/aws-api-mcp-server
+cd mcp/src/aws-api-infrastructure-mcp-server
 
 # Run type checking
 uv run --frozen pyright

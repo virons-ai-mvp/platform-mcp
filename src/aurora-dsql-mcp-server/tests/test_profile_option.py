@@ -24,7 +24,7 @@ class TestProfileOption:
     @patch(
         'sys.argv',
         [
-            'awslabs.aurora-dsql-mcp-server',
+            'awslabs.aurora-dsql-infrastructure-mcp-server',
             '--cluster_endpoint',
             'test_ce',
             '--database_user',
@@ -62,7 +62,7 @@ class TestProfileOption:
     @patch(
         'sys.argv',
         [
-            'awslabs.aurora-dsql-mcp-server',
+            'awslabs.aurora-dsql-infrastructure-mcp-server',
             '--cluster_endpoint',
             'test_ce',
             '--database_user',

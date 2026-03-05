@@ -40,7 +40,7 @@ async def test_server_initialization():
     server = create_server()
 
     # Test that the server is initialized with the correct name
-    assert server.name == 'awslabs.sagemaker-ai-mcp-server'
+    assert server.name == 'awslabs.sagemaker-ai-infrastructure-mcp-server'
     # Test that the server has the correct instructions
     assert (
         server.instructions is not None and 'Amazon SageMaker AI MCP Server' in server.instructions

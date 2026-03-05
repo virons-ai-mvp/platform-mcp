@@ -252,7 +252,7 @@ Detailed instructions provided for LLMs:
 
 ```python
 mcp = FastMCP(
-    'awslabs.iam-mcp-server',
+    'awslabs.iam-infrastructure-mcp-server',
     instructions="""
     # AWS IAM MCP Server
 

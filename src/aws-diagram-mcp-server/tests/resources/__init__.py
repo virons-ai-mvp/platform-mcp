@@ -14,4 +14,4 @@
 # limitations under the License.
 #
 
-"""Resources package for the aws-diagram-mcp-server MCP server tests."""
+"""Resources package for the aws-diagram-infrastructure-mcp-server MCP server tests."""

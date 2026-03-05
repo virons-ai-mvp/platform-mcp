@@ -44,7 +44,7 @@ Configure the MCP server in your MCP client configuration (e.g., for Kiro, edit 
   "mcpServers": {
     "awslabs.lambda-tool-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.lambda-tool-mcp-server@latest"],
+      "args": ["awslabs.lambda-tool-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "your-aws-profile",
         "AWS_REGION": "us-east-1",
@@ -75,8 +75,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.lambda-tool-mcp-server@latest",
-        "awslabs.lambda-tool-mcp-server.exe"
+        "awslabs.lambda-tool-infrastructure-mcp-server@latest",
+        "awslabs.lambda-tool-infrastructure-mcp-server.exe"
       ],
       "env": {
         "AWS_PROFILE": "your-aws-profile",
@@ -124,7 +124,7 @@ AWS_SESSION_TOKEN=AQoEXAMPLEH4aoAH0gNCAPy...truncated...zrkuWJOgQs8IZZaIv2BXIa2R
           "FUNCTION_INPUT_SCHEMA_ARN_TAG_KEY=your-function-tag-for-input-schema",
           "--env-file",
           "/full/path/to/file/above/.env",
-          "awslabs/lambda-tool-mcp-server:latest"
+          "awslabs/lambda-tool-infrastructure-mcp-server:latest"
         ],
         "env": {},
         "disabled": false,

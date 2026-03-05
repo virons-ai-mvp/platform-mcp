@@ -142,7 +142,7 @@ mcp = None
 def create_server():
     """Create and configure the MCP server instance."""
     return FastMCP(
-        'awslabs.sagemaker-ai-mcp-server',
+        'awslabs.sagemaker-ai-infrastructure-mcp-server',
         instructions=SERVER_INSTRUCTIONS,
         dependencies=SERVER_DEPENDENCIES,
     )

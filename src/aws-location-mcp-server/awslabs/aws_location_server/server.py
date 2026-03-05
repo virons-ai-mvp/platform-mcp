@@ -32,7 +32,7 @@ logger.add(sys.stderr, level=os.getenv('FASTMCP_LOG_LEVEL', 'WARNING'))
 
 # Initialize FastMCP server
 mcp = FastMCP(
-    'awslabs.aws-location-mcp-server',
+    'awslabs.aws-location-infrastructure-mcp-server',
     instructions="""
     # Amazon Location Service MCP Server (geo-places)
 

@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Tests for the server module of the bedrock-kb-retrieval-mcp-server."""
+"""Tests for the server module of the bedrock-kb-retrieval-infrastructure-mcp-server."""
 
 import json
 import pytest
@@ -31,7 +31,7 @@ class TestMCPServer:
 
     def test_mcp_initialization(self):
         """Test that the MCP server is initialized correctly."""
-        assert mcp.name == 'awslabs.bedrock-kb-retrieval-mcp-server'
+        assert mcp.name == 'awslabs.bedrock-kb-retrieval-infrastructure-mcp-server'
         assert (
             mcp.instructions is not None
             and 'AWS Labs Bedrock Knowledge Bases Retrieval MCP Server' in mcp.instructions

@@ -50,7 +50,7 @@ export AWS_SECRET_ACCESS_KEY=your-secret
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # Navigate to the DynamoDB MCP server directory
-cd src/dynamodb-mcp-server
+cd src/dynamodb-infrastructure-mcp-server
 ```
 
 3. **Dependencies**: Install required packages

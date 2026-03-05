@@ -241,7 +241,7 @@ Configure the MCP server in your MCP client configuration (e.g., for Kiro, edit 
   "mcpServers": {
     "awslabs.aws-iac-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.aws-iac-mcp-server@latest"],
+      "args": ["awslabs.aws-iac-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "your-named-profile",
         "FASTMCP_LOG_LEVEL": "ERROR"
@@ -269,8 +269,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.aws-iac-mcp-server@latest",
-        "awslabs.aws-iac-mcp-server.exe"
+        "awslabs.aws-iac-infrastructure-mcp-server@latest",
+        "awslabs.aws-iac-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -308,7 +308,7 @@ NOTE: Docker installation is optional
         "FASTMCP_LOG_LEVEL=ERROR",
         "--volume",
         "${HOME}/.aws:/root/.aws:ro",
-        "awslabs/aws-iac-mcp-server:latest"
+        "awslabs/aws-iac-infrastructure-mcp-server:latest"
       ],
       "env": {},
       "disabled": false,
@@ -364,13 +364,13 @@ Example IAM policy:
 ```bash
 # Clone the repository
 git clone https://github.com/awslabs/mcp.git
-cd mcp/src/aws-iac-mcp-server
+cd mcp/src/aws-iac-infrastructure-mcp-server
 
 # Install dependencies
 uv sync
 
 # Run the server
-uv run awslabs.aws-iac-mcp-server
+uv run awslabs.aws-iac-infrastructure-mcp-server
 ```
 
 ### Running Tests

@@ -18,7 +18,7 @@ The tests are organized as follows:
 To run the tests, you can use the following command from the root of the repository:
 
 ```bash
-cd mcp/src/bedrock-kb-retrieval-mcp-server
+cd mcp/src/bedrock-kb-retrieval-infrastructure-mcp-server
 pytest tests/
 ```
 

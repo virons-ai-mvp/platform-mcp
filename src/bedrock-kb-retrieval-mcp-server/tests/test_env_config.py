@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Tests for environment variable configuration in the bedrock-kb-retrieval-mcp-server."""
+"""Tests for environment variable configuration in the bedrock-kb-retrieval-infrastructure-mcp-server."""
 
 import importlib
 import os

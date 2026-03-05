@@ -89,7 +89,7 @@ async def test_server_initialization():
 
     # Mock the FastMCP class
     mock_fastmcp = MagicMock()
-    mock_fastmcp.name = 'awslabs.aws-dataprocessing-mcp-server'
+    mock_fastmcp.name = 'awslabs.aws-dataprocessing-infrastructure-mcp-server'
     mock_fastmcp.instructions = SERVER_INSTRUCTIONS
     mock_fastmcp.dependencies = ['pydantic', 'loguru', 'boto3', 'requests', 'pyyaml', 'cachetools']
 
@@ -99,7 +99,7 @@ async def test_server_initialization():
         server = create_server()
 
         # Test that the server is initialized with the correct name
-        assert server.name == 'awslabs.aws-dataprocessing-mcp-server'
+        assert server.name == 'awslabs.aws-dataprocessing-infrastructure-mcp-server'
 
         # Test that the server has the correct instructions
         assert server.instructions is not None

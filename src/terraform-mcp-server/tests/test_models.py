@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Tests for the models module of the terraform-mcp-server."""
+"""Tests for the models module of the terraform-infrastructure-mcp-server."""
 
 import os
 from awslabs.terraform_mcp_server.models import (

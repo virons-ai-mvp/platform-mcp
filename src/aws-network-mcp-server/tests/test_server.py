@@ -24,13 +24,13 @@ class TestMcpServer:
     def test_server_initialization(self):
         """Test that the MCP server is properly initialized."""
         assert mcp is not None
-        assert mcp.name == 'awslabs.aws-core-network-mcp-server'
+        assert mcp.name == 'awslabs.aws-core-network-infrastructure-mcp-server'
         assert mcp.version == '1.0.0'
         assert mcp.instructions is not None
 
     def test_server_name(self):
         """Test server name and version are correct."""
-        assert mcp.name == 'awslabs.aws-core-network-mcp-server'
+        assert mcp.name == 'awslabs.aws-core-network-infrastructure-mcp-server'
 
     def test_server_instructions_contain_key_tools(self):
         """Test that instructions mention key tools."""

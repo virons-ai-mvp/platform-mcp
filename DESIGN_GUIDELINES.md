@@ -971,7 +971,7 @@ Provide detailed instructions for LLMs using the MCP server:
 
 ```python
 mcp = FastMCP(
-    'awslabs-nova-canvas-mcp-server',
+    'awslabs-nova-canvas-infrastructure-mcp-server',
     instructions=f"""
 # Amazon Nova Canvas Image Generation
 

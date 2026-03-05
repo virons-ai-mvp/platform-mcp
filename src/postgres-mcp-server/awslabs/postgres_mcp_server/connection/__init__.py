@@ -12,6 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""aws.postgres-mcp-server.connection"""
+"""aws.postgres-infrastructure-mcp-server.connection"""
 
 from awslabs.postgres_mcp_server.connection.abstract_db_connection import AbstractDBConnection

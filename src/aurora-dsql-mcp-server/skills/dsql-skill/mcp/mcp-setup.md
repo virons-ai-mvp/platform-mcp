@@ -19,7 +19,7 @@ or database operation support too.
     "awslabs.aurora-dsql-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.aurora-dsql-mcp-server@latest"
+        "awslabs.aurora-dsql-infrastructure-mcp-server@latest"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
@@ -38,7 +38,7 @@ or database operation support too.
     "aurora-dsql": {
       "command": "uvx",
       "args": [
-        "awslabs.aurora-dsql-mcp-server@latest",
+        "awslabs.aurora-dsql-infrastructure-mcp-server@latest",
         "--cluster_endpoint",
         "[your dsql cluster endpoint, e.g. abcdefghijklmnopqrst234567.dsql.us-east-1.on.aws]",
         "--region",

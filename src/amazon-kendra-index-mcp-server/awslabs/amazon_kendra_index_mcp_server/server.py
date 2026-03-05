@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""awslabs amazon-kendra-index-mcp-server MCP Server implementation."""
+"""awslabs amazon-kendra-index-infrastructure-mcp-server MCP Server implementation."""
 
 import os
 from awslabs.amazon_kendra_index_mcp_server.util import get_kendra_client
@@ -21,7 +21,7 @@ from typing import Any, Dict, Optional
 
 
 mcp = FastMCP(
-    'awslabs.amazon-kendra-index-mcp-server',
+    'awslabs.amazon-kendra-index-infrastructure-mcp-server',
     instructions='Using the users kendra index id as a parameter, query Amazon Kendra with the provided search query',
     dependencies=[
         'pydantic',

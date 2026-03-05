@@ -12,4 +12,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Tests for the bedrock-kb-retrieval-mcp-server."""
+"""Tests for the bedrock-kb-retrieval-infrastructure-mcp-server."""

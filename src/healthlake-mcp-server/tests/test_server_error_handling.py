@@ -114,7 +114,7 @@ class TestServerErrorHandling:
             server = create_healthlake_server()
 
             # Test that server was created successfully
-            assert server.name == 'healthlake-mcp-server'
+            assert server.name == 'healthlake-infrastructure-mcp-server'
 
             # Test error response creation
             error_response = create_error_response('Test error', 'test_type')

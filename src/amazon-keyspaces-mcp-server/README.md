@@ -42,7 +42,7 @@ Here are some example prompts that this MCP server can help with:
 ### Install from PyPI
 
 ```bash
-pip install awslabs.amazon-keyspaces-mcp-server
+pip install awslabs.amazon-keyspaces-infrastructure-mcp-server
 ```
 
 ### Install from Source
@@ -50,7 +50,7 @@ pip install awslabs.amazon-keyspaces-mcp-server
 1. Clone the repository:
    ```bash
    git clone https://github.com/awslabs/mcp.git
-   cd mcp/src/amazon-keyspaces-mcp-server
+   cd mcp/src/amazon-keyspaces-infrastructure-mcp-server
    ```
 
 2. Create a virtual environment:
@@ -120,7 +120,7 @@ Keyspaces uses for TLS connections:
 After installation, you can run the server directly:
 
 ```bash
-awslabs.amazon-keyspaces-mcp-server
+awslabs.amazon-keyspaces-infrastructure-mcp-server
 ```
 
 ## Configuring Kiro to Use the MCP Server
@@ -137,7 +137,7 @@ For global configuration, edit `~/.kiro/settings/mcp.json`. For project-specific
 {
   "mcpServers": {
     "keyspaces-mcp": {
-      "command": "awslabs.amazon-keyspaces-mcp-server",
+      "command": "awslabs.amazon-keyspaces-infrastructure-mcp-server",
       "args": [],
       "env": {}
     }
@@ -161,8 +161,8 @@ For Windows users, the MCP server configuration format is slightly different. Ed
         "tool",
         "run",
         "--from",
-        "awslabs.amazon-keyspaces-mcp-server@latest",
-        "awslabs.amazon-keyspaces-mcp-server.exe"
+        "awslabs.amazon-keyspaces-infrastructure-mcp-server@latest",
+        "awslabs.amazon-keyspaces-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",

@@ -38,7 +38,7 @@ Example configuration for Kiro (`~/.kiro/settings/mcp.json`):
   "mcpServers": {
     "bedrock-agentcore-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.amazon-bedrock-agentcore-mcp-server@latest"],
+      "args": ["awslabs.amazon-bedrock-agentcore-infrastructure-mcp-server@latest"],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
       },
@@ -65,8 +65,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.amazon-bedrock-agentcore-mcp-server@latest",
-        "awslabs.amazon-bedrock-agentcore-mcp-server.exe"
+        "awslabs.amazon-bedrock-agentcore-infrastructure-mcp-server@latest",
+        "awslabs.amazon-bedrock-agentcore-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"

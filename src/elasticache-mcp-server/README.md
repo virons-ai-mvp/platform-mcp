@@ -87,7 +87,7 @@ Add the MCP to your favorite agentic tools. (e.g. for Kiro, `~/.kiro/settings/mc
   "mcpServers": {
     "awslabs.elasticache-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.elasticache-mcp-server@latest"],
+      "args": ["awslabs.elasticache-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_PROFILE": "default",
         "AWS_REGION": "us-west-2",
@@ -107,7 +107,7 @@ If you would like to prevent the MCP from taking any mutating actions (i.e. Crea
     "awslabs.elasticache-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.elasticache-mcp-server@latest",
+        "awslabs.elasticache-infrastructure-mcp-server@latest",
         "--readonly"
       ],
       "env": {
@@ -138,8 +138,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.elasticache-mcp-server@latest",
-        "awslabs.elasticache-mcp-server.exe"
+        "awslabs.elasticache-infrastructure-mcp-server@latest",
+        "awslabs.elasticache-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -164,7 +164,7 @@ or docker after a successful `docker build -t awslabs/elasticache-mcp-server .`:
         "--interactive",
         "--env",
         "FASTMCP_LOG_LEVEL=ERROR",
-        "awslabs/elasticache-mcp-server:latest",
+        "awslabs/elasticache-infrastructure-mcp-server:latest",
         "--readonly" // Optional paramter if you would like to restrict the MCP to only read actions
       ],
       "env": {},
@@ -241,7 +241,7 @@ uv run --frozen pytest
 
 ### Building Docker Image
 ```bash
-docker build -t awslabs/elasticache-mcp-server .
+docker build -t awslabs/elasticache-infrastructure-mcp-server .
 ```
 
 ### Running Docker Container

@@ -47,7 +47,7 @@ Add the following code to your MCP client configuration. The server uses the def
     "awslabs.aws-bedrock-custom-model-import-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.aws-bedrock-custom-model-import-mcp-server@latest",
+        "awslabs.aws-bedrock-custom-model-import-infrastructure-mcp-server@latest",
         "--allow-write"
       ],
       "env": {
@@ -70,7 +70,7 @@ Add the following code to your MCP client configuration. The server uses the def
   "mcpServers": {
     "awslabs.aws-bedrock-custom-model-import-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.aws-bedrock-custom-model-import-mcp-server@latest"],
+      "args": ["awslabs.aws-bedrock-custom-model-import-infrastructure-mcp-server@latest"],
       "env": {
         "AWS_ACCESS_KEY_ID": "your-temporary-access-key", // pragma: allowlist secret
         "AWS_SECRET_ACCESS_KEY": "your-temporary-secret-key", // pragma: allowlist secret
@@ -116,7 +116,7 @@ To make changes to this MCP locally and run it:
 
    ```bash
    git clone https://github.com/awslabs/mcp.git
-   cd mcp/src/aws-bedrock-custom-model-import-mcp-server
+   cd mcp/src/aws-bedrock-custom-model-import-infrastructure-mcp-server
    ```
 
 2. Install dependencies:
@@ -142,7 +142,7 @@ To make changes to this MCP locally and run it:
 {
   "mcpServers": {
     "awslabs.aws-bedrock-custom-model-import-mcp-server": {
-      "command": "mcp/src/aws-bedrock-custom-model-import-mcp-server/bin/awslabs.aws-bedrock-custom-model-import-mcp-server/",
+      "command": "mcp/src/aws-bedrock-custom-model-import-infrastructure-mcp-server/bin/awslabs.aws-bedrock-custom-model-import-infrastructure-mcp-server/",
       "env": {
         "AWS_PROFILE": "your-aws-profile",
         "AWS_REGION": "us-east-1",

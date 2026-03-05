@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-"""Tests for the awslabs.s3-tables-mcp-server package."""
+"""Tests for the awslabs.s3-tables-infrastructure-mcp-server package."""
 
 import importlib
 import re

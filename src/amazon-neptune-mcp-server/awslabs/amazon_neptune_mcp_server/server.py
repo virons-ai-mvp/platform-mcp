@@ -29,7 +29,7 @@ logger.add(sys.stderr, level='INFO')
 
 # Initialize FastMCP
 mcp = FastMCP(
-    'awslabs.neptune-mcp-server',
+    'awslabs.neptune-infrastructure-mcp-server',
     instructions='This server provides the ability to check connectivity, status and schema for working with Amazon Neptune.',
     dependencies=['pydantic', 'loguru', 'boto3'],
 )

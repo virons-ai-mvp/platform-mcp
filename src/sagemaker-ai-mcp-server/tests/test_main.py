@@ -32,7 +32,7 @@ class TestMain:
     @patch('awslabs.sagemaker_ai_mcp_server.server.HyperPodStackHandler')
     @patch('awslabs.sagemaker_ai_mcp_server.server.create_server')
     @patch('awslabs.sagemaker_ai_mcp_server.server.logger')
-    @patch('sys.argv', ['awslabs.sagemaker-ai-mcp-server'])
+    @patch('sys.argv', ['awslabs.sagemaker-ai-infrastructure-mcp-server'])
     def test_main_default(
         self,
         mock_logger,
@@ -70,7 +70,7 @@ class TestMain:
     @patch('awslabs.sagemaker_ai_mcp_server.server.HyperPodStackHandler')
     @patch('awslabs.sagemaker_ai_mcp_server.server.create_server')
     @patch('awslabs.sagemaker_ai_mcp_server.server.logger')
-    @patch('sys.argv', ['awslabs.sagemaker-ai-mcp-server', '--allow-write'])
+    @patch('sys.argv', ['awslabs.sagemaker-ai-infrastructure-mcp-server', '--allow-write'])
     def test_main_with_write_access(
         self,
         mock_logger,
@@ -115,7 +115,7 @@ class TestMain:
     @patch('awslabs.sagemaker_ai_mcp_server.server.HyperPodStackHandler')
     @patch('awslabs.sagemaker_ai_mcp_server.server.create_server')
     @patch('awslabs.sagemaker_ai_mcp_server.server.logger')
-    @patch('sys.argv', ['awslabs.sagemaker-ai-mcp-server', '--allow-sensitive-data-access'])
+    @patch('sys.argv', ['awslabs.sagemaker-ai-infrastructure-mcp-server', '--allow-sensitive-data-access'])
     def test_main_with_sensitive_data_access(
         self,
         mock_logger,
@@ -163,7 +163,7 @@ class TestMain:
     @patch(
         'sys.argv',
         [
-            'awslabs.sagemaker-ai-mcp-server',
+            'awslabs.sagemaker-ai-infrastructure-mcp-server',
             '--allow-write',
             '--allow-sensitive-data-access',
         ],
@@ -214,7 +214,7 @@ class TestMain:
 
             # Check that FastMCP was called with the correct arguments
             mock_fastmcp.assert_called_once_with(
-                'awslabs.sagemaker-ai-mcp-server',
+                'awslabs.sagemaker-ai-infrastructure-mcp-server',
                 instructions=ANY,
                 dependencies=ANY,
             )

@@ -106,8 +106,8 @@ For Windows users, the MCP server configuration format is slightly different:
         "tool",
         "run",
         "--from",
-        "awslabs.amazon-qindex-mcp-server@latest",
-        "awslabs.amazon-qindex-mcp-server.exe"
+        "awslabs.amazon-qindex-infrastructure-mcp-server@latest",
+        "awslabs.amazon-qindex-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR",
@@ -125,7 +125,7 @@ For Windows users, the MCP server configuration format is slightly different:
 git clone [repository-url]
 
 # Go to root directory of this server
-cd <your repo path>/mcp/src/amazon-qindex-mcp-server/
+cd <your repo path>/mcp/src/amazon-qindex-infrastructure-mcp-server/
 
 # Install dependencies
 pip install -e .

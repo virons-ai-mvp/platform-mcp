@@ -267,7 +267,7 @@ async def run_checkov_scan_impl(request: CheckovScanRequest) -> CheckovScanResul
     if not os.path.isabs(working_dir):
         # Get the current working directory of the MCP server
         current_dir = os.getcwd()
-        # Go up to the project root directory (assuming we're in src/terraform-mcp-server/awslabs/terraform_mcp_server)
+        # Go up to the project root directory (assuming we're in src/terraform-infrastructure-mcp-server/awslabs/terraform_mcp_server)
         project_root = os.path.abspath(os.path.join(current_dir, '..', '..', '..', '..'))
         # Join with the requested working directory
         working_dir = os.path.abspath(os.path.join(project_root, working_dir))

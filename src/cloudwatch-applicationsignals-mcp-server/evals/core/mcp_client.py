@@ -51,8 +51,8 @@ async def connect_to_mcp_server(
 
     Example:
         async with connect_to_mcp_server(
-            server_file='/path/to/cloudwatch-applicationsignals-mcp-server/awslabs/cloudwatch_applicationsignals_mcp_server/server.py',
-            server_root_dir='/path/to/cloudwatch-applicationsignals-mcp-server',
+            server_file='/path/to/cloudwatch-applicationsignals-infrastructure-mcp-server/awslabs/cloudwatch_applicationsignals_mcp_server/server.py',
+            server_root_dir='/path/to/cloudwatch-applicationsignals-infrastructure-mcp-server',
         ) as (read, write):
             async with ClientSession(read, write) as session:
                 await session.initialize()
