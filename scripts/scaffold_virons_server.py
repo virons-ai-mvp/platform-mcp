@@ -474,6 +474,9 @@ ignore = ["C901", "E501", "E741", "F402", "F823", "D100", "D106"]
 [tool.ruff.lint.per-file-ignores]
 "tests/**/*.py" = ["S101", "D", "ANN"]
 
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
 [tool.pyright]
 pythonVersion = "3.10"
 typeCheckingMode = "standard"
