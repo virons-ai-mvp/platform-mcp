@@ -194,6 +194,17 @@ This server is compliance-first and follows:
 - EU AI Act (model card validation if high-risk)
 
 All write operations are audited. Data resides in eu-central-1 only.
+
+## Tool Naming Convention
+
+Tool names must follow MCP naming rules:
+- Maximum 64 characters
+- Start with a letter
+- Use only lowercase letters and hyphens (-)
+- No special characters or numbers at start
+
+Valid examples: data-cleaner, csv-uploader, pdf-generator
+Invalid examples: 123tool, tool!@#$, name-that-is-way-too-long...
 """
 
 SERVER_DEPENDENCIES = [
