@@ -187,6 +187,13 @@ python scripts/validate_compliance.py
 - [DDD Context Map](architecture/ddd/CONTEXT-MAP.md)
 - [ADRs](architecture/decisions/)
 - [Architecture Diagrams](architecture/diagrams/)
+- **[AWS MCP Server Audit](architecture/aws-mcp-audit/)** ⭐ NEW
+  - [Server Catalog](architecture/aws-mcp-audit/SERVER-CATALOG.md) - 67 AWS MCP servers
+  - [Scoring Framework](architecture/aws-mcp-audit/SCORING-FRAMEWORK.md) - Integration prioritization
+  - [Server Scores](architecture/aws-mcp-audit/SERVER-SCORES.md) - Tier 1/2/3 assignments
+  - [Context Mapping](architecture/aws-mcp-audit/CONTEXT-MAPPING.md) - Port allocation
+  - [Integration Backlog](architecture/aws-mcp-audit/INTEGRATION-BACKLOG.md) - Phase 2/3 roadmap
+  - [Implementation Checklist](architecture/aws-mcp-audit/IMPLEMENTATION-CHECKLIST.md) - Execution plan
 
 ### For Compliance
 - [BaFin Compliance](compliance/bafin/)

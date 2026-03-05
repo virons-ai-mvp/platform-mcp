@@ -75,6 +75,14 @@ docs/
 - [x] Create runbooks for secrets-rotation, MCP server outage
 - [x] Add security policies for MCP server access
 - [x] Add GDPR Art 25/32 compliance docs
+- [x] **AWS MCP Server Integration Audit** ⭐ NEW
+  - [x] Server catalog (67 AWS MCP servers)
+  - [x] Scoring framework (compliance/operational/platform/development)
+  - [x] Server scores (Tier 1: 33, Tier 2: 25, Tier 3: 8)
+  - [x] Context mapping (10 bounded contexts, 9100-9199)
+  - [x] ADR-002: AWS MCP Integration decision
+  - [x] Integration backlog (Phase 2/3 roadmap)
+  - [x] Implementation checklist (execution plan)
 - [ ] Document Kind cluster setup in infrastructure/foundation/
 - [ ] Create style guides in reference/style-guides/
 - [ ] Create architecture diagrams in architecture/diagrams/
