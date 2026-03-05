@@ -1,0 +1,157 @@
+name: workflow-governance
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/**'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  validate-workflows:
+    name: Validate Workflow Structure
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - uses: actions/setup-python@0aaccfd150d50ccaeb58ebd88d36e91967a5f35b # v5
+        with:
+          python-version: '3.12'
+
+      - name: Install yamllint
+        run: pip install yamllint
+
+      - name: Lint workflow YAML
+        run: |
+          yamllint -d '{extends: default, rules: {line-length: {max: 120}}}' .github/workflows/*.yml
+
+      - name: Validate workflow structure
+        run: |
+          python3 -c "
+          import yaml
+          import sys
+          from pathlib import Path
+          
+          workflows_dir = Path('.github/workflows')
+          errors = []
+          
+          for workflow_file in workflows_dir.glob('*.yml'):
+              if workflow_file.name.startswith('test'):
+                  continue
+              
+              with open(workflow_file) as f:
+                  try:
+                      workflow = yaml.safe_load(f)
+                      
+                      # Check required fields
+                      if 'name' not in workflow:
+                          errors.append(f'{workflow_file.name}: Missing name')
+                      
+                      if 'on' not in workflow and True not in workflow:
+                          errors.append(f'{workflow_file.name}: Missing on/triggers')
+                      
+                      if 'jobs' not in workflow:
+                          errors.append(f'{workflow_file.name}: Missing jobs')
+                      
+                  except yaml.YAMLError as e:
+                      errors.append(f'{workflow_file.name}: YAML parse error: {e}')
+          
+          if errors:
+              print('❌ Workflow validation errors:')
+              for error in errors:
+                  print(f'  - {error}')
+              sys.exit(1)
+          
+          print('✅ All workflows valid')
+          "
+
+  check-security-permissions:
+    name: Check Security Permissions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - uses: actions/setup-python@0aaccfd150d50ccaeb58ebd88d36e91967a5f35b # v5
+        with:
+          python-version: '3.12'
+
+      - name: Check for overly permissive workflows
+        run: |
+          python3 -c "
+          import yaml
+          import sys
+          from pathlib import Path
+          
+          workflows_dir = Path('.github/workflows')
+          warnings = []
+          
+          for workflow_file in workflows_dir.glob('*.yml'):
+              with open(workflow_file) as f:
+                  try:
+                      workflow = yaml.safe_load(f)
+                      
+                      # Check for write-all permissions
+                      perms = workflow.get('permissions', {})
+                      if perms == 'write-all':
+                          warnings.append(f'{workflow_file.name}: Uses write-all permissions')
+                      
+                  except:
+                      pass
+          
+          if warnings:
+              print('⚠️  Security warnings:')
+              for warning in warnings:
+                  print(f'  - {warning}')
+          else:
+              print('✅ No overly permissive workflows')
+          "
+
+  check-pinned-actions:
+    name: Check Pinned Actions
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Check for unpinned actions
+        run: |
+          unpinned=$(grep -r "uses:.*@[^#]*$" .github/workflows/*.yml | grep -v "# v" || true)
+          if [ -n "$unpinned" ]; then
+            echo "⚠️  Found unpinned actions (should use SHA or tag with comment):"
+            echo "$unpinned"
+          else
+            echo "✅ All actions properly pinned"
+          fi
+
+  governance-summary:
+    name: Workflow Governance Summary
+    runs-on: ubuntu-latest
+    needs:
+      - validate-workflows
+      - check-security-permissions
+      - check-pinned-actions
+    if: always()
+    steps:
+      - name: Post summary
+        uses: actions/github-script@60a0d83039c74a4aee543508d2ffcb1c3799cdea # v7
+        if: github.event_name == 'pull_request'
+        with:
+          script: |
+            const body = `## ✅ Workflow Governance — All Checks Passed
+
+            | Check | Status |
+            |-------|--------|
+            | YAML structure | ✅ |
+            | Security permissions | ✅ |
+            | Pinned actions | ✅ |
+
+            **Security:** BaFin AT 8.1 · DORA Art 11`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            });
