@@ -4,6 +4,7 @@ members = [
     "src/virons-infrastructure-mcp-server",
     "src/virons-security-mcp-server",
     "src/virons-operations-mcp-server",
+    "src/virons-monitoring-mcp-server",
 ]
 
 [tool.uv.sources]
