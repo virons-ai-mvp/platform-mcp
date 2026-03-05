@@ -150,6 +150,23 @@ def register_tools(server: FastMCP) -> None:
             logger.error(f"Destroy failed: {e}")
             await ctx.error(f"Destroy error: {str(e)}")
             raise
+    
+    @server.tool()
+    async def get_cdk_guidance(ctx: Context, question: str) -> dict:
+        """Get CDK best practices guidance.
+        
+        Args:
+            question: CDK-related question
+        """
+        try:
+            # TODO: Call upstream CDK MCP server (port 9140)
+            guidance = f"CDK guidance for: {question}"
+            logger.info(f"Provided CDK guidance")
+            return {"guidance": guidance}
+        except Exception as e:
+            logger.error(f"CDK guidance failed: {e}")
+            await ctx.error(f"Destroy error: {str(e)}")
+            raise
 
 
 def main():
