@@ -65,3 +65,21 @@ class CloudWatchClient(UpstreamClient):
         )
         
         return {"alarm_id": result.get("alarm_arn", name), "name": name}
+    
+    async def put_metric_data(
+        self,
+        namespace: str,
+        metric_data: List[dict],
+        correlation_id: str = None
+    ) -> dict:
+        """Publish custom metrics to CloudWatch."""
+        result = await self.call_tool(
+            "put_metric_data",
+            {
+                "namespace": namespace,
+                "metric_data": metric_data
+            },
+            correlation_id
+        )
+        
+        return result

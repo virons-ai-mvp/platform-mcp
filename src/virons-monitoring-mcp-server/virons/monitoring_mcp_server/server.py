@@ -247,6 +247,259 @@ def register_core_tools(server: FastMCP) -> None:
             await ctx.error(f"Search error: {str(e)}")
             raise
 
+    @server.tool()
+    async def put_metric_data(
+        ctx: Context, namespace: str, metric_data: list
+    ) -> dict:
+        """Publish custom metrics to CloudWatch.
+        
+        Args:
+            namespace: Metric namespace (e.g., "Custom/App")
+            metric_data: List of metric data points
+        """
+        from .application.metric_publication_service import MetricPublicationService
+        from .compliance import audit_write_operation
+        
+        try:
+            correlation_id = ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
+            
+            service = MetricPublicationService()
+            result = await service.publish_metrics(namespace, metric_data, correlation_id)
+            
+            audit_id = await audit_write_operation(
+                operation_name="put_metric_data",
+                entity_id=namespace,
+                input_data={"namespace": namespace, "count": len(metric_data)},
+                output_data=result,
+            )
+            
+            result["audit_id"] = audit_id
+            logger.info(f"Published {len(metric_data)} metrics to {namespace}")
+            return result
+            
+        except Exception as e:
+            logger.error(f"Metric publication failed: {e}")
+            await ctx.error(f"Publication error: {str(e)}")
+            raise
+
+    @server.tool()
+    async def list_metrics(ctx: Context, namespace: str = None) -> dict:
+        """List available CloudWatch metrics.
+        
+        Args:
+            namespace: Optional namespace filter
+        """
+        proxy = get_proxy()
+        correlation_id = ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
+        
+        try:
+            args = {}
+            if namespace:
+                args["namespace"] = namespace
+            
+            result = await proxy.call_tool("list_metrics", args, correlation_id)
+            logger.info(f"Listed metrics in namespace: {namespace or 'all'}")
+            return result
+            
+        except Exception as e:
+            logger.error(f"List metrics failed: {e}")
+            await ctx.error(f"List error: {str(e)}")
+            raise
+
+    @server.tool()
+    async def describe_alarms(ctx: Context, alarm_names: list = None) -> dict:
+        """Get CloudWatch alarm details.
+        
+        Args:
+            alarm_names: Optional list of alarm names
+        """
+        proxy = get_proxy()
+        correlation_id = ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
+        
+        try:
+            args = {}
+            if alarm_names:
+                args["alarm_names"] = alarm_names
+            
+            result = await proxy.call_tool("describe_alarms", args, correlation_id)
+            logger.info(f"Described {len(alarm_names or [])} alarms")
+            return result
+            
+        except Exception as e:
+            logger.error(f"Describe alarms failed: {e}")
+            await ctx.error(f"Describe error: {str(e)}")
+            raise
+
+    @server.tool()
+    async def delete_alarms(ctx: Context, alarm_names: list) -> dict:
+        """Delete CloudWatch alarms.
+        
+        Args:
+            alarm_names: List of alarm names to delete
+        """
+        from .compliance import audit_write_operation
+        
+        proxy = get_proxy()
+        correlation_id = ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
+        
+        try:
+            result = await proxy.call_tool("delete_alarms", {"alarm_names": alarm_names}, correlation_id)
+            
+            audit_id = await audit_write_operation(
+                operation_name="delete_alarms",
+                entity_id=",".join(alarm_names),
+                input_data={"alarm_names": alarm_names},
+                output_data=result,
+            )
+            
+            result["audit_id"] = audit_id
+            logger.info(f"Deleted {len(alarm_names)} alarms")
+            return result
+            
+        except Exception as e:
+            logger.error(f"Delete alarms failed: {e}")
+            await ctx.error(f"Delete error: {str(e)}")
+            raise
+
+    @server.tool()
+    async def update_dashboard(ctx: Context, dashboard_id: str, panels: list) -> dict:
+        """Update existing Grafana dashboard.
+        
+        Args:
+            dashboard_id: Dashboard ID
+            panels: Updated panel configurations
+        """
+        from .compliance import audit_write_operation
+        
+        proxy = get_proxy()
+        correlation_id = ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
+        
+        try:
+            result = await proxy.call_tool(
+                "update_dashboard",
+                {"id": dashboard_id, "panels": panels},
+                correlation_id
+            )
+            
+            audit_id = await audit_write_operation(
+                operation_name="update_dashboard",
+                entity_id=dashboard_id,
+                input_data={"id": dashboard_id, "panels": len(panels)},
+                output_data=result,
+            )
+            
+            result["audit_id"] = audit_id
+            logger.info(f"Updated dashboard {dashboard_id}")
+            return result
+            
+        except Exception as e:
+            logger.error(f"Update dashboard failed: {e}")
+            await ctx.error(f"Update error: {str(e)}")
+            raise
+
+    @server.tool()
+    async def delete_dashboard(ctx: Context, dashboard_id: str) -> dict:
+        """Delete Grafana dashboard.
+        
+        Args:
+            dashboard_id: Dashboard ID to delete
+        """
+        from .compliance import audit_write_operation
+        
+        proxy = get_proxy()
+        correlation_id = ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
+        
+        try:
+            result = await proxy.call_tool("delete_dashboard", {"id": dashboard_id}, correlation_id)
+            
+            audit_id = await audit_write_operation(
+                operation_name="delete_dashboard",
+                entity_id=dashboard_id,
+                input_data={"id": dashboard_id},
+                output_data=result,
+            )
+            
+            result["audit_id"] = audit_id
+            logger.info(f"Deleted dashboard {dashboard_id}")
+            return result
+            
+        except Exception as e:
+            logger.error(f"Delete dashboard failed: {e}")
+            await ctx.error(f"Delete error: {str(e)}")
+            raise
+
+    @server.tool()
+    async def create_log_group(ctx: Context, log_group_name: str) -> dict:
+        """Create CloudWatch log group.
+        
+        Args:
+            log_group_name: Name of log group
+        """
+        from .compliance import audit_write_operation
+        
+        proxy = get_proxy()
+        correlation_id = ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
+        
+        try:
+            result = await proxy.call_tool("create_log_group", {"log_group_name": log_group_name}, correlation_id)
+            
+            audit_id = await audit_write_operation(
+                operation_name="create_log_group",
+                entity_id=log_group_name,
+                input_data={"log_group_name": log_group_name},
+                output_data=result,
+            )
+            
+            result["audit_id"] = audit_id
+            logger.info(f"Created log group {log_group_name}")
+            return result
+            
+        except Exception as e:
+            logger.error(f"Create log group failed: {e}")
+            await ctx.error(f"Create error: {str(e)}")
+            raise
+
+    @server.tool()
+    async def put_log_events(ctx: Context, log_group_name: str, log_stream_name: str, log_events: list) -> dict:
+        """Write log events to CloudWatch.
+        
+        Args:
+            log_group_name: Log group name
+            log_stream_name: Log stream name
+            log_events: List of log events
+        """
+        from .compliance import audit_write_operation
+        
+        proxy = get_proxy()
+        correlation_id = ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
+        
+        try:
+            result = await proxy.call_tool(
+                "put_log_events",
+                {
+                    "log_group_name": log_group_name,
+                    "log_stream_name": log_stream_name,
+                    "log_events": log_events
+                },
+                correlation_id
+            )
+            
+            audit_id = await audit_write_operation(
+                operation_name="put_log_events",
+                entity_id=f"{log_group_name}/{log_stream_name}",
+                input_data={"log_group": log_group_name, "count": len(log_events)},
+                output_data=result,
+            )
+            
+            result["audit_id"] = audit_id
+            logger.info(f"Wrote {len(log_events)} events to {log_group_name}/{log_stream_name}")
+            return result
+            
+        except Exception as e:
+            logger.error(f"Put log events failed: {e}")
+            await ctx.error(f"Put error: {str(e)}")
+            raise
+
 
 def register_proxy_tools(server: FastMCP) -> None:
     """Register proxy tools that auto-forward to upstreams.
