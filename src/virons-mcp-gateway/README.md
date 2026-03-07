@@ -1,97 +1,260 @@
 # Virons MCP Gateway
 
-**Single entry point for all Virons MCP servers**
+Production-ready HTTP gateway for all Virons MCP servers with enterprise features.
 
-## Overview
+**Port**: 9000 | **Status**: 🟢 Production Ready | **Compliance**: ✅ Born Compliant
 
-The MCP Gateway acts as a unified interface to communicate with all Virons MCP servers:
-- Infrastructure MCP Server (port 9100)
-- Security MCP Server (port 9200)
-- Operations MCP Server (port 9300)
-- Monitoring MCP Server (port 9400)
+## Features
+
+- ✅ **Circuit Breaker** - 5 failures → 60s timeout per service
+- ✅ **Rate Limiting** - 100 requests/60s per IP
+- ✅ **Prometheus Metrics** - Request count, duration, status codes
+- ✅ **Correlation IDs** - X-Correlation-ID header propagation
+- ✅ **Authorization** - Bearer token validation
+- ✅ **Service Registry** - Dynamic JSON-based configuration
+- ✅ **Health Checks** - Aggregated backend health status
+- ✅ **Swagger UI** - Interactive API documentation at `/docs`
+
+## Quick Start
+
+```bash
+# HTTP mode (production)
+uv run virons-mcp-gateway --transport http --port 9000
+
+# MCP stdio mode (development)
+uv run virons-mcp-gateway --transport stdio
+```
+
+## API Endpoints
+
+### Tool Execution
+```bash
+POST /tools/{tool_name}
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "param1": "value1",
+  "param2": "value2"
+}
+```
+
+### List Tools
+```bash
+GET /tools
+
+Response:
+{
+  "tools": [
+    {"name": "terraform_validate", "service": "infrastructure-mcp"},
+    {"name": "scan_security", "service": "security-mcp"}
+  ]
+}
+```
+
+### Health Check
+```bash
+GET /health
+
+Response:
+{
+  "status": "healthy",
+  "gateway": "virons-mcp-gateway",
+  "services": [
+    {"name": "infrastructure-mcp", "status": "healthy", "url": "http://localhost:9100"},
+    {"name": "security-mcp", "status": "healthy", "url": "http://localhost:9500"}
+  ],
+  "version": "1.0.0"
+}
+```
+
+### Readiness Check
+```bash
+GET /ready
+
+Response (200 if ready, 503 if not):
+{
+  "ready": true,
+  "services": [...]
+}
+```
+
+### Prometheus Metrics
+```bash
+GET /metrics
+
+Response (text/plain):
+http_requests_total{method="GET",endpoint="/health",status="200"} 42.0
+http_request_duration_seconds_bucket{method="GET",endpoint="/health",le="0.005"} 40.0
+```
+
+### Documentation
+- **Swagger UI**: http://localhost:9000/docs
+- **ReDoc**: http://localhost:9000/redoc
+- **OpenAPI Schema**: http://localhost:9000/openapi.json
+
+## Configuration
+
+Service registry is configured via `virons/mcp_gateway/config/services.json`:
+
+```json
+{
+  "services": [
+    {
+      "name": "infrastructure-mcp",
+      "url": "${INFRASTRUCTURE_MCP_URL:http://localhost:9100}",
+      "tools": ["terraform_validate", "kubectl_apply"]
+    }
+  ]
+}
+```
+
+Environment variables override defaults:
+```bash
+export INFRASTRUCTURE_MCP_URL=http://production:9100
+export SECURITY_MCP_URL=http://production:9500
+```
+
+## Docker Deployment
+
+```bash
+# Build and run all services
+docker-compose up -d
+
+# Check health
+curl http://localhost:9000/health
+
+# View logs
+docker logs virons-mcp-gateway
+
+# Stop
+docker-compose down
+```
 
 ## Architecture
 
 ```
-Client → MCP Gateway (9000) → Infrastructure Server (9100)
-                            → Security Server (9200)
-                            → Operations Server (9300)
-                            → Monitoring Server (9400)
+virons-mcp-gateway/
+├── virons/mcp_gateway/
+│   ├── server.py              # FastAPI app + MCP server
+│   ├── domain/
+│   │   ├── gateway.py         # GatewayRouter with circuit breaker
+│   │   └── registry.py        # ServiceRegistry
+│   ├── infrastructure/
+│   │   ├── config.py          # JSON config loader
+│   │   └── metrics.py         # Prometheus metrics
+│   └── config/
+│       └── services.json      # Service registry
+└── tests/                     # 48 comprehensive tests
 ```
 
-## Tools
+## Middleware
 
-### Core Gateway Tools
-- `route_tool` - Route any tool call to appropriate server
-- `list_servers` - List all available MCP servers
-- `health_check` - Check health of specific server
+### Rate Limiting
+- **Limit**: 100 requests per 60 seconds per IP
+- **Response**: 429 Too Many Requests
+- **Headers**: None (transparent)
 
-### Convenience Tools
-- `infrastructure_deploy` - Route to infrastructure server
-- `security_scan` - Route to security server
-- `operations_execute` - Route to operations server
-- `monitoring_query` - Route to monitoring server
+### Correlation IDs
+- **Header**: X-Correlation-ID
+- **Behavior**: Generated if not provided, propagated in response
+- **Format**: UUID v4
 
-## Usage
+### Metrics
+- **Counter**: `http_requests_total{method, endpoint, status}`
+- **Histogram**: `http_request_duration_seconds{method, endpoint}`
+- **Export**: `/metrics` endpoint (Prometheus format)
 
-### Install
-```bash
-uv pip install -e .
-```
+## Circuit Breaker
 
-### Run
-```bash
-virons-mcp-gateway
-```
+Per-service circuit breaker prevents cascading failures:
 
-### Example
-```python
-# Route to infrastructure server
-result = await route_tool(
-    server_name="infrastructure",
-    tool_name="deploy_infrastructure",
-    tool="cdk",
-    stack_name="my-stack"
-)
+- **Threshold**: 5 consecutive failures
+- **Timeout**: 60 seconds
+- **Behavior**: Returns 503 when open, auto-recovers after timeout
 
-# Check server health
-health = await health_check(server_name="infrastructure")
+## Compliance
 
-# List all servers
-servers = await list_servers()
-```
-
-## Configuration
-
-Edit `virons/mcp_gateway/config.py` to configure server endpoints:
-
-```python
-GATEWAY_CONFIG = {
-    "infrastructure": ServerConfig(
-        name="infrastructure",
-        url="http://localhost:9100",
-        enabled=True,
-    ),
-    # ... more servers
-}
-```
+| Regulation | Implementation |
+|---|---|
+| **BaFin MaRisk AT 8.1** | Audit trail via virons.common |
+| **GDPR Art 25, 32** | Data residency (eu-central-1), correlation IDs |
+| **DORA Art 11** | Health checks, circuit breaker |
 
 ## Development
 
+### Running Tests
 ```bash
-# Install dev dependencies
-uv pip install -e ".[dev]"
+# All tests
+uv run pytest
 
-# Run tests
-pytest tests/ -v
+# With coverage
+uv run pytest --cov=virons.mcp_gateway --cov-report=term-missing
 
-# Format code
-ruff format .
+# Specific test
+uv run pytest tests/test_server.py -v
+```
 
-# Type check
-pyright
+### Code Quality
+```bash
+# Linting
+uv run ruff check .
+
+# Type checking
+uv run pyright
+
+# Format
+uv run ruff format .
+```
+
+## Monitoring
+
+### Health Monitoring
+```bash
+# Liveness (gateway itself)
+curl http://localhost:9000/health
+
+# Readiness (gateway + all backends)
+curl http://localhost:9000/ready
+```
+
+### Metrics Collection
+```yaml
+# prometheus.yml
+scrape_configs:
+  - job_name: 'virons-mcp-gateway'
+    static_configs:
+      - targets: ['localhost:9000']
+    metrics_path: '/metrics'
+```
+
+## Troubleshooting
+
+### Circuit Breaker Open
+```bash
+# Check which service is failing
+curl http://localhost:9000/health | jq '.services[] | select(.status=="unhealthy")'
+
+# Wait 60s for auto-recovery or fix backend
+```
+
+### Rate Limited
+```bash
+# Response: {"error": "Too many requests"}
+# Solution: Wait 60s or increase rate_limit in create_app()
+```
+
+### Backend Unreachable
+```bash
+# Check backend health directly
+curl http://localhost:9100/health
+
+# Check docker network
+docker network inspect platform-mcp_virons-mcp
 ```
 
 ## License
 
-Apache-2.0
+Apache-2.0 — See [LICENSE](../../LICENSE)
+
+Copyright 2026 Virons Fintech. All Rights Reserved.

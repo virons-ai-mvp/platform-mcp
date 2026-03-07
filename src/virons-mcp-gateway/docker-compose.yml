@@ -38,42 +38,6 @@ services:
     networks:
       - virons-mcp
 
-  virons-security-mcp:
-    build:
-      context: ../..
-      dockerfile: src/virons-security-mcp-server/Dockerfile
-    ports:
-      - "9200:9200"
-    environment:
-      - PORT=9200
-      - LOG_LEVEL=INFO
-    networks:
-      - virons-mcp
-
-  virons-operations-mcp:
-    build:
-      context: ../..
-      dockerfile: src/virons-operations-mcp-server/Dockerfile
-    ports:
-      - "9300:9300"
-    environment:
-      - PORT=9300
-      - LOG_LEVEL=INFO
-    networks:
-      - virons-mcp
-
-  virons-monitoring-mcp:
-    build:
-      context: ../..
-      dockerfile: src/virons-monitoring-mcp-server/Dockerfile
-    ports:
-      - "9400:9400"
-    environment:
-      - PORT=9400
-      - LOG_LEVEL=INFO
-    networks:
-      - virons-mcp
-
 networks:
   virons-mcp:
     driver: bridge

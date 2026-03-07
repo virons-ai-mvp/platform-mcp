@@ -13,8 +13,17 @@ services:
     environment:
       - PORT=9000
       - LOG_LEVEL=INFO
+      - INFRASTRUCTURE_MCP_URL=http://virons-infrastructure-mcp:9100
+      - SECURITY_MCP_URL=http://virons-security-mcp:9500
+      - OPERATIONS_MCP_URL=http://virons-operations-mcp:9510
+      - MONITORING_MCP_URL=http://virons-monitoring-mcp:9520
     networks:
       - virons-mcp
+    depends_on:
+      - virons-infrastructure-mcp
+      - virons-security-mcp
+      - virons-operations-mcp
+      - virons-monitoring-mcp
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/health"]
       interval: 10s
