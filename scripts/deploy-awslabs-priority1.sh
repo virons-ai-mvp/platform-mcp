@@ -1,0 +1,65 @@
+#!/bin/bash
+# Deploy AWS Labs MCP Servers - Priority 1 (Essential)
+
+set -e
+
+AWS_REGION="${AWS_REGION:-us-east-1}"
+AWS_PROFILE="${AWS_PROFILE:-default}"
+
+echo "🚀 Deploying Priority 1: Essential AWS Labs MCP Servers"
+echo "AWS Region: $AWS_REGION"
+echo "AWS Profile: $AWS_PROFILE"
+echo ""
+
+# Priority 1: Essential servers
+declare -A SERVERS=(
+    ["cloudwatch-mcp-server"]="9109"
+    ["iam-mcp-server"]="9103"
+    ["cloudtrail-mcp-server"]="9102"
+    ["eks-mcp-server"]="9121"
+    ["lambda-tool-mcp-server"]="9122"
+    ["ecs-mcp-server"]="9123"
+)
+
+# Start each server
+for server in "${!SERVERS[@]}"; do
+    port="${SERVERS[$server]}"
+    echo "📦 Starting $server on port $port..."
+
+    # Start with uvx in background
+    AWS_REGION=$AWS_REGION AWS_PROFILE=$AWS_PROFILE \
+    uvx "awslabs.${server}@latest" > "/tmp/${server}.log" 2>&1 &
+
+    pid=$!
+    echo "   PID: $pid"
+    echo "   Logs: /tmp/${server}.log"
+
+    # Wait a bit for startup
+    sleep 3
+done
+
+echo ""
+echo "⏳ Waiting for servers to start..."
+sleep 5
+
+echo ""
+echo "🧪 Testing server health..."
+for server in "${!SERVERS[@]}"; do
+    port="${SERVERS[$server]}"
+    echo -n "  $server (:$port)... "
+
+    if curl -s -f "http://localhost:$port/health" > /dev/null 2>&1; then
+        echo "✅ OK"
+    else
+        echo "❌ FAILED (check /tmp/${server}.log)"
+    fi
+done
+
+echo ""
+echo "🎉 Deployment complete!"
+echo ""
+echo "Next steps:"
+echo "  1. Check logs: tail -f /tmp/*.log"
+echo "  2. Test tool discovery: curl http://localhost:9109/tools | jq"
+echo "  3. Start your Virons MCPs"
+echo "  4. Test integration: curl http://localhost:9520/tools | jq"

@@ -37,7 +37,7 @@ nodes:
         hostPort: 9305
         protocol: TCP
       # Add more ports as needed (9306-9424)
-      
+
   - role: worker
     kubeadmConfigPatches:
       - |

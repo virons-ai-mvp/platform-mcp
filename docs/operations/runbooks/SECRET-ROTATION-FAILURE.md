@@ -2,9 +2,9 @@
 
 # Runbook: Secret Rotation Failure
 
-**Service**: secrets-rotation (port 9104)  
-**Severity**: 🔴 High  
-**MTTR Target**: <30 minutes  
+**Service**: secrets-rotation (port 9104)
+**Severity**: 🔴 High
+**MTTR Target**: <30 minutes
 **Compliance**: DORA Art 11
 
 ## Symptoms
@@ -209,7 +209,7 @@ curl -H "Authorization: Bearer $NEW_SECRET" \
 | **15-30 min** | Escalate to platform lead |
 | **30+ min** | Escalate to compliance team (DORA violation) |
 
-**PagerDuty**: https://virons-platform.pagerduty.com  
+**PagerDuty**: https://virons-platform.pagerduty.com
 **Slack**: #platform-incidents
 
 ## Post-Incident
@@ -234,6 +234,6 @@ curl -H "Authorization: Bearer $NEW_SECRET" \
 
 ***
 
-**Last Updated**: 2026-03-05  
-**Owner**: platform@virons.ai  
+**Last Updated**: 2026-03-05
+**Owner**: platform@virons.ai
 **On-Call**: [PagerDuty](https://virons-platform.pagerduty.com)

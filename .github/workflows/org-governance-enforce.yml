@@ -33,16 +33,16 @@ jobs:
           python3 -c "
           import yaml
           import sys
-          
+
           with open('.github/governance-manifest.yaml') as f:
               manifest = yaml.safe_load(f)
-          
+
           required = ['compliance', 'required_checks', 'branch_protection']
           for key in required:
               if key not in manifest.get('platform-mcp', {}):
                   print(f'❌ Missing required key: {key}')
                   sys.exit(1)
-          
+
           print('✅ Governance manifest structure valid')
           "
 
@@ -69,15 +69,15 @@ jobs:
           python3 -c "
           import sys
           from pathlib import Path
-          
+
           required = ['audit.py', 'health.py', 'correlation.py', 'residency.py']
           common_dir = Path('src/virons-common/virons/common')
-          
+
           for module in required:
               if not (common_dir / module).exists():
                   print(f'❌ Missing compliance module: {module}')
                   sys.exit(1)
-          
+
           print('✅ All compliance modules present')
           "
 
@@ -92,19 +92,19 @@ jobs:
           for server in src/virons-*-mcp-server; do
             if [ -d "$server" ]; then
               server_name=$(basename "$server")
-              
+
               # Check for compliance.py
               if [ ! -f "$server/virons/*/compliance.py" ]; then
                 echo "❌ $server_name missing compliance.py"
                 exit 1
               fi
-              
+
               # Check for COMPLIANCE.md
               if [ ! -f "$server/COMPLIANCE.md" ]; then
                 echo "❌ $server_name missing COMPLIANCE.md"
                 exit 1
               fi
-              
+
               echo "✅ $server_name compliance validated"
             fi
           done
@@ -125,17 +125,17 @@ jobs:
           import yaml
           import sys
           from pathlib import Path
-          
+
           # Load governance manifest
           with open('.github/governance-manifest.yaml') as f:
               manifest = yaml.safe_load(f)
-          
+
           namespaces = manifest['platform-mcp']['namespaces']
-          
+
           # Check forensic namespace (9300-9415)
           forensic_range = range(9300, 9416)
           ml_range = range(9420, 9425)
-          
+
           print('✅ Port allocation validated')
           print(f'  Forensic: {forensic_range.start}-{forensic_range.stop-1}')
           print(f'  ML: {ml_range.start}-{ml_range.stop-1}')

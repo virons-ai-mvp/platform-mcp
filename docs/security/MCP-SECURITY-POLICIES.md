@@ -6,8 +6,8 @@
 
 ***
 
-**Scope**: All MCP servers (Security, Governance, Operations, Compliance contexts)  
-**Compliance**: BaFin AT 8.1, GDPR Art 32, DORA Art 11  
+**Scope**: All MCP servers (Security, Governance, Operations, Compliance contexts)
+**Compliance**: BaFin AT 8.1, GDPR Art 32, DORA Art 11
 **Status**: ✅ Active
 
 ## Access Control
@@ -302,13 +302,13 @@ SecurityAlarms:
     threshold: 5
     period: 5m
     action: alert
-  
+
   - name: failed-authentication
     metric: FailedAuthAttempts
     threshold: 10
     period: 5m
     action: block
-  
+
   - name: secret-age-violation
     metric: SecretAge
     threshold: 90
@@ -329,6 +329,6 @@ SecurityAlarms:
 
 ***
 
-**Last Updated**: 2026-03-05  
-**Security Owner**: security@virons.ai  
+**Last Updated**: 2026-03-05
+**Security Owner**: security@virons.ai
 **Compliance Owner**: compliance@virons.ai

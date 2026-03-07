@@ -1,0 +1,7 @@
+verify-deployment.sh -> Check Deployment\nkubectl get deploy
+Check Deployment\nkubectl get deploy -> Verify Pods\nkubectl get pods
+Verify Pods\nkubectl get pods -> Test Health\ncurl /health
+Test Health\ncurl /health -> Exit 0
+Check Deployment\nkubectl get deploy -> Exit 1
+Verify Pods\nkubectl get pods -> Exit 1
+Test Health\ncurl /health -> Exit 1

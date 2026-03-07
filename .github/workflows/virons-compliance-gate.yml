@@ -20,28 +20,28 @@ jobs:
   compliance-gate:
     name: Compliance Validation
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-      
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
-      
+
       - name: Install uv
         run: |
           curl -LsSf https://astral.sh/uv/install.sh | sh
           echo "$HOME/.cargo/bin" >> $GITHUB_PATH
-      
+
       - name: Detect changed servers
         id: detect
         run: |
           CHANGED_SERVERS=$(git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep '^src/virons-' | cut -d'/' -f2 | sort -u | tr '\n' ' ')
           echo "servers=${CHANGED_SERVERS}" >> $GITHUB_OUTPUT
           echo "Changed servers: ${CHANGED_SERVERS}"
-      
+
       - name: BaFin MaRisk AT 8.1 - Audit Ordering
         if: steps.detect.outputs.servers != ''
         run: |
@@ -57,7 +57,7 @@ jobs:
               fi
             fi
           done
-      
+
       - name: GDPR Art 32 - Correlation IDs
         if: steps.detect.outputs.servers != ''
         run: |
@@ -71,7 +71,7 @@ jobs:
               fi
             fi
           done
-      
+
       - name: GDPR Art 25 - Data Residency
         if: steps.detect.outputs.servers != ''
         run: |
@@ -86,7 +86,7 @@ jobs:
               fi
             fi
           done
-      
+
       - name: DORA Art 11 - Health Checks
         if: steps.detect.outputs.servers != ''
         run: |
@@ -101,7 +101,7 @@ jobs:
               fi
             fi
           done
-      
+
       - name: EU AI Act - Model Cards (High-Risk)
         if: steps.detect.outputs.servers != ''
         run: |
@@ -120,7 +120,7 @@ jobs:
               echo "ℹ️  ${server}: Not classified as high-risk"
             fi
           done
-      
+
       - name: Run Tests
         if: steps.detect.outputs.servers != ''
         run: |
@@ -134,7 +134,7 @@ jobs:
               cd ../..
             fi
           done
-      
+
       - name: Compliance Summary
         if: always()
         run: |

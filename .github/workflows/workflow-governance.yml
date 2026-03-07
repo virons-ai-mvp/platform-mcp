@@ -34,37 +34,37 @@ jobs:
           import yaml
           import sys
           from pathlib import Path
-          
+
           workflows_dir = Path('.github/workflows')
           errors = []
-          
+
           for workflow_file in workflows_dir.glob('*.yml'):
               if workflow_file.name.startswith('test'):
                   continue
-              
+
               with open(workflow_file) as f:
                   try:
                       workflow = yaml.safe_load(f)
-                      
+
                       # Check required fields
                       if 'name' not in workflow:
                           errors.append(f'{workflow_file.name}: Missing name')
-                      
+
                       if 'on' not in workflow and True not in workflow:
                           errors.append(f'{workflow_file.name}: Missing on/triggers')
-                      
+
                       if 'jobs' not in workflow:
                           errors.append(f'{workflow_file.name}: Missing jobs')
-                      
+
                   except yaml.YAMLError as e:
                       errors.append(f'{workflow_file.name}: YAML parse error: {e}')
-          
+
           if errors:
               print('❌ Workflow validation errors:')
               for error in errors:
                   print(f'  - {error}')
               sys.exit(1)
-          
+
           print('✅ All workflows valid')
           "
 
@@ -84,23 +84,23 @@ jobs:
           import yaml
           import sys
           from pathlib import Path
-          
+
           workflows_dir = Path('.github/workflows')
           warnings = []
-          
+
           for workflow_file in workflows_dir.glob('*.yml'):
               with open(workflow_file) as f:
                   try:
                       workflow = yaml.safe_load(f)
-                      
+
                       # Check for write-all permissions
                       perms = workflow.get('permissions', {})
                       if perms == 'write-all':
                           warnings.append(f'{workflow_file.name}: Uses write-all permissions')
-                      
+
                   except:
                       pass
-          
+
           if warnings:
               print('⚠️  Security warnings:')
               for warning in warnings:

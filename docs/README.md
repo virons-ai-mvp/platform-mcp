@@ -27,7 +27,7 @@ Model Context Protocol (MCP) servers for security, governance, and compliance au
 
 **MCP Server Infrastructure**: Python FastAPI → Kind/EKS → PostgreSQL audit logs. Event-driven compliance validation.
 
-**Diagram**: 
+**Diagram**:
 
 ***
 
@@ -37,12 +37,12 @@ graph TB
   CLI --> Governance[Governance Context<br/>:9110-9119]
   CLI --> Operations[Operations Context<br/>:9120-9129]
   CLI --> Compliance[Compliance Context<br/>:9130-9139]
-  
+
   Security --> Audit[Audit Logs<br/>PostgreSQL RDS]
   Governance --> Audit
   Operations --> Audit
   Compliance --> Audit
-  
+
   Operations --> Secrets[AWS Secrets Manager<br/>DORA Art 11]
 ```
 
@@ -187,6 +187,13 @@ python scripts/validate_compliance.py
 - [DDD Context Map](architecture/ddd/CONTEXT-MAP.md)
 - [ADRs](architecture/decisions/)
 - [Architecture Diagrams](architecture/diagrams/)
+- **[AWS MCP Server Audit](architecture/aws-mcp-audit/)** ⭐ NEW
+  - [Server Catalog](architecture/aws-mcp-audit/SERVER-CATALOG.md) - 67 AWS MCP servers
+  - [Scoring Framework](architecture/aws-mcp-audit/SCORING-FRAMEWORK.md) - Integration prioritization
+  - [Server Scores](architecture/aws-mcp-audit/SERVER-SCORES.md) - Tier 1/2/3 assignments
+  - [Context Mapping](architecture/aws-mcp-audit/CONTEXT-MAPPING.md) - Port allocation
+  - [Integration Backlog](architecture/aws-mcp-audit/INTEGRATION-BACKLOG.md) - Phase 2/3 roadmap
+  - [Implementation Checklist](architecture/aws-mcp-audit/IMPLEMENTATION-CHECKLIST.md) - Execution plan
 
 ### For Compliance
 - [BaFin Compliance](compliance/bafin/)
@@ -198,7 +205,7 @@ python scripts/validate_compliance.py
 
 ***
 
-**Last Updated**: 2026-03-05  
-**Maintained By**: platform@virons.ai  
-**On-Call**: [PagerDuty](https://virons-platform.pagerduty.com)  
+**Last Updated**: 2026-03-05
+**Maintained By**: platform@virons.ai
+**On-Call**: [PagerDuty](https://virons-platform.pagerduty.com)
 **Status**: ✅ Production

@@ -1,0 +1,43 @@
+# Copyright Virons Fintech. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+version: '3.8'
+
+services:
+  virons-mcp-gateway:
+    build:
+      context: ../..
+      dockerfile: src/virons-mcp-gateway/Dockerfile
+    ports:
+      - "9000:9000"
+    environment:
+      - PORT=9000
+      - LOG_LEVEL=INFO
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:9000/health')"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+    networks:
+      - virons-mcp
+
+  virons-infrastructure-mcp:
+    build:
+      context: ../..
+      dockerfile: src/virons-infrastructure-mcp-server/Dockerfile
+    ports:
+      - "9100:9100"
+    environment:
+      - PORT=9100
+      - LOG_LEVEL=INFO
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:9100/health/live')"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+    networks:
+      - virons-mcp
+
+networks:
+  virons-mcp:
+    driver: bridge

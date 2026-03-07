@@ -127,10 +127,7 @@ def inject(root: Path, dry_run: bool = False) -> list[Path]:
     for dirpath in sorted(root.rglob('*')):
         if not dirpath.is_dir():
             continue
-        if any(
-            part.startswith(('.', '__'))
-            for part in dirpath.relative_to(root).parts
-        ):
+        if any(part.startswith(('.', '__')) for part in dirpath.relative_to(root).parts):
             continue
 
         readme = dirpath / 'README.md'

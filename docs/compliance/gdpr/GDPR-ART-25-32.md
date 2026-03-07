@@ -6,8 +6,8 @@
 
 ***
 
-**Regulation**: GDPR Articles 25 (Data Protection by Design) & 32 (Security of Processing)  
-**Scope**: All MCP servers handling organizational data  
+**Regulation**: GDPR Articles 25 (Data Protection by Design) & 32 (Security of Processing)
+**Scope**: All MCP servers handling organizational data
 **Status**: ✅ Compliant
 
 ## Art 25: Data Protection by Design
@@ -34,15 +34,15 @@
 async def validate_commit(commit: Commit):
     """GDPR Art 25: Data protection by design."""
     violations = []
-    
+
     # Check for PII in code
     if contains_pii(commit.diff):
         violations.append("PII detected in code")
-    
+
     # Check for unencrypted secrets
     if contains_plaintext_secrets(commit.diff):
         violations.append("Plaintext secrets detected")
-    
+
     # Audit
     await write_audit(
         server="compliance-gate",
@@ -50,7 +50,7 @@ async def validate_commit(commit: Commit):
         result="FAILURE" if violations else "SUCCESS",
         details={"violations": violations}
     )
-    
+
     return violations
 ```
 
@@ -84,12 +84,12 @@ security:
     ciphers:
       - TLS_AES_256_GCM_SHA384
       - TLS_CHACHA20_POLY1305_SHA256
-  
+
   secrets:
     provider: aws-secrets-manager
     kms_key: arn:aws:kms:eu-central-1:xxx:key/virons-mcp
     rotation: 90d
-  
+
   database:
     encryption: true
     kms_key: arn:aws:kms:eu-central-1:xxx:key/virons-audit
@@ -139,12 +139,12 @@ GDPRSecurityAlarm:
     metric: UnencryptedConnections
     threshold: 0
     action: block
-  
+
   - name: secret-age-violation
     metric: SecretAge
     threshold: 90
     action: alert
-  
+
   - name: unauthorized-access
     metric: UnauthorizedAccessAttempts
     threshold: 1
@@ -164,5 +164,5 @@ GDPRSecurityAlarm:
 
 ***
 
-**Last Updated**: 2026-03-05  
+**Last Updated**: 2026-03-05
 **Compliance Owner**: compliance@virons.ai

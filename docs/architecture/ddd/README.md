@@ -18,28 +18,28 @@ graph TB
     GL[gitleaks<br/>Secret Scanning]
     CG[compliance-gate<br/>Pre-commit Gate]
   end
-  
+
   subgraph Governance["Governance Context :9110-9119"]
     OG[org-governance<br/>Policy Enforcement]
     WG[workflow-governance<br/>Workflow Validation]
   end
-  
+
   subgraph Operations["Operations Context :9120-9129"]
     SR[secrets-rotation<br/>Automated Rotation]
   end
-  
+
   subgraph Compliance["Compliance Context :9130-9139"]
     CC[compliance-checklist<br/>Multi-regulation]
   end
-  
+
   GL -->|scan_results| CC
   CG -->|validation_events| OG
   OG -->|policy_violations| CC
   WG -->|workflow_approved| SR
   SR -->|rotation_events| CC
-  
+
   CC -->|audit_log| DB[(PostgreSQL<br/>7yr retention)]
-  
+
   style Security fill:#ff6b6b
   style Governance fill:#4ecdc4
   style Operations fill:#45b7d1
@@ -255,5 +255,5 @@ class SecretsManagerAdapter:
 
 ***
 
-**Last Updated**: 2026-03-05  
+**Last Updated**: 2026-03-05
 **Maintained By**: platform@virons.ai

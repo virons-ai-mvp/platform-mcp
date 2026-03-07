@@ -6,9 +6,9 @@
 
 ***
 
-**Regulation**: DORA (Digital Operational Resilience Act) Article 11  
-**Requirement**: ICT risk management framework, secret rotation, resilience testing  
-**Scope**: Operations Context (secrets-rotation), all MCP servers  
+**Regulation**: DORA (Digital Operational Resilience Act) Article 11
+**Requirement**: ICT risk management framework, secret rotation, resilience testing
+**Scope**: Operations Context (secrets-rotation), all MCP servers
 **Status**: ✅ Compliant
 
 ## Requirements
@@ -56,12 +56,12 @@ async def rotate_secret(secret_id: str):
     # Check age
     secret = await get_secret(secret_id)
     age = (datetime.now() - secret.created_at).days
-    
+
     if age > policy.max_age_days:
         # Rotate
         new_secret = await generate_new_secret()
         await update_secret(secret_id, new_secret)
-        
+
         # Audit log (BaFin AT 8.1)
         await write_audit(
             server="secrets-rotation",
@@ -71,7 +71,7 @@ async def rotate_secret(secret_id: str):
             result="SUCCESS",
             details={"age_days": age, "reason": "DORA_COMPLIANCE"}
         )
-        
+
         return new_secret
 ```
 
@@ -265,6 +265,6 @@ ORDER BY timestamp DESC;
 
 ***
 
-**Last Updated**: 2026-03-05  
-**Compliance Owner**: compliance@virons.ai  
+**Last Updated**: 2026-03-05
+**Compliance Owner**: compliance@virons.ai
 **Technical Owner**: platform@virons.ai

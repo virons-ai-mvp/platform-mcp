@@ -19,7 +19,7 @@ jobs:
       - name: Check audit trail
         run: |
           echo "🔍 BaFin AT 8.1: Audit trail validation"
-          
+
           # Check for audit.py in virons servers
           if find src/virons-* -name "audit.py" 2>/dev/null | grep -q .; then
             echo "✅ Audit trail implementation found"
@@ -30,7 +30,7 @@ jobs:
       - name: Check change control
         run: |
           echo "🔍 BaFin AT 8.1: Change control"
-          
+
           # Check for CHANGELOG.md
           if find src/virons-* -name "CHANGELOG.md" 2>/dev/null | grep -q .; then
             echo "✅ Change logs present"
@@ -47,7 +47,7 @@ jobs:
       - name: Check data residency
         run: |
           echo "🔍 GDPR Art 25: Data residency"
-          
+
           # Check for residency.py
           if find src/virons-* -name "residency.py" 2>/dev/null | grep -q .; then
             echo "✅ Data residency controls found"
@@ -58,7 +58,7 @@ jobs:
       - name: Check encryption
         run: |
           echo "🔍 GDPR Art 32: Security measures"
-          
+
           # Check for TLS/encryption in configs
           if grep -r "tls\|ssl\|encrypt" src/virons-*/pyproject.toml 2>/dev/null | grep -q .; then
             echo "✅ Encryption configuration found"
@@ -75,7 +75,7 @@ jobs:
       - name: Check health monitoring
         run: |
           echo "🔍 DORA Art 11: Health monitoring"
-          
+
           # Check for health.py
           if find src/virons-* -name "health.py" 2>/dev/null | grep -q .; then
             echo "✅ Health monitoring implementation found"
@@ -86,7 +86,7 @@ jobs:
       - name: Check incident response
         run: |
           echo "🔍 DORA Art 11: Incident response"
-          
+
           # Check for correlation.py (for incident tracking)
           if find src/virons-* -name "correlation.py" 2>/dev/null | grep -q .; then
             echo "✅ Correlation ID tracking found"
@@ -103,7 +103,7 @@ jobs:
       - name: Check model cards
         run: |
           echo "🔍 EU AI Act: Model documentation"
-          
+
           # Check for MODEL_CARD.md in ML servers
           if find src/virons-*-mcp-server -name "MODEL_CARD.md" 2>/dev/null | grep -q .; then
             echo "✅ Model cards found"
@@ -114,7 +114,7 @@ jobs:
       - name: Check high-risk classification
         run: |
           echo "🔍 EU AI Act: High-risk classification"
-          
+
           # Check governance manifest for high-risk servers
           if grep -q "high_risk_servers" .github/governance-manifest.yaml 2>/dev/null; then
             echo "✅ High-risk servers documented"
@@ -135,7 +135,7 @@ jobs:
       - name: Check test coverage
         run: |
           echo "🔍 Testing: Coverage requirements"
-          
+
           # Check for pytest configuration
           if find src/virons-* -name "pyproject.toml" -exec grep -l "pytest" {} \; 2>/dev/null | grep -q .; then
             echo "✅ Pytest configured"
@@ -146,7 +146,7 @@ jobs:
       - name: Check test files exist
         run: |
           echo "🔍 Testing: Test files"
-          
+
           # Check for tests/ directories
           if find src/virons-* -type d -name "tests" 2>/dev/null | grep -q .; then
             echo "✅ Test directories found"
@@ -163,9 +163,9 @@ jobs:
       - name: Check required docs
         run: |
           echo "🔍 Documentation: Required files"
-          
+
           required_docs=("README.md" "COMPLIANCE.md" "LICENSE" "NOTICE")
-          
+
           for doc in "${required_docs[@]}"; do
             if find src/virons-* -name "$doc" 2>/dev/null | grep -q .; then
               echo "✅ $doc found"
@@ -177,7 +177,7 @@ jobs:
       - name: Check docs structure
         run: |
           echo "🔍 Documentation: Structure"
-          
+
           # Check for docs/ directory
           if find src/virons-* -type d -name "docs" 2>/dev/null | grep -q .; then
             echo "✅ docs/ directories found"

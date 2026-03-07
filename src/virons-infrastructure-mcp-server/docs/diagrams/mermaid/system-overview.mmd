@@ -1,0 +1,6 @@
+graph TB
+  MCP[MCP Client<br/>stdio] --> Server[FastMCP Server<br/>Multi-protocol]
+  REST[REST API<br/>:8000] --> Server
+  Server --> Domain[Domain Layer<br/>MCP Client + Registry]
+  Domain --> App[Application Layer<br/>Deploy/Destroy/List]
+  App --> Infra[Infrastructure Layer<br/>Health + Metrics]

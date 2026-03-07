@@ -24,72 +24,72 @@ from pathlib import Path
 
 def create_directory_structure(name: str, output_dir: Path) -> Path:
     """Create the directory structure for a virons MCP server.
-    
+
     Args:
         name: Server name (e.g., 'infrastructure')
         output_dir: Parent directory for the server
-        
+
     Returns:
         Path to the created server directory
     """
-    server_dir = output_dir / f"virons-{name}-mcp-server"
-    package_name = name.replace("-", "_")
-    
+    server_dir = output_dir / f'virons-{name}-mcp-server'
+    package_name = name.replace('-', '_')
+
     # Create main directories
-    (server_dir / "virons" / f"{package_name}_mcp_server").mkdir(parents=True)
-    (server_dir / "tests").mkdir(parents=True)
-    
+    (server_dir / 'virons' / f'{package_name}_mcp_server').mkdir(parents=True)
+    (server_dir / 'tests').mkdir(parents=True)
+
     # Create docs structure mirroring platform-infrastructure
     docs_dirs = [
-        "docs",
-        "docs/architecture",
-        "docs/architecture/decisions",
-        "docs/architecture/diagrams",
-        "docs/compliance",
-        "docs/compliance/audits",
-        "docs/compliance/evidence",
-        "docs/compliance/policies",
-        "docs/development",
-        "docs/development/contributing",
-        "docs/development/testing",
-        "docs/getting-started",
-        "docs/operations",
-        "docs/operations/runbooks",
-        "docs/reference",
+        'docs',
+        'docs/architecture',
+        'docs/architecture/decisions',
+        'docs/architecture/diagrams',
+        'docs/compliance',
+        'docs/compliance/audits',
+        'docs/compliance/evidence',
+        'docs/compliance/policies',
+        'docs/development',
+        'docs/development/contributing',
+        'docs/development/testing',
+        'docs/getting-started',
+        'docs/operations',
+        'docs/operations/runbooks',
+        'docs/reference',
     ]
-    
+
     for docs_dir in docs_dirs:
         (server_dir / docs_dir).mkdir(parents=True, exist_ok=True)
-    
+
     return server_dir
 
 
 def create_python_files(server_dir: Path, name: str, port: str) -> None:
     """Create Python source files.
-    
+
     Args:
         server_dir: Server root directory
         name: Server name
         port: Server port
     """
-    package_name = name.replace("-", "_")
-    pkg_dir = server_dir / "virons" / f"{package_name}_mcp_server"
-    
+    package_name = name.replace('-', '_')
+    pkg_dir = server_dir / 'virons' / f'{package_name}_mcp_server'
+
     # Create __init__.py files
-    (server_dir / "virons" / "__init__.py").write_text(
-        "# PEP 420 namespace package\n"
+    (server_dir / 'virons' / '__init__.py').write_text(
+        '# PEP 420 namespace package\n'
         "__path__ = __import__('pkgutil').extend_path(__path__, __name__)\n"
     )
-    
-    (pkg_dir / "__init__.py").write_text(
+
+    (pkg_dir / '__init__.py').write_text(
         f'# Copyright Virons Fintech. All Rights Reserved.\n'
         f'# SPDX-License-Identifier: Apache-2.0\n'
         f'"""virons.{package_name}_mcp_server — Virons {name.title()} MCP Server."""\n\n'
         "__version__ = '0.1.0'\n"
     )
-    
+
     # server.py with FastMCP template
-    (pkg_dir / "server.py").write_text(
+    (pkg_dir / 'server.py').write_text(
         f'''# Copyright Virons Fintech. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0
 """FastMCP server implementation for virons-{name}-mcp-server."""
@@ -113,7 +113,7 @@ mcp = None
 
 def create_server() -> FastMCP:
     """Create and configure the FastMCP server instance.
-    
+
     Returns:
         Configured FastMCP server
     """
@@ -122,17 +122,17 @@ def create_server() -> FastMCP:
         instructions=SERVER_INSTRUCTIONS,
         dependencies=SERVER_DEPENDENCIES,
     )
-    
+
     # Register compliance hooks
     setup_compliance_hooks(server)
-    
+
     return server
 
 
 def main():
     """Run the MCP server with CLI argument support."""
     global mcp
-    
+
     parser = argparse.ArgumentParser(description=f"Virons {{name.title()}} MCP Server")
     parser.add_argument(
         "--allow-write",
@@ -146,13 +146,13 @@ def main():
         default="stdio",
         help="Transport protocol (stdio for MCP, http for K8s probes)",
     )
-    
+
     args = parser.parse_args()
-    
+
     logger.info(f"Starting {{SERVER_NAME}} (write_enabled={{args.allow_write}})")
-    
+
     mcp = create_server()
-    
+
     # TODO: Register your tool handlers here
     # Example with Context for error reporting:
     # @mcp.tool()
@@ -165,7 +165,7 @@ def main():
     #         logger.error(f"Error in example_tool: {{str(e)}}")
     #         await ctx.error(f"Error: {{str(e)}}")
     #         raise
-    
+
     mcp.run()
 
 
@@ -173,9 +173,9 @@ if __name__ == "__main__":
     main()
 '''
     )
-    
+
     # models.py with Pydantic templates
-    (pkg_dir / "models.py").write_text(
+    (pkg_dir / 'models.py').write_text(
         f'''# Copyright Virons Fintech. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0
 """Pydantic models for virons-{name}-mcp-server."""
@@ -185,20 +185,20 @@ from pydantic import BaseModel, Field
 
 class ExampleRequest(BaseModel):
     """Example request model."""
-    
+
     param: str = Field(..., description="Example parameter")
 
 
 class ExampleResponse(BaseModel):
     """Example response model."""
-    
+
     result: str = Field(..., description="Example result")
     audit_id: str = Field(..., description="BaFin AT 8.1 audit trail ID")
 '''
     )
-    
+
     # consts.py
-    (pkg_dir / "consts.py").write_text(
+    (pkg_dir / 'consts.py').write_text(
         f'''# Copyright Virons Fintech. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0
 """Constants for virons-{name}-mcp-server."""
@@ -237,9 +237,9 @@ SERVER_DEPENDENCIES = [
 ]
 '''
     )
-    
+
     # compliance.py with virons.common integration
-    (pkg_dir / "compliance.py").write_text(
+    (pkg_dir / 'compliance.py').write_text(
         f'''# Copyright Virons Fintech. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0
 """Compliance hooks for virons-{name}-mcp-server.
@@ -269,17 +269,17 @@ correlation_context = CorrelationContext()
 
 def setup_compliance_hooks(server: FastMCP) -> None:
     """Register compliance hooks with the FastMCP server.
-    
+
     Args:
         server: FastMCP server instance
     """
     # Enforce EU data residency (GDPR Art 25)
     enforce_region("eu-central-1")
     logger.info("Data residency enforced: eu-central-1")
-    
+
     # TODO: Add readiness checks for dependencies (DORA Art 11)
     # health_check.add_readiness_check("database", lambda: check_db_connection())
-    
+
     logger.info("Compliance hooks initialized")
 
 
@@ -290,13 +290,13 @@ async def audit_write_operation(
     output_data: dict,
 ) -> str:
     """Audit a write operation per BaFin MaRisk AT 8.1.
-    
+
     Args:
         operation_name: Name of the operation
         entity_id: Entity identifier
         input_data: Input parameters
         output_data: Operation results
-        
+
     Returns:
         Audit trail ID
     """
@@ -315,16 +315,16 @@ async def audit_write_operation(
 
 def create_test_files(server_dir: Path, name: str) -> None:
     """Create test files.
-    
+
     Args:
         server_dir: Server root directory
         name: Server name
     """
-    package_name = name.replace("-", "_")
-    tests_dir = server_dir / "tests"
-    
+    package_name = name.replace('-', '_')
+    tests_dir = server_dir / 'tests'
+
     # test_server.py
-    (tests_dir / "test_server.py").write_text(
+    (tests_dir / 'test_server.py').write_text(
         f'''# Copyright Virons Fintech. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0
 """Tests for server.py."""
@@ -340,9 +340,9 @@ def test_create_server():
     assert server.name == "virons.{package_name}-mcp-server"
 '''
     )
-    
+
     # test_init.py
-    (tests_dir / "test_init.py").write_text(
+    (tests_dir / 'test_init.py').write_text(
         f'''# Copyright Virons Fintech. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0
 """Tests for package initialization."""
@@ -364,9 +364,9 @@ def test_module_reload():
     assert virons.{package_name}_mcp_server.__version__
 '''
     )
-    
+
     # test_main.py
-    (tests_dir / "test_main.py").write_text(
+    (tests_dir / 'test_main.py').write_text(
         f'''# Copyright Virons Fintech. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0
 """Tests for main entry point."""
@@ -384,9 +384,9 @@ def test_main_runs(mock_run):
         mock_run.assert_called_once()
 '''
     )
-    
+
     # test_compliance.py
-    (tests_dir / "test_compliance.py").write_text(
+    (tests_dir / 'test_compliance.py').write_text(
         f'''# Copyright Virons Fintech. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0
 """Tests for compliance hooks."""
@@ -426,9 +426,11 @@ async def test_audit_write_operation():
     )
 
 
-def create_metadata_files(server_dir: Path, name: str, description: str, port: str, deps: list[str]) -> None:
+def create_metadata_files(
+    server_dir: Path, name: str, description: str, port: str, deps: list[str]
+) -> None:
     """Create metadata files.
-    
+
     Args:
         server_dir: Server root directory
         name: Server name
@@ -436,11 +438,11 @@ def create_metadata_files(server_dir: Path, name: str, description: str, port: s
         port: Server port
         deps: Additional dependencies
     """
-    package_name = name.replace("-", "_")
-    
+    package_name = name.replace('-', '_')
+
     # pyproject.toml with full configuration
-    deps_str = "\n".join(f'    "{dep}",' for dep in deps) if deps else ""
-    (server_dir / "pyproject.toml").write_text(
+    deps_str = '\n'.join(f'    "{dep}",' for dep in deps) if deps else ''
+    (server_dir / 'pyproject.toml').write_text(
         f"""[project]
 name = "virons.{package_name}-mcp-server"
 version = "0.1.0"
@@ -543,9 +545,9 @@ version = "0.1.0"
 tag_format = "v$version"
 """
     )
-    
+
     # README.md with full template
-    (server_dir / "README.md").write_text(
+    (server_dir / 'README.md').write_text(
         f"""# virons-{name}-mcp-server
 
 {description}
@@ -622,7 +624,7 @@ async def your_tool(param: str) -> str:
     \"\"\"Your tool description.\"\"\"
     # Implementation
     result = process(param)
-    
+
     # Audit write operations (BaFin AT 8.1)
     audit_id = await audit_write_operation(
         operation_name="your_tool",
@@ -630,7 +632,7 @@ async def your_tool(param: str) -> str:
         input_data={{"param": param}},
         output_data={{"result": result}},
     )
-    
+
     return result
 ```
 
@@ -678,35 +680,35 @@ Copyright 2026 Virons Fintech. All Rights Reserved.
 **Generated by**: `virons-scaffold` | **Domain**: Server Domain | **Context**: {name.title()} MCP Server
 """
     )
-    
+
     # LICENSE - Copy from virons-common
-    license_source = Path(__file__).parent.parent / "src" / "virons-common" / "LICENSE"
+    license_source = Path(__file__).parent.parent / 'src' / 'virons-common' / 'LICENSE'
     if license_source.exists():
-        (server_dir / "LICENSE").write_text(license_source.read_text())
+        (server_dir / 'LICENSE').write_text(license_source.read_text())
     else:
-        (server_dir / "LICENSE").write_text("Apache-2.0\n")
-    
+        (server_dir / 'LICENSE').write_text('Apache-2.0\n')
+
     # NOTICE
-    (server_dir / "NOTICE").write_text(
-        "Virons Fintech\n"
-        "Copyright 2026 Virons Fintech. All Rights Reserved.\n\n"
-        "This product includes software developed by Amazon Web Services (awslabs/mcp).\n"
+    (server_dir / 'NOTICE').write_text(
+        'Virons Fintech\n'
+        'Copyright 2026 Virons Fintech. All Rights Reserved.\n\n'
+        'This product includes software developed by Amazon Web Services (awslabs/mcp).\n'
     )
-    
+
     # CHANGELOG.md
-    (server_dir / "CHANGELOG.md").write_text(
-        "# Changelog\n\n"
-        "All notable changes to this project will be documented in this file.\n\n"
-        "## [0.1.0] - 2026-03-04\n\n"
-        "### Added\n"
-        "- Initial scaffold with compliance baseline\n"
-        "- BaFin MaRisk AT 8.1 audit integration\n"
-        "- GDPR Art 25, 32 compliance hooks\n"
-        "- DORA Art 11 health checks\n"
+    (server_dir / 'CHANGELOG.md').write_text(
+        '# Changelog\n\n'
+        'All notable changes to this project will be documented in this file.\n\n'
+        '## [0.1.0] - 2026-03-04\n\n'
+        '### Added\n'
+        '- Initial scaffold with compliance baseline\n'
+        '- BaFin MaRisk AT 8.1 audit integration\n'
+        '- GDPR Art 25, 32 compliance hooks\n'
+        '- DORA Art 11 health checks\n'
     )
-    
+
     # COMPLIANCE.md
-    (server_dir / "COMPLIANCE.md").write_text(
+    (server_dir / 'COMPLIANCE.md').write_text(
         f"""# Compliance Reference — virons-{name}-mcp-server
 
 Regulatory traceability for the Virons AI {name} MCP server.
@@ -756,40 +758,40 @@ If this server is classified as high-risk (Art 6), ensure:
 - Human oversight mechanisms per Art 14
 """
     )
-    
+
     # .gitignore
-    (server_dir / ".gitignore").write_text(
-        "__pycache__/\n"
-        "*.py[cod]\n"
-        "*$py.class\n"
-        ".venv/\n"
-        "venv/\n"
-        ".pytest_cache/\n"
-        ".coverage\n"
-        "htmlcov/\n"
-        "dist/\n"
-        "build/\n"
-        "*.egg-info/\n"
-        ".ruff_cache/\n"
-        ".pyright/\n"
-        "uv.lock\n"
+    (server_dir / '.gitignore').write_text(
+        '__pycache__/\n'
+        '*.py[cod]\n'
+        '*$py.class\n'
+        '.venv/\n'
+        'venv/\n'
+        '.pytest_cache/\n'
+        '.coverage\n'
+        'htmlcov/\n'
+        'dist/\n'
+        'build/\n'
+        '*.egg-info/\n'
+        '.ruff_cache/\n'
+        '.pyright/\n'
+        'uv.lock\n'
     )
-    
+
     # .python-version
-    (server_dir / ".python-version").write_text("3.10\n")
+    (server_dir / '.python-version').write_text('3.10\n')
 
 
 def create_readme_files(server_dir: Path, name: str) -> None:
     """Create DDD-compliant README files for subdirectories.
-    
+
     Args:
         server_dir: Server root directory
         name: Server name
     """
-    package_name = name.replace("-", "_")
-    
+    package_name = name.replace('-', '_')
+
     # virons/README.md
-    (server_dir / "virons" / "README.md").write_text(
+    (server_dir / 'virons' / 'README.md').write_text(
         f"""# Virons Namespace
 
 ## Overview
@@ -816,9 +818,9 @@ PEP 420 namespace package root for virons MCP servers.
 ---
 """
     )
-    
+
     # virons/{package_name}_mcp_server/README.md
-    (server_dir / "virons" / f"{package_name}_mcp_server" / "README.md").write_text(
+    (server_dir / 'virons' / f'{package_name}_mcp_server' / 'README.md').write_text(
         f"""# {name.title()} MCP Server
 
 ## Overview
@@ -854,9 +856,9 @@ MCP server implementation for {name}.
 ---
 """
     )
-    
+
     # tests/README.md
-    (server_dir / "tests" / "README.md").write_text(
+    (server_dir / 'tests' / 'README.md').write_text(
         f"""# Test Suite
 
 ## Overview
@@ -896,16 +898,16 @@ TDD test suite for virons-{name}-mcp-server.
 
 def create_docker_files(server_dir: Path, name: str) -> None:
     """Create Docker-related files.
-    
+
     Args:
         server_dir: Server root directory
         name: Server name
     """
-    package_name = name.replace("-", "_")
-    
+    package_name = name.replace('-', '_')
+
     # Dockerfile
-    (server_dir / "Dockerfile").write_text(
-        f'''# Copyright Virons Fintech. All Rights Reserved.
+    (server_dir / 'Dockerfile').write_text(
+        f"""# Copyright Virons Fintech. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0
 
 FROM public.ecr.aws/amazonlinux/amazonlinux:2023 AS uv
@@ -962,12 +964,12 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \\
     CMD ["/usr/local/bin/docker-healthcheck.sh"]
 
 ENTRYPOINT ["virons-{name}-mcp-server"]
-'''
+"""
     )
-    
+
     # docker-healthcheck.sh
-    (server_dir / "docker-healthcheck.sh").write_text(
-        f'''#!/bin/sh
+    (server_dir / 'docker-healthcheck.sh').write_text(
+        f"""#!/bin/sh
 # Copyright Virons Fintech. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0
 
@@ -982,15 +984,15 @@ fi
 # Unhealthy
 echo "$SERVER is not running"
 exit 1
-'''
+"""
     )
-    
+
     # Make healthcheck executable
-    (server_dir / "docker-healthcheck.sh").chmod(0o755)
-    
+    (server_dir / 'docker-healthcheck.sh').chmod(0o755)
+
     # .dockerignore
-    (server_dir / ".dockerignore").write_text(
-        '''__pycache__/
+    (server_dir / '.dockerignore').write_text(
+        """__pycache__/
 *.py[cod]
 *$py.class
 .venv/
@@ -1005,40 +1007,40 @@ htmlcov/
 tests/
 *.md
 !README.md
-'''
+"""
     )
 
 
 def create_docs_readmes(server_dir: Path, name: str) -> None:
     """Create README.md files in docs directories using template.
-    
+
     Args:
         server_dir: Server root directory
         name: Server name
     """
     # Map of directory to purpose
     docs_structure = {
-        "docs": "Documentation root for virons-{name}-mcp-server",
-        "docs/architecture": "Architecture documentation and decisions",
-        "docs/architecture/decisions": "Architecture Decision Records (ADRs)",
-        "docs/architecture/diagrams": "System architecture diagrams",
-        "docs/compliance": "Compliance documentation (BaFin, GDPR, DORA, EU AI Act)",
-        "docs/compliance/audits": "Audit reports and findings",
-        "docs/compliance/evidence": "Compliance evidence and artifacts",
-        "docs/compliance/policies": "Compliance policies and procedures",
-        "docs/development": "Development guides and standards",
-        "docs/development/contributing": "Contribution guidelines",
-        "docs/development/testing": "Testing documentation and reports",
-        "docs/getting-started": "Quick start and onboarding guides",
-        "docs/operations": "Operational documentation",
-        "docs/operations/runbooks": "Operational runbooks and procedures",
-        "docs/reference": "Reference documentation and style guides",
+        'docs': 'Documentation root for virons-{name}-mcp-server',
+        'docs/architecture': 'Architecture documentation and decisions',
+        'docs/architecture/decisions': 'Architecture Decision Records (ADRs)',
+        'docs/architecture/diagrams': 'System architecture diagrams',
+        'docs/compliance': 'Compliance documentation (BaFin, GDPR, DORA, EU AI Act)',
+        'docs/compliance/audits': 'Audit reports and findings',
+        'docs/compliance/evidence': 'Compliance evidence and artifacts',
+        'docs/compliance/policies': 'Compliance policies and procedures',
+        'docs/development': 'Development guides and standards',
+        'docs/development/contributing': 'Contribution guidelines',
+        'docs/development/testing': 'Testing documentation and reports',
+        'docs/getting-started': 'Quick start and onboarding guides',
+        'docs/operations': 'Operational documentation',
+        'docs/operations/runbooks': 'Operational runbooks and procedures',
+        'docs/reference': 'Reference documentation and style guides',
     }
-    
+
     for docs_dir, purpose in docs_structure.items():
-        readme_path = server_dir / docs_dir / "README.md"
-        dir_name = docs_dir.split("/")[-1]
-        
+        readme_path = server_dir / docs_dir / 'README.md'
+        dir_name = docs_dir.split('/')[-1]
+
         readme_path.write_text(
             f"""# {dir_name.replace('-', ' ').title()}
 
@@ -1067,7 +1069,7 @@ and approved through the standard PR process.
 
 ---
 
-**Last Updated**: {Path(__file__).stat().st_mtime}  
+**Last Updated**: {Path(__file__).stat().st_mtime}
 **Maintained By**: Virons Fintech Engineering Team
 """
         )
@@ -1075,72 +1077,74 @@ and approved through the standard PR process.
 
 def print_validation_summary(server_dir: Path, name: str, port: str) -> None:
     """Print validation summary after scaffolding.
-    
+
     Args:
         server_dir: Server root directory
         name: Server name
         port: Server port
     """
-    package_name = name.replace("-", "_")
-    
+    package_name = name.replace('-', '_')
+
     # Count files
-    py_files = list(server_dir.rglob("*.py"))
-    test_files = list((server_dir / "tests").glob("test_*.py"))
-    
-    print("\n" + "="*80)
-    print(f"✓ Scaffold Complete: virons-{name}-mcp-server")
-    print("="*80)
-    print(f"\n📦 Package: virons.{package_name}-mcp-server")
-    print(f"🔌 Port: {port}")
-    print(f"📁 Location: {server_dir}")
-    
-    print(f"\n📊 Files Generated:")
-    print(f"  • Python source files: {len(py_files)}")
-    print(f"  • Test files: {len(test_files)}")
-    print(f"  • Total files: {len(list(server_dir.rglob('*')))}")
-    
-    print(f"\n✅ Compliance Baseline:")
-    print(f"  • BaFin MaRisk AT 8.1 — Audit trail (write_audit)")
-    print(f"  • GDPR Art 25, 32 — Data residency (eu-central-1)")
-    print(f"  • DORA Art 11 — Health checks (liveness, readiness)")
-    print(f"  • EU AI Act — Model card validation hooks")
-    
-    print(f"\n🚀 Next Steps:")
-    print(f"  1. cd {server_dir.name}")
-    print(f"  2. uv sync")
-    print(f"  3. uv run pytest")
-    print(f"  4. Implement your tools in virons/{package_name}_mcp_server/server.py")
-    print(f"  5. Add tests in tests/")
-    
-    print(f"\n📚 Documentation:")
-    print(f"  • README.md — Quick start and architecture")
-    print(f"  • COMPLIANCE.md — Regulatory traceability")
-    print(f"  • CHANGELOG.md — Version history")
-    
-    print("\n" + "="*80 + "\n")
+    py_files = list(server_dir.rglob('*.py'))
+    test_files = list((server_dir / 'tests').glob('test_*.py'))
+
+    print('\n' + '=' * 80)
+    print(f'✓ Scaffold Complete: virons-{name}-mcp-server')
+    print('=' * 80)
+    print(f'\n📦 Package: virons.{package_name}-mcp-server')
+    print(f'🔌 Port: {port}')
+    print(f'📁 Location: {server_dir}')
+
+    print('\n📊 Files Generated:')
+    print(f'  • Python source files: {len(py_files)}')
+    print(f'  • Test files: {len(test_files)}')
+    print(f'  • Total files: {len(list(server_dir.rglob("*")))}')
+
+    print('\n✅ Compliance Baseline:')
+    print('  • BaFin MaRisk AT 8.1 — Audit trail (write_audit)')
+    print('  • GDPR Art 25, 32 — Data residency (eu-central-1)')
+    print('  • DORA Art 11 — Health checks (liveness, readiness)')
+    print('  • EU AI Act — Model card validation hooks')
+
+    print('\n🚀 Next Steps:')
+    print(f'  1. cd {server_dir.name}')
+    print('  2. uv sync')
+    print('  3. uv run pytest')
+    print(f'  4. Implement your tools in virons/{package_name}_mcp_server/server.py')
+    print('  5. Add tests in tests/')
+
+    print('\n📚 Documentation:')
+    print('  • README.md — Quick start and architecture')
+    print('  • COMPLIANCE.md — Regulatory traceability')
+    print('  • CHANGELOG.md — Version history')
+
+    print('\n' + '=' * 80 + '\n')
 
 
 def main() -> int:
     """Main entry point."""
-    parser = argparse.ArgumentParser(description="Scaffold a virons MCP server")
-    parser.add_argument("--name", required=True, help="Server name (e.g., infrastructure)")
-    parser.add_argument("--description", required=True, help="Server description")
-    parser.add_argument("--port", required=True, help="Server port (e.g., 9300)")
-    parser.add_argument("--deps", help="Additional dependencies (comma-separated)")
-    parser.add_argument("--transport", choices=["stdio", "http"], default="stdio", help="Transport type")
-    parser.add_argument("--output-dir", type=Path, default=Path("src"), help="Output directory")
-    
+    parser = argparse.ArgumentParser(description='Scaffold a virons MCP server')
+    parser.add_argument('--name', required=True, help='Server name (e.g., infrastructure)')
+    parser.add_argument('--description', required=True, help='Server description')
+    parser.add_argument('--port', required=True, help='Server port (e.g., 9300)')
+    parser.add_argument('--deps', help='Additional dependencies (comma-separated)')
+    parser.add_argument(
+        '--transport', choices=['stdio', 'http'], default='stdio', help='Transport type'
+    )
+    parser.add_argument('--output-dir', type=Path, default=Path('src'), help='Output directory')
+
     args = parser.parse_args()
-    
+
     # Parse dependencies
-    deps = [d.strip() for d in args.deps.split(",")] if args.deps else []
-    
+    deps = [d.strip() for d in args.deps.split(',')] if args.deps else []
+
     # Check if directory already exists
-    server_dir = args.output_dir / f"virons-{args.name}-mcp-server"
+    server_dir = args.output_dir / f'virons-{args.name}-mcp-server'
     if server_dir.exists():
-        print(f"Error: Directory {server_dir} already exists", file=sys.stderr)
+        print(f'Error: Directory {server_dir} already exists', file=sys.stderr)
         return 1
-    
+
     # Create structure
     server_dir = create_directory_structure(args.name, args.output_dir)
     create_python_files(server_dir, args.name, args.port)
@@ -1149,12 +1153,12 @@ def main() -> int:
     create_readme_files(server_dir, args.name)
     create_docker_files(server_dir, args.name)
     create_docs_readmes(server_dir, args.name)
-    
+
     # Print validation summary
     print_validation_summary(server_dir, args.name, args.port)
-    
+
     return 0
 
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     sys.exit(main())

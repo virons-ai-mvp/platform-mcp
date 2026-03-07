@@ -34,7 +34,7 @@ repos:
         language: system
         files: ^src/virons-.*/.*\.py$
         pass_filenames: true
-      
+
       # GDPR Art 25 - Data residency check
       - id: gdpr-data-residency
         name: GDPR Art 25 - Data Residency
@@ -42,7 +42,7 @@ repos:
         language: system
         files: ^src/virons-.*/.*compliance\.py$
         pass_filenames: true
-      
+
       # Virons license header check
       - id: virons-license-header
         name: Virons License Header
@@ -50,7 +50,7 @@ repos:
         language: system
         files: ^src/virons-.*/.*\.py$
         pass_filenames: true
-      
+
       # EU AI Act - Model card check for high-risk servers
       - id: euai-model-cards
         name: EU AI Act - Model Cards

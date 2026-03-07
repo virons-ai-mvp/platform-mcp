@@ -1,0 +1,20 @@
+{
+  "services": [
+    {
+      "name": "infrastructure-mcp",
+      "url": "${INFRASTRUCTURE_MCP_URL:http://localhost:9100}"
+    },
+    {
+      "name": "security-mcp",
+      "url": "${SECURITY_MCP_URL:http://localhost:9500}"
+    },
+    {
+      "name": "operations-mcp",
+      "url": "${OPERATIONS_MCP_URL:http://localhost:9510}"
+    },
+    {
+      "name": "monitoring-mcp",
+      "url": "${MONITORING_MCP_URL:http://localhost:9520}"
+    }
+  ]
+}
