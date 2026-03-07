@@ -2,9 +2,9 @@
 
 # ADR-002: AWS MCP Server Integration
 
-**Status**: ✅ Accepted  
-**Date**: 2026-03-05  
-**Contexts**: All (Security, Governance, Operations, Compliance, Infrastructure, Data, AI-ML, Messaging, Monitoring)  
+**Status**: ✅ Accepted
+**Date**: 2026-03-05
+**Contexts**: All (Security, Governance, Operations, Compliance, Infrastructure, Data, AI-ML, Messaging, Monitoring)
 **Compliance**: BaFin AT 8.1, GDPR Art 25/32, DORA Art 11
 
 ## Context
@@ -233,20 +233,20 @@ Low-priority servers with limited fintech relevance:
 
 ### Positive
 
-✅ **Compliance Coverage**: Full support for BaFin AT 8.1, GDPR Art 25/32, DORA Art 11  
-✅ **Platform Alignment**: Direct support for forensic analysis, ML, blockchain  
-✅ **Operational Excellence**: Comprehensive monitoring, troubleshooting, incident response  
-✅ **Developer Experience**: Full IaC support (CDK, CloudFormation, Terraform)  
-✅ **Data Services**: Complete database coverage (relational, NoSQL, graph, cache)  
-✅ **Scalability**: 61 reserved ports for future expansion  
+✅ **Compliance Coverage**: Full support for BaFin AT 8.1, GDPR Art 25/32, DORA Art 11
+✅ **Platform Alignment**: Direct support for forensic analysis, ML, blockchain
+✅ **Operational Excellence**: Comprehensive monitoring, troubleshooting, incident response
+✅ **Developer Experience**: Full IaC support (CDK, CloudFormation, Terraform)
+✅ **Data Services**: Complete database coverage (relational, NoSQL, graph, cache)
+✅ **Scalability**: 61 reserved ports for future expansion
 ✅ **Clear Ownership**: 10 bounded contexts with clear responsibilities
 
 ### Negative
 
-⚠️ **Increased Complexity**: 10 contexts vs. 4 original contexts  
-⚠️ **Documentation Overhead**: Must maintain 33 server configurations  
-⚠️ **Testing Burden**: Integration testing for 33 servers  
-⚠️ **Operational Overhead**: Monitoring and maintaining 33 services  
+⚠️ **Increased Complexity**: 10 contexts vs. 4 original contexts
+⚠️ **Documentation Overhead**: Must maintain 33 server configurations
+⚠️ **Testing Burden**: Integration testing for 33 servers
+⚠️ **Operational Overhead**: Monitoring and maintaining 33 services
 ⚠️ **Port Range Expansion**: Firewall rules must cover 9100-9199 (vs. 9100-9139)
 
 ### Neutral
@@ -329,57 +329,57 @@ graph TB
         IAM[IAM<br/>9103]
         WAS[Well-Architected<br/>9104]
     end
-    
+
     subgraph "Monitoring Context (9190-9199)"
         CW[CloudWatch<br/>9190]
         PROM[Prometheus<br/>9191]
         AS[AppSignals<br/>9192]
     end
-    
+
     subgraph "Operations Context (9120-9129)"
         EKS[EKS<br/>9121]
         LAMBDA[Lambda<br/>9122]
         ECS[ECS<br/>9123]
         SF[StepFunctions<br/>9124]
     end
-    
+
     subgraph "Infrastructure Context (9140-9149)"
         CFN[CloudFormation<br/>9141]
         CDK[CDK<br/>9140]
         TF[Terraform<br/>9142]
         NET[Network<br/>9144]
     end
-    
+
     subgraph "Data-Relational (9150-9159)"
         PG[Postgres<br/>9150]
         MYSQL[MySQL<br/>9151]
         AURORA[Aurora<br/>9152]
         RS[Redshift<br/>9153]
     end
-    
+
     subgraph "Data-NoSQL (9180-9189)"
         DDB[DynamoDB<br/>9180]
         DOCDB[DocumentDB<br/>9181]
         NEP[Neptune<br/>9183]
         CACHE[ElastiCache<br/>9184]
     end
-    
+
     subgraph "AI-ML Context (9160-9169)"
         SM[SageMaker<br/>9160]
         BK[Bedrock KB<br/>9161]
         KEN[Kendra<br/>9162]
     end
-    
+
     subgraph "Messaging Context (9170-9179)"
         SNS[SNS/SQS<br/>9170]
         MSK[MSK<br/>9171]
     end
-    
+
     subgraph "Compliance Context (9130-9139)"
         CE[Cost Explorer<br/>9131]
         BILL[Billing<br/>9132]
     end
-    
+
     CT -->|audit events| CW
     IAM -->|access logs| CT
     EKS -->|metrics| CW
@@ -388,11 +388,11 @@ graph TB
     DDB -->|transaction logs| CT
     SM -->|training metrics| CW
     SNS -->|message logs| CW
-    
+
     CFN -->|deployment events| EKS
     CDK -->|deployment events| LAMBDA
     TF -->|deployment events| ECS
-    
+
     CE -->|cost data| BILL
     CW -->|cost alerts| CE
 ```
@@ -444,6 +444,6 @@ graph TB
 
 ***
 
-**Last Updated**: 2026-03-05  
-**Author**: platform@virons.ai  
+**Last Updated**: 2026-03-05
+**Author**: platform@virons.ai
 **Reviewers**: security@virons.ai, compliance@virons.ai, operations@virons.ai

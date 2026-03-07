@@ -1,29 +1,38 @@
-# Compliance
+# Compliance Documentation
 
-Compliance documentation (BaFin, GDPR, DORA, EU AI Act)
+Regulatory compliance documentation for BaFin, GDPR, DORA, and EU AI Act.
 
-## Purpose
+## Contents
 
-This directory contains documentation for the virons-infrastructure-mcp-server.
+- [Overview](overview.md) - Compliance requirements
+- [Logging Implementation](logging-implementation.md) - BaFin audit trails
+- [Policies](policies/) - Compliance policies
+- [Audits](audits/) - Audit reports
+- [Evidence](evidence/) - Compliance evidence
 
-## Structure
+## Regulations
 
-_To be populated as documentation is added._
+### BaFin MaRisk AT 8.1
+- Audit trails with 10-year retention
+- Calculation audit before forensic flags
+- Write audit on every write operation
+- Immutable logs
 
-## Compliance
+### GDPR Art 32
+- Security measures for data processing
+- Encryption at rest and in transit
+- Access controls and audit logs
 
-All documentation follows:
-- BaFin MaRisk AT 8.1 (audit trail requirements)
-- GDPR Art 25, 32 (data protection by design)
-- DORA Art 11 (ICT risk management)
-- EU AI Act (technical documentation for high-risk AI)
+### DORA Art 11
+- ICT risk management framework
+- Health checks and monitoring
+- Incident response procedures
 
-## Maintenance
+### EU AI Act
+- High-risk system documentation
+- Model cards and versioning
+- Human oversight mechanisms
 
-Documentation is maintained alongside code changes. All updates must be reviewed
-and approved through the standard PR process.
+## Implementation
 
----
-
-**Last Updated**: 1772710687.1343215  
-**Maintained By**: Virons Fintech Engineering Team
+See [Logging Implementation](logging-implementation.md) for technical details.

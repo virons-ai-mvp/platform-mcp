@@ -8,23 +8,23 @@ platform-mcp:
   profile: mcp-servers
   description: "Virons AI MCP server infrastructure and shared compliance utilities"
   owner: platform-team
-  
+
   compliance:
     - bafin-marisk-at-8.1
     - gdpr-art-25
     - gdpr-art-32
     - dora-art-11
     - eu-ai-act
-  
+
   required_checks:
     - virons-compliance-gate
     - python-tests
     - ruff-lint
     - pyright-typecheck
-  
+
   required_mcp_servers:
     - virons.common  # Shared compliance baseline
-  
+
   branch_protection:
     main:
       required_reviewers: 2
@@ -37,7 +37,7 @@ platform-mcp:
       required_reviewers: 1
       require_status_checks:
         - virons-compliance-gate
-  
+
   namespaces:
     forensic:
       ports: 9300-9415
@@ -49,7 +49,7 @@ platform-mcp:
       servers:
         - virons-gateway-mcp-server
         - virons-anomaly-detector-mcp-server
-  
+
   high_risk_servers:
     - virons-anomaly-detector-mcp-server
     - virons-grandmaster-mcp-server

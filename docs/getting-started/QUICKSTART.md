@@ -211,5 +211,5 @@ kubectl exec -it -n virons-mcp deploy/gitleaks -- \
 
 ***
 
-**Last Updated**: 2026-03-05  
+**Last Updated**: 2026-03-05
 **Maintained By**: platform@virons.ai

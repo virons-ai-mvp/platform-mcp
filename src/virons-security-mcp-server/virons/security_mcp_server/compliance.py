@@ -8,14 +8,14 @@ Integrates virons.common compliance utilities:
 - DORA Art 11: HealthCheck
 """
 
+from loguru import logger
 from mcp.server.fastmcp import FastMCP
+
 from virons.common import (
     HealthCheck,
     enforce_region,
     write_audit,
 )
-from loguru import logger
-
 
 # Global instances
 health_check = HealthCheck()
@@ -23,7 +23,7 @@ health_check = HealthCheck()
 
 def setup_compliance_hooks(server: FastMCP) -> None:
     """Register compliance hooks with the FastMCP server.
-    
+
     Args:
         server: FastMCP server instance
     """
@@ -40,13 +40,13 @@ async def audit_write_operation(
     output_data: dict,
 ) -> str:
     """Audit a write operation per BaFin MaRisk AT 8.1.
-    
+
     Args:
         operation_name: Name of the operation
         entity_id: Entity identifier
         input_data: Input parameters
         output_data: Operation results
-        
+
     Returns:
         Audit trail ID
     """
@@ -59,4 +59,3 @@ async def audit_write_operation(
     )
     logger.info(f"Audit trail created: {audit_id}")
     return audit_id
-

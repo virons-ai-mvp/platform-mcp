@@ -1,0 +1,8 @@
+graph TB
+  Script[verify-deployment.sh] --> Deploy[Check Deployment<br/>kubectl get deploy]
+  Deploy --> Pods[Verify Pods<br/>kubectl get pods]
+  Pods --> Health[Test Health<br/>curl /health]
+  Health --> Success[Exit 0]
+  Deploy --> Fail[Exit 1]
+  Pods --> Fail
+  Health --> Fail

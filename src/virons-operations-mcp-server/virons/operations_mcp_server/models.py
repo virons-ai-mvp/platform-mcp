@@ -2,13 +2,14 @@
 # SPDX-License-Identifier: Apache-2.0
 """Pydantic models for virons-operations-mcp-server."""
 
-from pydantic import BaseModel, Field
 from typing import Optional
+
+from pydantic import BaseModel, Field
 
 
 class ClusterInfo(BaseModel):
     """EKS cluster information."""
-    
+
     name: str = Field(..., description="Cluster name")
     status: str = Field(..., description="Cluster status")
     version: str = Field(..., description="Kubernetes version")
@@ -17,7 +18,7 @@ class ClusterInfo(BaseModel):
 
 class FunctionDeployment(BaseModel):
     """Lambda function deployment."""
-    
+
     function_name: str = Field(..., description="Function name")
     runtime: str = Field(..., description="Runtime (python3.10, nodejs20.x, etc)")
     handler: str = Field(..., description="Handler path")
@@ -27,7 +28,7 @@ class FunctionDeployment(BaseModel):
 
 class ServiceDeployment(BaseModel):
     """ECS service deployment."""
-    
+
     service_name: str = Field(..., description="Service name")
     cluster: str = Field(..., description="ECS cluster name")
     task_definition: str = Field(..., description="Task definition ARN")
@@ -37,9 +38,8 @@ class ServiceDeployment(BaseModel):
 
 class WorkflowExecution(BaseModel):
     """Step Functions workflow execution."""
-    
+
     execution_arn: str = Field(..., description="Execution ARN")
     state_machine: str = Field(..., description="State machine ARN")
     status: str = Field(..., description="Execution status")
     audit_id: str = Field(..., description="BaFin AT 8.1 audit trail ID")
-

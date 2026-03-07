@@ -2,8 +2,8 @@
 
 # AWS MCP Server Classification: Platform vs Business Logic
 
-**Status**: ✅ Approved  
-**Date**: 2026-03-05  
+**Status**: ✅ Approved
+**Date**: 2026-03-05
 **Purpose**: Separate platform infrastructure servers from business logic servers
 
 ***
@@ -297,26 +297,26 @@ graph TB
         Infrastructure[Infrastructure<br/>9140-9149]
         Monitoring[Monitoring<br/>9190-9199]
     end
-    
+
     subgraph "Business Logic MCP Servers (9150-9189)"
         DataRel[Data-Relational<br/>9150-9159]
         AIML[AI-ML<br/>9160-9169]
         Messaging[Messaging<br/>9170-9179]
         DataNoSQL[Data-NoSQL<br/>9180-9189]
     end
-    
+
     subgraph "Virons Services"
         Forensic[Forensic Services<br/>:9300-9415]
         ML[ML Services<br/>:9420-9424]
     end
-    
+
     Security -->|audit platform| Monitoring
     Operations -->|deploy platform| Infrastructure
-    
+
     Forensic -->|query transactions| DataRel
     Forensic -->|graph analysis| DataNoSQL
     Forensic -->|semantic search| AIML
-    
+
     ML -->|train models| AIML
     ML -->|feature store| DataRel
     ML -->|real-time data| Messaging

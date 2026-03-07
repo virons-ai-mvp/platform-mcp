@@ -1,29 +1,52 @@
 # Getting Started
 
-Quick start and onboarding guides
+Quick start guide for the Virons Infrastructure MCP Server.
 
-## Purpose
+## Prerequisites
 
-This directory contains documentation for the virons-infrastructure-mcp-server.
+- Python 3.10+
+- uv package manager
+- Docker (optional)
+- Kubernetes (optional)
 
-## Structure
+## Installation
 
-_To be populated as documentation is added._
+```bash
+# Install dependencies
+uv sync
 
-## Compliance
+# Verify installation
+uv run python -c "from virons.infrastructure_mcp_server import __version__; print(__version__)"
+```
 
-All documentation follows:
-- BaFin MaRisk AT 8.1 (audit trail requirements)
-- GDPR Art 25, 32 (data protection by design)
-- DORA Art 11 (ICT risk management)
-- EU AI Act (technical documentation for high-risk AI)
+## Quick Start
 
-## Maintenance
+### API Mode (Recommended)
+```bash
+./scripts/development/start-api.sh
+# Open http://localhost:8080/api/docs
+```
 
-Documentation is maintained alongside code changes. All updates must be reviewed
-and approved through the standard PR process.
+### MCP Mode
+```bash
+uv run virons-infrastructure-mcp-server --transport stdio
+```
 
----
+### Health Check Mode
+```bash
+uv run virons-infrastructure-mcp-server --transport http --port 8080
+```
 
-**Last Updated**: 1772710687.1343215  
-**Maintained By**: Virons Fintech Engineering Team
+## First Steps
+
+1. **Explore Swagger UI**: http://localhost:8080/api/docs
+2. **Check health**: `curl http://localhost:8080/health/ready`
+3. **View metrics**: `curl http://localhost:8080/metrics`
+4. **Deploy infrastructure**: Use Swagger UI or curl
+
+## Next Steps
+
+- Read [Architecture Documentation](../architecture/)
+- Review [Compliance Documentation](../compliance/)
+- Check [Operations Guide](../operations/)
+- Explore [Development Guide](../development/)

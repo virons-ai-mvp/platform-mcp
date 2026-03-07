@@ -1,29 +1,44 @@
-# Development
+# Development Documentation
 
-Development guides and standards
+Development guides, implementation notes, and contribution guidelines.
 
-## Purpose
+## Contents
 
-This directory contains documentation for the virons-infrastructure-mcp-server.
+- [Implementation](implementation.md) - Implementation details
+- [Implementation Progress](implementation-progress.md) - Progress tracking
+- [Project Complete](project-complete.md) - Project status
+- [Enhancement Summary](enhancement-summary.md) - Recent changes
+- [Contributing](contributing/) - Contribution guidelines
+- [Testing](testing/) - Testing guides
 
-## Structure
+## Getting Started
 
-_To be populated as documentation is added._
+```bash
+# Clone and setup
+git clone <repo>
+cd virons-infrastructure-mcp-server
+uv sync
 
-## Compliance
+# Run tests
+uv run pytest
 
-All documentation follows:
-- BaFin MaRisk AT 8.1 (audit trail requirements)
-- GDPR Art 25, 32 (data protection by design)
-- DORA Art 11 (ICT risk management)
-- EU AI Act (technical documentation for high-risk AI)
+# Start development server
+./scripts/development/start-api.sh
+```
 
-## Maintenance
+## Architecture
 
-Documentation is maintained alongside code changes. All updates must be reviewed
-and approved through the standard PR process.
+- **API Layer**: FastAPI with Swagger UI
+- **Application Layer**: Service classes (deploy, list, destroy)
+- **Domain Layer**: Business models and logic
+- **Infrastructure Layer**: Health, metrics, compliance
 
----
+## Testing
 
-**Last Updated**: 1772710687.1343215  
-**Maintained By**: Virons Fintech Engineering Team
+- Unit tests: `tests/`
+- Integration tests: `tests/integration/`
+- Coverage: 88% (43/49 tests passing)
+
+## Contributing
+
+See [Contributing](contributing/) for guidelines.

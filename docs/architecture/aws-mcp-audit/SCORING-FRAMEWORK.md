@@ -2,8 +2,8 @@
 
 # AWS MCP Server Scoring Framework
 
-**Status**: ✅ Approved  
-**Date**: 2026-03-05  
+**Status**: ✅ Approved
+**Date**: 2026-03-05
 **Purpose**: Objective scoring system for AWS MCP server integration prioritization
 
 ***
@@ -17,7 +17,7 @@ This framework provides an objective, quantitative method to evaluate AWS MCP se
 ## Scoring Dimensions
 
 ### 1. Compliance Value (Weight: 3x)
-**Scale**: 0-10  
+**Scale**: 0-10
 **Purpose**: Measures direct support for regulatory requirements
 
 | Score | Criteria | Examples |
@@ -36,7 +36,7 @@ This framework provides an objective, quantitative method to evaluate AWS MCP se
 - **DORA Art 11**: ICT risk management, incident detection, resilience
 
 ### 2. Operational Value (Weight: 2x)
-**Scale**: 0-10  
+**Scale**: 0-10
 **Purpose**: Measures impact on monitoring, troubleshooting, incident response
 
 | Score | Criteria | Examples |
@@ -56,7 +56,7 @@ This framework provides an objective, quantitative method to evaluate AWS MCP se
 - Cost anomaly detection
 
 ### 3. Platform Fit (Weight: 2x)
-**Scale**: 0-10  
+**Scale**: 0-10
 **Purpose**: Measures alignment with virons-services platform needs (forensic analysis :9300-9415, ML :9420-9424, blockchain)
 
 | Score | Criteria | Examples |
@@ -75,7 +75,7 @@ This framework provides an objective, quantitative method to evaluate AWS MCP se
 - Data residency: EU data sovereignty, encryption at rest/transit
 
 ### 4. Development Value (Weight: 1x)
-**Scale**: 0-10  
+**Scale**: 0-10
 **Purpose**: Measures impact on CI/CD, IaC, deployment automation
 
 | Score | Criteria | Examples |

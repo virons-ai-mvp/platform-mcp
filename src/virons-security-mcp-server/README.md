@@ -74,7 +74,7 @@ async def your_tool(param: str) -> str:
     """Your tool description."""
     # Implementation
     result = process(param)
-    
+
     # Audit write operations (BaFin AT 8.1)
     audit_id = await audit_write_operation(
         operation_name="your_tool",
@@ -82,7 +82,7 @@ async def your_tool(param: str) -> str:
         input_data={"param": param},
         output_data={"result": result},
     )
-    
+
     return result
 ```
 

@@ -2,8 +2,8 @@
 
 # AWS MCP Server Integration Backlog
 
-**Status**: 📋 Backlog  
-**Date**: 2026-03-05  
+**Status**: 📋 Backlog
+**Date**: 2026-03-05
 **Purpose**: Document Tier 2 and Tier 3 servers for future integration phases
 
 ***
@@ -136,13 +136,13 @@ This document tracks 33 AWS MCP servers not included in Tier 1 (Core) integratio
 | **amazon-qindex-mcp-server** | 19 | Q index management, limited use | If adding Q Business integration |
 | **aws-pricing-mcp-server** | 19 | Pricing lookup, limited operational value | If building cost estimation tools |
 
-**Archive Reason**: 
+**Archive Reason**:
 - Frontend MCP: Platform is backend-focused (virons-services)
 - CCAPI: Cryptocurrency not core to fintech platform (blockchain is)
 - Q Business: Limited use case without Q Business adoption
 - Pricing: Cost Explorer provides sufficient cost management
 
-**Future Consideration**: 
+**Future Consideration**:
 - CCAPI if expanding to crypto trading
 - Q Business if adopting Amazon Q for enterprise search
 - Pricing if building customer-facing cost estimation tools

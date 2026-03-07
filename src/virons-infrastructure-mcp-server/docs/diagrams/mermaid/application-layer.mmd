@@ -1,0 +1,9 @@
+graph TB
+  API[API/Server] --> Deploy[DeployService<br/>Deploy use case]
+  API --> Destroy[DestroyService<br/>Destroy use case]
+  API --> List[ListService<br/>List use case]
+  Deploy --> Domain[Domain Layer]
+  Destroy --> Domain
+  List --> Domain
+  Deploy --> Compliance[ComplianceLogger<br/>Audit trail]
+  Destroy --> Compliance

@@ -2,9 +2,9 @@
 
 # Runbook: MCP Server Outage
 
-**Service**: All MCP servers (9100-9139)  
-**Severity**: 🟡 Medium  
-**MTTR Target**: <15 minutes  
+**Service**: All MCP servers (9100-9139)
+**Severity**: 🟡 Medium
+**MTTR Target**: <15 minutes
 **Compliance**: DORA Art 11 (Resilience)
 
 ## Symptoms
@@ -250,7 +250,7 @@ kubectl wait --for=condition=ready pod \
 | **5-15 min** | Escalate to platform lead |
 | **15+ min** | Escalate to infrastructure team |
 
-**PagerDuty**: https://virons-platform.pagerduty.com  
+**PagerDuty**: https://virons-platform.pagerduty.com
 **Slack**: #platform-incidents
 
 ## References
@@ -266,5 +266,5 @@ kubectl wait --for=condition=ready pod \
 
 ***
 
-**Last Updated**: 2026-03-05  
+**Last Updated**: 2026-03-05
 **Owner**: platform@virons.ai

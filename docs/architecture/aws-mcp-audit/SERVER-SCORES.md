@@ -2,8 +2,8 @@
 
 # AWS MCP Server Scores
 
-**Status**: ✅ Complete  
-**Date**: 2026-03-05  
+**Status**: ✅ Complete
+**Date**: 2026-03-05
 **Purpose**: Scored evaluation of all 67 AWS MCP servers for integration prioritization
 
 ***
@@ -253,8 +253,8 @@
 
 ## Port Capacity Analysis
 
-**Available Ports**: 34 (9102-9109, 9112-9119, 9121-9129, 9131-9139)  
-**Tier 1 Servers**: 34  
+**Available Ports**: 34 (9102-9109, 9112-9119, 9121-9129, 9131-9139)
+**Tier 1 Servers**: 34
 **Status**: ✅ Exact fit! Need to expand to new contexts (9140-9179)
 
 **Proposed New Contexts**:

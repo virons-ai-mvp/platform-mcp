@@ -1,29 +1,38 @@
-# Reference
+# Reference Documentation
 
-Reference documentation and style guides
+API reference, changelog, and templates.
 
-## Purpose
+## Contents
 
-This directory contains documentation for the virons-infrastructure-mcp-server.
+- [Changelog](changelog.md) - Version history
+- [Virons README Template](virons-readme-template.md) - Documentation template
 
-## Structure
+## API Reference
 
-_To be populated as documentation is added._
+### REST API
+- Swagger UI: http://localhost:8080/api/docs
+- ReDoc: http://localhost:8080/api/redoc
+- OpenAPI: http://localhost:8080/api/openapi.json
 
-## Compliance
+### Endpoints
 
-All documentation follows:
-- BaFin MaRisk AT 8.1 (audit trail requirements)
-- GDPR Art 25, 32 (data protection by design)
-- DORA Art 11 (ICT risk management)
-- EU AI Act (technical documentation for high-risk AI)
+#### Infrastructure
+- `POST /api/v1/deploy` - Deploy infrastructure
+- `POST /api/v1/destroy` - Destroy infrastructure
+- `GET /api/v1/stacks` - List stacks
+- `GET /api/v1/info` - Server information
 
-## Maintenance
+#### Health & Monitoring
+- `GET /health/live` - Liveness probe
+- `GET /health/ready` - Readiness probe
+- `GET /metrics` - Prometheus metrics
 
-Documentation is maintained alongside code changes. All updates must be reviewed
-and approved through the standard PR process.
+## MCP Tools
 
----
+- `deploy_infrastructure` - Deploy using CDK/CFN/Terraform/IaC
+- `destroy_infrastructure` - Destroy infrastructure stack
+- `list_stacks` - List deployed stacks
 
-**Last Updated**: 1772710687.1343215  
-**Maintained By**: Virons Fintech Engineering Team
+## Version History
+
+See [Changelog](changelog.md) for version history.

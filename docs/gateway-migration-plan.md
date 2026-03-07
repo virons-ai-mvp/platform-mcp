@@ -61,11 +61,11 @@ python3 scripts/scaffold_virons_server.py \
 - `ServiceRegistry` → `MCPServerRegistry`
   - Change from HTTP services to MCP server connections
   - Use MCP client library instead of httpx
-  
+
 - `GatewayRouter` → `MCPGatewayRouter`
   - Route to MCP servers instead of HTTP endpoints
   - Wrap with compliance middleware
-  
+
 - Circuit breaker → Keep pattern, adapt for MCP
 - Rate limiting → Keep, add per-server limits
 - Metrics → Keep Prometheus, add MCP-specific metrics
@@ -78,13 +78,13 @@ python3 scripts/scaffold_virons_server.py \
 # virons/gateway_mcp_server/compliance_middleware.py
 class ComplianceMiddleware:
     """Wraps MCP tool calls with compliance checks."""
-    
+
     async def before_tool_call(self, tool_name: str, params: dict):
         # 1. Generate correlation ID (GDPR Art 32)
         # 2. Enforce data residency (GDPR Art 25)
         # 3. Check authorization
         pass
-    
+
     async def after_tool_call(self, tool_name: str, result: dict):
         # 1. Audit trail (BaFin AT 8.1)
         # 2. Log metrics
@@ -104,14 +104,14 @@ servers:
     tools:
       - list_resources
       - get_resource
-  
+
   - name: development
     port: 9301
     namespace: forensic
     tools:
       - create_environment
       - deploy_service
-  
+
   - name: anomaly-detector
     port: 9420
     namespace: ml

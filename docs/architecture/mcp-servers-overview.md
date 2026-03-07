@@ -1,8 +1,8 @@
 # MCP Enterprise Gateway Architecture Blueprint
 
-**Version:** 2.0 (March 2026)  
-**Author:** Perplexity AI Agentic Expert  
-**Target:** AWS EKS, EU Compliance (AI Act, BaFin, DORA, GDPR)  
+**Version:** 2.0 (March 2026)
+**Author:** Perplexity AI Agentic Expert
+**Target:** AWS EKS, EU Compliance (AI Act, BaFin, DORA, GDPR)
 **Overview:** Secure, scalable gateway proxying domain-specific MCP servers with centralized auth, audit, and guardrails. Polyglot (TS Gateway, Python servers), DDD architecture.[1][2]
 
 ## Architecture Diagram

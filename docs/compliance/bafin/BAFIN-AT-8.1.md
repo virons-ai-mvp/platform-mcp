@@ -6,9 +6,9 @@
 
 ***
 
-**Regulation**: BaFin MaRisk AT 8.1 (Minimum Requirements for Risk Management)  
-**Requirement**: Audit trail for IT systems, change control, security scanning  
-**Scope**: All MCP servers (Security, Governance, Operations, Compliance contexts)  
+**Regulation**: BaFin MaRisk AT 8.1 (Minimum Requirements for Risk Management)
+**Requirement**: Audit trail for IT systems, change control, security scanning
+**Scope**: All MCP servers (Security, Governance, Operations, Compliance contexts)
 **Status**: ✅ Compliant
 
 ## Requirements
@@ -64,7 +64,7 @@ from virons_mcp.shared.audit import write_audit
 async def scan_repository(repo: str, user: str):
     try:
         result = await gitleaks.scan(repo)
-        
+
         # Audit log (required by BaFin AT 8.1)
         await write_audit(
             server="gitleaks",
@@ -75,7 +75,7 @@ async def scan_repository(repo: str, user: str):
             result="SUCCESS",
             details={"secrets_found": len(result.secrets)}
         )
-        
+
         return result
     except Exception as e:
         await write_audit(
@@ -212,6 +212,6 @@ AuditLogFailureAlarm:
 
 ***
 
-**Last Updated**: 2026-03-05  
-**Compliance Owner**: compliance@virons.ai  
+**Last Updated**: 2026-03-05
+**Compliance Owner**: compliance@virons.ai
 **Technical Owner**: platform@virons.ai

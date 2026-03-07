@@ -1,6 +1,6 @@
 # MCP Server → Orchestrator Mapping
 
-**Date**: 2026-03-05  
+**Date**: 2026-03-05
 **Status**: Implementation Guide
 
 This document maps all available MCP servers to Virons orchestrator domains, ensuring comprehensive coverage of the MCP ecosystem.
@@ -260,5 +260,5 @@ Each orchestrator follows TDD:
 
 ---
 
-**Maintained By**: Virons Fintech Engineering Team  
+**Maintained By**: Virons Fintech Engineering Team
 **Last Updated**: 2026-03-05

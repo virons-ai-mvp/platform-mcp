@@ -1,0 +1,28 @@
+# Copyright Virons Fintech. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+# Shared base image for all MCP servers
+
+FROM python:3.13-slim AS base
+RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf /var/lib/apt/lists/*
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+
+FROM base AS common-builder
+WORKDIR /build
+COPY src/virons-common /tmp/virons-common
+RUN uv venv && uv pip install /tmp/virons-common
+
+FROM base AS builder
+WORKDIR /build
+COPY --from=common-builder /build/.venv /build/.venv
+ARG SERVICE_PATH
+COPY ${SERVICE_PATH}/pyproject.toml ${SERVICE_PATH}/README.md ./
+COPY ${SERVICE_PATH}/virons ./virons
+RUN . /build/.venv/bin/activate && uv pip install -e .
+
+FROM base AS runtime
+WORKDIR /app
+COPY --from=builder /build/.venv /app/.venv
+COPY --from=builder /build/virons ./virons
+RUN useradd -m -u 1000 virons && chown -R virons:virons /app
+USER virons
+ENV PATH="/app/.venv/bin:$PATH" PYTHONUNBUFFERED=1

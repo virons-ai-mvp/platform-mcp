@@ -2,9 +2,9 @@
 
 # ADR-001: MCP Server Port Allocation
 
-**Status**: ✅ Accepted  
-**Date**: 2026-03-05  
-**Contexts**: Security, Governance, Operations, Compliance  
+**Status**: ✅ Accepted
+**Date**: 2026-03-05
+**Contexts**: Security, Governance, Operations, Compliance
 **Compliance**: BaFin AT 8.1, DORA Art 11
 
 ## Context
@@ -36,7 +36,7 @@ Allocate MCP server ports in the **9100-9199 range** with context-based segmenta
 | **Data-NoSQL** | 9180-9189 | 10 servers | 6 (dynamodb, documentdb, keyspaces, neptune, elasticache, s3-tables) |
 | **Monitoring** | 9190-9199 | 10 servers | 4 (cloudwatch, prometheus, appsignals, applicationsignals) |
 
-**Total Allocated**: 39 servers (6 existing + 33 AWS MCP Tier 1)  
+**Total Allocated**: 39 servers (6 existing + 33 AWS MCP Tier 1)
 **Total Reserved**: 61 ports for future expansion
 
 ### Port Registry
@@ -146,16 +146,16 @@ Allocate MCP server ports in the **9100-9199 range** with context-based segmenta
 
 ### Positive
 
-✅ No port conflicts with platform-services  
-✅ Predictable port allocation by context  
-✅ Easy to configure firewall rules (9100-9199)  
-✅ Clear audit trail for compliance  
+✅ No port conflicts with platform-services
+✅ Predictable port allocation by context
+✅ Easy to configure firewall rules (9100-9199)
+✅ Clear audit trail for compliance
 ✅ Room for growth (60 reserved ports)
 
 ### Negative
 
-⚠️ Must maintain port registry documentation  
-⚠️ Firewall rules need updating for 9100-9199  
+⚠️ Must maintain port registry documentation
+⚠️ Firewall rules need updating for 9100-9199
 ⚠️ Port exhaustion if >10 servers per context (unlikely)
 
 ### Neutral
@@ -265,6 +265,6 @@ resource "aws_security_group_rule" "mcp_servers" {
 
 ***
 
-**Last Updated**: 2026-03-05  
-**Author**: platform@virons.ai  
+**Last Updated**: 2026-03-05
+**Author**: platform@virons.ai
 **Reviewers**: security@virons.ai, compliance@virons.ai

@@ -1,6 +1,6 @@
 # Workflow Compliance Comparison: platform-mcp vs platform-infrastructure
 
-**Date**: 2026-03-05  
+**Date**: 2026-03-05
 **Purpose**: Ensure platform-mcp has equivalent security, compliance, and governance workflows as platform-infrastructure
 
 ---
@@ -268,11 +268,11 @@ cp platform-infrastructure/.github/workflows/notify-docs.yml platform-mcp/.githu
 
 ## 10. Success Criteria
 
-✅ **Security Parity**: platform-mcp has equivalent or better security scanning  
-✅ **Compliance Coverage**: All 4 regulations covered (BaFin, GDPR, DORA, EU AI Act)  
-✅ **Governance**: Org-level policies enforced consistently  
-✅ **Testing**: Comprehensive test coverage with gates  
-✅ **Documentation**: All workflows documented and maintained  
+✅ **Security Parity**: platform-mcp has equivalent or better security scanning
+✅ **Compliance Coverage**: All 4 regulations covered (BaFin, GDPR, DORA, EU AI Act)
+✅ **Governance**: Org-level policies enforced consistently
+✅ **Testing**: Comprehensive test coverage with gates
+✅ **Documentation**: All workflows documented and maintained
 
 ---
 
@@ -286,6 +286,6 @@ cp platform-infrastructure/.github/workflows/notify-docs.yml platform-mcp/.githu
 
 ---
 
-**Maintained By**: Virons Fintech Engineering Team  
-**Last Updated**: 2026-03-05  
+**Maintained By**: Virons Fintech Engineering Team
+**Last Updated**: 2026-03-05
 **Review Frequency**: Monthly

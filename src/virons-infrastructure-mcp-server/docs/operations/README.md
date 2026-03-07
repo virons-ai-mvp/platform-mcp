@@ -1,29 +1,41 @@
-# Operations
+# Operations Documentation
 
-Operational documentation
+Deployment, monitoring, and operational procedures.
 
-## Purpose
+## Contents
 
-This directory contains documentation for the virons-infrastructure-mcp-server.
+- [Deployment Guide](deployment-guide.md) - How to deploy
+- [Deployment Complete](deployment-complete.md) - Deployment summary
+- [Production Deployment](production-deployment.md) - Production setup
+- [Deployment Success](deployment-success.md) - Success notes
+- [Runbooks](runbooks/) - Operational runbooks
 
-## Structure
+## Quick Start
 
-_To be populated as documentation is added._
+### Local Development
+```bash
+uv sync
+uv run virons-infrastructure-mcp-server --transport api --port 8080
+```
 
-## Compliance
+### Docker
+```bash
+docker build -t virons-infrastructure-mcp-server:0.1.0 .
+docker run -p 8080:8080 virons-infrastructure-mcp-server:0.1.0
+```
 
-All documentation follows:
-- BaFin MaRisk AT 8.1 (audit trail requirements)
-- GDPR Art 25, 32 (data protection by design)
-- DORA Art 11 (ICT risk management)
-- EU AI Act (technical documentation for high-risk AI)
+### Kubernetes
+```bash
+helm install virons-infrastructure ./helm/virons-infrastructure
+kubectl get pods -l app=virons-infrastructure
+```
 
-## Maintenance
+## Monitoring
 
-Documentation is maintained alongside code changes. All updates must be reviewed
-and approved through the standard PR process.
+- Health: `/health/live`, `/health/ready`
+- Metrics: `/metrics` (Prometheus)
+- Logs: `kubectl logs -l app=virons-infrastructure`
 
----
+## Documentation
 
-**Last Updated**: 1772710687.1343215  
-**Maintained By**: Virons Fintech Engineering Team
+See individual guides for detailed procedures.

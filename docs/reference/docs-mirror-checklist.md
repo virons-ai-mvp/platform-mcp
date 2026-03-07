@@ -1,6 +1,6 @@
 # Docs Mirror Checklist
 
-**Date**: 2026-03-05  
+**Date**: 2026-03-05
 **Task**: Mirror platform-infrastructure/docs to platform-mcp/docs
 
 ## ✅ Completed

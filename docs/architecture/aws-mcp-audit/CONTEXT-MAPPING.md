@@ -2,8 +2,8 @@
 
 # AWS MCP Server Context Mapping
 
-**Status**: ✅ Complete  
-**Date**: 2026-03-05  
+**Status**: ✅ Complete
+**Date**: 2026-03-05
 **Purpose**: Map Tier 1 AWS MCP servers to virons-mcp-server bounded contexts
 
 ***
@@ -57,7 +57,7 @@ This document maps 34 Tier 1 AWS MCP servers to bounded contexts based on primar
 | 9111 | workflow-governance | Workflow validation | Compliance |
 | 9112-9119 | *Reserved* | Future governance servers | - |
 
-**Capacity**: 2/10 used, 8 reserved  
+**Capacity**: 2/10 used, 8 reserved
 **Note**: No Tier 1 AWS MCP servers map primarily to Governance
 
 ***
@@ -180,25 +180,25 @@ This document maps 34 Tier 1 AWS MCP servers to bounded contexts based on primar
 graph TD
     Security[Security Context<br/>9100-9109] -->|audit events| Compliance[Compliance Context<br/>9130-9139]
     Security -->|access logs| Monitoring[Monitoring Context<br/>9190-9199]
-    
+
     Operations[Operations Context<br/>9120-9129] -->|metrics| Monitoring
     Operations -->|cost data| Compliance
-    
+
     Infrastructure[Infrastructure Context<br/>9140-9149] -->|deployment events| Operations
     Infrastructure -->|network logs| Security
-    
+
     DataRelational[Data-Relational Context<br/>9150-9159] -->|audit logs| Security
     DataRelational -->|query metrics| Monitoring
-    
+
     DataNoSQL[Data-NoSQL Context<br/>9180-9189] -->|transaction logs| Security
     DataNoSQL -->|performance metrics| Monitoring
-    
+
     AIML[AI-ML Context<br/>9160-9169] -->|training metrics| Monitoring
     AIML -->|model data| DataRelational
-    
+
     Messaging[Messaging Context<br/>9170-9179] -->|message logs| Monitoring
     Messaging -->|event streams| Operations
-    
+
     Compliance -->|policy enforcement| Governance[Governance Context<br/>9110-9119]
     Governance -->|workflow validation| Operations
 ```

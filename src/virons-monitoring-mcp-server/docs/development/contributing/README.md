@@ -25,5 +25,5 @@ and approved through the standard PR process.
 
 ---
 
-**Last Updated**: 1772710687.1343215  
+**Last Updated**: 1772710687.1343215
 **Maintained By**: Virons Fintech Engineering Team

@@ -1,29 +1,36 @@
-# Architecture
+# Architecture Documentation
 
-Architecture documentation and decisions
+System architecture, design patterns, and technical decisions for the Virons Infrastructure MCP Server.
 
-## Purpose
+## Contents
 
-This directory contains documentation for the virons-infrastructure-mcp-server.
+- [Model Architecture](model-architecture.md) - Reference architecture for all MCP servers
+- [Comprehensive Review](comprehensive-review.md) - Complete server review
+- [Diagrams](diagrams/) - Architecture diagrams
+- [Decisions](decisions/) - Architecture Decision Records (ADRs)
 
-## Structure
+## Overview
 
-_To be populated as documentation is added._
+The Virons Infrastructure MCP Server follows a clean 4-layer architecture:
 
-## Compliance
+```
+API Layer (FastAPI)
+    ↓
+Application Layer (Services)
+    ↓
+Domain Layer (Models)
+    ↓
+Infrastructure Layer (Technical)
+```
 
-All documentation follows:
-- BaFin MaRisk AT 8.1 (audit trail requirements)
-- GDPR Art 25, 32 (data protection by design)
-- DORA Art 11 (ICT risk management)
-- EU AI Act (technical documentation for high-risk AI)
+## Key Patterns
 
-## Maintenance
+- **Multi-protocol support**: MCP (stdio), HTTP (health), REST API (Swagger)
+- **Domain-Driven Design**: Clear separation of concerns
+- **Dependency Injection**: Services injected into API layer
+- **Repository Pattern**: Upstream registry abstraction
 
-Documentation is maintained alongside code changes. All updates must be reviewed
-and approved through the standard PR process.
+## Documentation
 
----
-
-**Last Updated**: 1772710687.1343215  
-**Maintained By**: Virons Fintech Engineering Team
+- [Model Architecture](model-architecture.md) - Complete reference
+- [Comprehensive Review](comprehensive-review.md) - Implementation review
