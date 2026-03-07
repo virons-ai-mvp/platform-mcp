@@ -42,4 +42,4 @@ EXPOSE 9100
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:9100/health/live')"
 
-CMD ["python", "-m", "virons.infrastructure_mcp_server.server", "--transport", "http", "--port", "9100"]
+CMD ["python", "-m", "virons.infrastructure_mcp_server.server", "--transport", "api", "--port", "9100"]

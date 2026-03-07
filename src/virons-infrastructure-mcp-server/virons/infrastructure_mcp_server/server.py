@@ -810,11 +810,47 @@ def main():
         list_service = ListService(registry=registry)
         destroy_service = DestroyService(registry=registry, audit=audit_module)
 
+        # Create MCP server for tool introspection
+        mcp = create_server()
+
         app = create_api(health_checker, deploy_service, list_service, destroy_service)
+
+        # Add tool registry endpoint
+        @app.get("/tools")
+        async def list_tools():
+            """List all available MCP tools with enriched metadata."""
+            from .tool_metadata import enrich_tool_metadata
+            
+            tools = await mcp.list_tools()
+            enriched_tools = []
+            
+            for tool in tools:
+                tool_data = {
+                    "name": tool.name,
+                    "description": tool.description,
+                    "inputSchema": tool.inputSchema,
+                }
+                enriched_tools.append(enrich_tool_metadata(tool.name, tool_data))
+            
+            return {
+                "server": SERVER_NAME,
+                "tools": enriched_tools,
+            }
+
+        # Add tool execution endpoint
+        @app.post("/tools/{tool_name}")
+        async def execute_tool(tool_name: str, request: dict):
+            """Execute a tool by name."""
+            try:
+                _, result = await mcp.call_tool(tool_name, request)
+                return result
+            except Exception as e:
+                return {"error": str(e)}
 
         logger.info(f"Starting API server on port {args.port}")
         logger.info(f"Swagger UI: http://localhost:{args.port}/api/docs")
         logger.info(f"ReDoc: http://localhost:{args.port}/api/redoc")
+        logger.info(f"Tools registry: http://localhost:{args.port}/tools")
 
         uvicorn.run(app, host="0.0.0.0", port=args.port, log_level="info")
         return
