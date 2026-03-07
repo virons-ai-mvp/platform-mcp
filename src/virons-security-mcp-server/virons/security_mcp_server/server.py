@@ -105,10 +105,15 @@ def register_tools(server: FastMCP) -> None:
             end_time: End timestamp (ISO 8601)
             event_name: Filter by event name
         """
+        from .application.audit_service import AuditService
+
         try:
-            # TODO: Call cloudtrail MCP server
-            events = []
-            logger.info(f"Queried CloudTrail from {start_time} to {end_time}")
+            correlation_id = ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
+            
+            service = AuditService()
+            events = await service.query_events(start_time, end_time, event_name, correlation_id)
+            
+            logger.info(f"Queried CloudTrail from {start_time} to {end_time} - found {len(events)} events")
             return {"events": events, "count": len(events)}
         except Exception as e:
             logger.error(f"CloudTrail query failed: {e}")
@@ -123,11 +128,16 @@ def register_tools(server: FastMCP) -> None:
             policy_document: IAM policy JSON
             resource_type: Resource type (user|role|group)
         """
+        from .application.policy_validation_service import PolicyValidationService
+
         try:
-            # TODO: Call iam MCP server
-            issues = []
-            logger.info(f"Validated IAM policy for {resource_type}")
-            return {"valid": len(issues) == 0, "issues": issues}
+            correlation_id = ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
+            
+            service = PolicyValidationService()
+            result = await service.validate_policy(policy_document, resource_type, correlation_id)
+            
+            logger.info(f"Validated IAM policy for {resource_type} - valid: {result.get('valid', False)}")
+            return result
         except Exception as e:
             logger.error(f"IAM policy check failed: {e}")
             await ctx.error(f"Check error: {str(e)}")
@@ -142,28 +152,37 @@ def register_tools(server: FastMCP) -> None:
             gate_type: Gate type (pre-commit|pre-deploy|post-deploy)
         """
         from .compliance import audit_write_operation
+        from .application.compliance_service import ComplianceService
 
         try:
+            correlation_id = ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
+            
+            service = ComplianceService()
+            gate_result = await service.run_gate(artifact_path, gate_type, correlation_id)
+
             audit_id = await audit_write_operation(
                 operation_name="run_compliance_gate",
                 entity_id=artifact_path,
                 input_data={"path": artifact_path, "gate": gate_type},
-                output_data={},
+                output_data={"status": gate_result.get("status", "unknown")},
             )
 
-            # TODO: Call compliance-gate MCP server
             result = {
-                "status": "passed",
+                "status": gate_result.get("status", "unknown"),
                 "gate": gate_type,
                 "artifact": artifact_path,
+                "checks_passed": gate_result.get("checks_passed", 0),
+                "checks_failed": gate_result.get("checks_failed", 0),
                 "audit_id": audit_id,
             }
 
-            logger.info(f"Ran {gate_type} gate on {artifact_path}")
+            logger.info(f"Ran {gate_type} gate on {artifact_path} - status: {result['status']}")
             return result
 
         except Exception as e:
             logger.error(f"Compliance gate failed: {e}")
+            await ctx.error(f"Gate error: {str(e)}")
+            raise
             await ctx.error(f"Gate error: {str(e)}")
             raise
 
