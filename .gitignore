@@ -241,10 +241,6 @@ poetry.toml
 .history
 .ionide
 
-### Kiro
-# Ignore Kiro config files
-.kiro/
-
 ### Windows ###
 # Windows thumbnail cache files
 Thumbs.db
