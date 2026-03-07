@@ -183,17 +183,49 @@ def main():
     )
     parser.add_argument(
         "--transport",
-        choices=["stdio", "http"],
+        choices=["stdio", "http", "api"],
         default="stdio",
-        help="Transport protocol (stdio for MCP, http for K8s probes)",
+        help="Transport protocol (stdio=MCP, http=health, api=REST+Swagger)",
     )
 
     args = parser.parse_args()
 
     logger.info(f"Starting {SERVER_NAME} (write_enabled={args.allow_write})")
 
+    # API mode: Full REST API with /tools endpoint
+    if args.transport == "api":
+        import uvicorn
+        from fastapi import FastAPI
+
+        port = int(os.getenv("PORT", "9520"))
+        mcp = create_server()
+        app = FastAPI(title="Virons Monitoring MCP Server", version="1.0.0")
+
+        @app.get("/health", tags=["Health"])
+        async def health():
+            return {"status": "healthy"}
+
+        @app.get("/", tags=["Info"])
+        async def root():
+            return {"service": "virons-monitoring-mcp", "version": "1.0.0", "write_enabled": args.allow_write}
+
+        @app.get("/tools", tags=["Tools"])
+        async def list_tools():
+            from .tool_metadata import enrich_tool_metadata
+            tools_list = await mcp.list_tools()
+            enriched = []
+            for tool in tools_list:
+                metadata = {"name": tool.name, "service": "monitoring-mcp", "description": tool.description or "", "input_schema": tool.inputSchema}
+                enriched.append(enrich_tool_metadata(tool.name, metadata))
+            return {"tools": enriched, "count": len(enriched)}
+
+        logger.info(f"Monitoring MCP API server on port {port}")
+        logger.info(f"Swagger UI: http://localhost:{port}/docs")
+        uvicorn.run(app, host="0.0.0.0", port=port, log_level="error")
+        return
+
+    # HTTP mode: Health checks only (K8s)
     if args.transport == "http":
-        import os
 
         import uvicorn
         from fastapi import FastAPI
