@@ -1,33 +1,28 @@
-# Test Suite
+# Monitoring MCP Server - Tests
 
 ## Overview
 
-TDD test suite for virons-monitoring-mcp-server.
+Test suite for monitoring MCP server covering all layers.
 
-- `test_server.py` — Server and tool handler tests
-- `test_init.py` — Package initialization tests
-- `test_main.py` — CLI entry point tests
-- `test_compliance.py` — Compliance hook tests
-
-## Contents
+## Structure
 
 ```
-├── test_server.py
-├── test_init.py
-├── test_main.py
-└── test_compliance.py
+tests/
+├── test_server.py           # Server integration tests
+├── test_compliance.py       # Audit logging tests
+├── test_tools.py            # Tool execution tests
+├── application/             # Application layer tests
+├── domain/                  # Domain layer tests
+└── infrastructure/          # Infrastructure layer tests
 ```
 
-## Context
+## Running Tests
 
-| Key | Value |
-|-----|-------|
-| **Domain** | `tests` |
-| **Parent** | [Package Root](../) |
-| **Bounded Context** | Test Domain |
+```bash
+pytest tests/ -v
+pytest tests/ --cov=virons.monitoring_mcp_server --cov-report=html
+```
 
 ## Navigation
 
-← [Package Root](../)
-
----
+← [Monitoring MCP Server](..)

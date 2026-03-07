@@ -1,12 +1,21 @@
-# Umonitoring MCP Server - Scripts
+# Monitoring MCP Server - Scripts
 
 ## Overview
-Operational scripts for monitoring MCP server.
 
-## Available Scripts
-- start-api.sh - Start API server locally
-- run-tests.sh - Run test suite
-- healthcheck.sh - Health check script
+Operational scripts for monitoring MCP server development and deployment.
+
+## Structure
+
+```
+scripts/
+├── development/          # Development scripts
+│   ├── start-api.sh     # Start API server locally
+│   └── run-tests.sh     # Run test suite
+└── operations/          # Operations scripts
+    ├── healthcheck.sh   # Health check script
+    └── deploy.sh        # Deployment script
+```
 
 ## Navigation
-← [Umonitoring MCP Server](..)
+
+← [Monitoring MCP Server](..)

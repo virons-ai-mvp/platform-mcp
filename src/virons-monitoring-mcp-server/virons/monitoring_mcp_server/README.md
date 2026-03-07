@@ -1,33 +1,57 @@
-# Monitoring MCP Server
+# Monitoring MCP Server - Core Implementation
 
 ## Overview
 
-MCP server implementation for monitoring.
+Monitoring orchestration layer coordinating 4 upstream MCP servers for metrics, dashboards, and alerts.
 
-- `server.py` — FastMCP server and tool handlers
-- `models.py` — Pydantic data models
-- `consts.py` — Constants and configuration
-- `compliance.py` — virons.common compliance hooks
-
-## Contents
+## Structure
 
 ```
-├── server.py
-├── models.py
-├── consts.py
-└── compliance.py
+monitoring_mcp_server/
+├── application/       # Use cases (future: metrics aggregation)
+├── domain/           # Business logic (future: alert rules)
+├── infrastructure/   # External integrations (future: monitoring clients)
+├── server.py         # FastMCP server (stdio/http/api modes)
+├── compliance.py     # Audit logging
+├── consts.py         # Constants
+├── models.py         # Data models
+└── tool_metadata.py  # Tool enrichment with examples
 ```
 
-## Context
+## Tools
 
-| Key | Value |
-|-----|-------|
-| **Domain** | `virons.monitoring_mcp_server` |
-| **Parent** | [virons](../) |
-| **Bounded Context** | Server Domain |
+```python
+@server.tool()
+async def query_metrics(source: str, query: str, start: str, end: str = None)
+  # Query metrics from CloudWatch/Prometheus
+
+@server.tool()
+async def create_dashboard(name: str, panels: list, datasource: str)
+  # Create Grafana dashboard
+
+@server.tool()
+async def set_alert(name: str, condition: str, threshold: float, notification: str)
+  # Configure alert rules
+
+@server.tool()
+async def check_system_health()
+  # Aggregate system health from all sources
+```
+
+## Upstreams
+
+```python
+UPSTREAM = {
+    "cloudwatch": {"host": "localhost", "port": 9109},
+    "prometheus": {"host": "localhost", "port": 9110},
+    "grafana": {"host": "localhost", "port": 9111},
+    "elasticsearch": {"host": "localhost", "port": 9112},
+}
+```
 
 ## Navigation
 
-← [virons README](../)
-
----
+← [Monitoring MCP Server](../..)  
+→ [Application Layer](application/)  
+→ [Domain Layer](domain/)  
+→ [Infrastructure Layer](infrastructure/)
