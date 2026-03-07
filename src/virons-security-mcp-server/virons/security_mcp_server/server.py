@@ -63,24 +63,30 @@ def register_tools(server: FastMCP) -> None:
             scan_history: Scan full git history
         """
         from .compliance import audit_write_operation
+        from .application.secret_scan_service import SecretScanService
 
         try:
+            correlation_id = ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
+            
+            service = SecretScanService()
+            findings = await service.scan_repository(repository_path, scan_history, correlation_id)
+
             audit_id = await audit_write_operation(
                 operation_name="scan_secrets",
                 entity_id=repository_path,
                 input_data={"path": repository_path, "scan_history": scan_history},
-                output_data={},
+                output_data={"secrets_found": len(findings)},
             )
 
-            # TODO: Call gitleaks MCP server
             result = {
                 "status": "scanned",
                 "repository": repository_path,
-                "secrets_found": 0,
+                "secrets_found": len(findings),
+                "findings": findings,
                 "audit_id": audit_id,
             }
 
-            logger.info(f"Scanned {repository_path} for secrets")
+            logger.info(f"Scanned {repository_path} for secrets - found {len(findings)}")
             return result
 
         except Exception as e:
