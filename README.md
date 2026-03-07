@@ -27,13 +27,22 @@ curl http://localhost:9000/tools | jq
 
 ## Services
 
-| Service | Port | Tools | Status |
-|---------|------|-------|--------|
-| Gateway | 9000 | 90 (aggregated) | ✅ |
-| Infrastructure | 9100 | 78 | ✅ |
-| Security | 9500 | 4 | ✅ |
-| Operations | 9510 | 4 | ✅ |
-| Monitoring | 9520 | 4 | ✅ |
+| Service | Port | Tools | Documentation | Status |
+|---------|------|-------|---------------|--------|
+| [Gateway](src/virons-mcp-gateway/) | 9000 | 90 (aggregated) | [📖 Docs](src/virons-mcp-gateway/README.md) | ✅ |
+| [Infrastructure](src/virons-infrastructure-mcp-server/) | 9100 | 78 | [📖 Docs](src/virons-infrastructure-mcp-server/README.md) | ✅ |
+| [Security](src/virons-security-mcp-server/) | 9500 | 4 | [📖 Docs](src/virons-security-mcp-server/README.md) | ✅ |
+| [Operations](src/virons-operations-mcp-server/) | 9510 | 4 | [📖 Docs](src/virons-operations-mcp-server/README.md) | ✅ |
+| [Monitoring](src/virons-monitoring-mcp-server/) | 9520 | 4 | [📖 Docs](src/virons-monitoring-mcp-server/README.md) | ✅ |
+
+### Service Features
+
+Each service follows DDD architecture with complete documentation:
+- **Application Layer** - Use cases and orchestration
+- **Domain Layer** - Business logic and entities  
+- **Infrastructure Layer** - External integrations
+- **Tests** - Comprehensive test suites
+- **Scripts** - Development and operations tools
 
 ## Architecture
 
@@ -42,6 +51,30 @@ All MCP servers follow the [gateway pattern](docs/architecture/mcp-server-standa
 - Prometheus metrics on `/metrics`
 - Health checks on `/health` and `/ready`
 - Tool discovery on `/tools`
+
+### Development Tools
+
+- **[Git Hooks](scripts/hooks/)** - Pre-push validation (DDD, TDD, docs, compliance)
+- **[Verification Scripts](scripts/)** - Documentation and code quality checks
+- **[Testing Tools](scripts/test-examples.sh)** - Automated example testing
+
+Install hooks: `./scripts/install-hooks.sh`
+
+## Testing
+
+```bash
+# Run all tests
+pytest
+
+# Test documentation examples
+./scripts/test-examples.sh
+
+# Verify documentation quality
+./scripts/verify-docs.sh
+
+# Run pre-push validation
+.git/hooks/pre-push
+```
 
 ## License
 
