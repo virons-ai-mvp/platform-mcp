@@ -1,6 +1,44 @@
 # MCP Platform Agents
 
-Specialized agents for platform-mcp development tasks.
+Specialized agents for platform-mcp development tasks. These agents reference workspace-level agent definitions in `../.ai/agents/`.
+
+## Available Agents
+
+### python-mcp-engineer
+**Purpose**: Python MCP server development and tool creation
+**Base Agent**: `../.ai/agents/roles/backend/python-backend-engineer.agent.md`
+**Tools**: read, write, shell, grep, glob
+**Use When**: Developing MCP servers, creating tools, writing Python code
+
+### mcp-tool-specialist
+**Purpose**: MCP tool development and documentation
+**Base Agent**: `../.ai/agents/roles/ai/agentic-ai-expert.agent.md`
+**Tools**: read, write, shell, grep, glob
+**Use When**: Creating new tools, documenting tools, validating tool documentation
+
+### compliance-validator
+**Purpose**: BaFin, GDPR, DORA, EU AI Act compliance validation
+**Base Agent**: `../.ai/agents/roles/security/compliance-monitor.agent.md`
+**Tools**: read, grep, glob (read-only)
+**Use When**: Validating compliance, auditing security, checking regulatory requirements
+
+### devops-engineer
+**Purpose**: Docker, Kubernetes, CI/CD, deployment automation
+**Base Agent**: `../.ai/agents/roles/devops/expert-devops-engineer.agent.md`
+**Tools**: read, write, shell, grep, glob
+**Use When**: Deploying services, managing infrastructure, configuring CI/CD
+
+## Workspace-Level Coordinator
+
+Use `virons-agent` CLI to access the workspace-level agent coordinator:
+- **Agent**: `../.ai/agents/orchestration/agent-coordinator.md`
+- **Purpose**: Routes requests to specialized agents with guardrails
+- **Features**: Risk assessment, approval gates, compliance checks
+
+```bash
+# Use virons-agent coordinator
+kiro chat --agent virons-agent
+```
 
 ## Available Agents
 

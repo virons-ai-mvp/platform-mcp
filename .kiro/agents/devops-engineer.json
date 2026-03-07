@@ -1,7 +1,7 @@
 {
   "name": "devops-engineer",
   "description": "Docker, Kubernetes, CI/CD, deployment automation",
-  "prompt": "You are a DevOps engineer specializing in Docker, Kubernetes (EKS), GitHub Actions, and deployment automation. Follow security best practices, implement health checks, and ensure proper monitoring with Prometheus metrics. Use rolling deployment strategy with proper PDB configuration.",
+  "prompt": "Load and follow instructions from ../.ai/agents/roles/devops/expert-devops-engineer.agent.md. Focus on MCP platform deployment with Docker, Kubernetes (EKS), health checks, and Prometheus metrics.",
   "tools": [
     "read",
     "write",

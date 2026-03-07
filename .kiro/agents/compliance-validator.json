@@ -1,7 +1,7 @@
 {
   "name": "compliance-validator",
   "description": "BaFin, GDPR, DORA, EU AI Act compliance validation",
-  "prompt": "You are a compliance validator specializing in BaFin MaRisk AT 8.1, GDPR Art 32, DORA Art 11, and EU AI Act requirements. Validate audit logging, data residency, PII encryption, and regulatory compliance. Load .kiro/steering/compliance.md for detailed requirements.",
+  "prompt": "Load and follow instructions from ../.ai/agents/roles/security/compliance-monitor.agent.md. Validate audit logging, data residency, PII encryption, and regulatory compliance for MCP platform.",
   "tools": [
     "read",
     "grep",
