@@ -1,57 +1,45 @@
 # Copyright Virons Fintech. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0
 
-FROM public.ecr.aws/amazonlinux/amazonlinux:2023 AS uv
+FROM python:3.13-slim AS builder
 
-# Install build dependencies
-RUN dnf install -y shadow-utils python3.10 python3.10-devel gcc && \
-    dnf clean all
+WORKDIR /build
 
-WORKDIR /app
+# Install uv
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
-# UV configuration
-ENV UV_COMPILE_BYTECODE=1 \
-    UV_LINK_MODE=copy \
-    UV_PYTHON_PREFERENCE=only-managed \
-    UV_FROZEN=true \
-    PIP_NO_CACHE_DIR=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1
+# Copy virons-common first
+COPY src/virons-common /tmp/virons-common
 
-# Copy dependency files
-COPY pyproject.toml ./
+# Copy project files
+COPY src/virons-infrastructure-mcp-server/pyproject.toml src/virons-infrastructure-mcp-server/README.md ./
+COPY src/virons-infrastructure-mcp-server/virons ./virons
 
-# Install uv and dependencies
-RUN python3.10 -m ensurepip && \
-    python3.10 -m pip install uv && \
-    uv sync --python 3.10 --frozen --no-install-project --no-dev --no-editable
-
-# Copy source code
-COPY virons/ ./virons/
-
-# Install project
-RUN uv sync --python 3.10 --frozen --no-dev --no-editable
+# Create venv and install
+RUN uv venv && \
+    uv pip install /tmp/virons-common && \
+    uv pip install -e .
 
 # Production stage
-FROM public.ecr.aws/amazonlinux/amazonlinux:2023
-
-RUN dnf install -y python3.10 && \
-    dnf clean all && \
-    useradd -m -u 1000 virons
+FROM python:3.13-slim
 
 WORKDIR /app
 
-# Copy from build stage
-COPY --from=uv --chown=virons:virons /app/.venv /app/.venv
+# Copy venv and code
+COPY --from=builder /build/.venv /app/.venv
+COPY --from=builder /build/virons ./virons
 
-# Copy healthcheck script
-COPY docker-healthcheck.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/docker-healthcheck.sh
-
+# Non-root user
+RUN useradd -m -u 1000 virons && chown -R virons:virons /app
 USER virons
 
-ENV PATH="/app/.venv/bin:$PATH"
+ENV PATH="/app/.venv/bin:$PATH" \
+    PYTHONUNBUFFERED=1 \
+    PORT=9100
 
-HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
-    CMD ["/usr/local/bin/docker-healthcheck.sh"]
+EXPOSE 9100
 
-ENTRYPOINT ["virons-infrastructure-mcp-server"]
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:9100/health/live')"
+
+CMD ["virons-infrastructure-mcp-server"]
