@@ -2,102 +2,119 @@ networks:
   virons-mcp:
     driver: bridge
 
+x-mcp-service: &mcp-service
+  networks:
+    - virons-mcp
+  restart: unless-stopped
+  deploy:
+    resources:
+      limits:
+        cpus: '1'
+        memory: 512M
+      reservations:
+        cpus: '0.25'
+        memory: 128M
+  healthcheck:
+    interval: 30s
+    timeout: 3s
+    retries: 3
+    start_period: 10s
+
 services:
   virons-mcp-gateway:
+    <<: *mcp-service
     build:
       context: .
       dockerfile: src/virons-mcp-gateway/Dockerfile
+      cache_from:
+        - python:3.13-slim
+        - ghcr.io/astral-sh/uv:latest
     container_name: virons-mcp-gateway
     ports:
       - "9000:9000"
     environment:
-      - PORT=9000
-      - LOG_LEVEL=INFO
-      - INFRASTRUCTURE_MCP_URL=http://virons-infrastructure-mcp:9100
-      - SECURITY_MCP_URL=http://virons-security-mcp:9500
-      - OPERATIONS_MCP_URL=http://virons-operations-mcp:9510
-      - MONITORING_MCP_URL=http://virons-monitoring-mcp:9520
-    networks:
-      - virons-mcp
+      PORT: 9000
+      LOG_LEVEL: INFO
+      INFRASTRUCTURE_MCP_URL: http://virons-infrastructure-mcp:9100
+      SECURITY_MCP_URL: http://virons-security-mcp:9500
+      OPERATIONS_MCP_URL: http://virons-operations-mcp:9510
+      MONITORING_MCP_URL: http://virons-monitoring-mcp:9520
     depends_on:
-      - virons-infrastructure-mcp
-      - virons-security-mcp
-      - virons-operations-mcp
-      - virons-monitoring-mcp
+      virons-infrastructure-mcp:
+        condition: service_healthy
+      virons-security-mcp:
+        condition: service_healthy
+      virons-operations-mcp:
+        condition: service_healthy
+      virons-monitoring-mcp:
+        condition: service_healthy
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9000/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
 
   virons-infrastructure-mcp:
+    <<: *mcp-service
     build:
       context: .
       dockerfile: src/virons-infrastructure-mcp-server/Dockerfile
+      cache_from:
+        - python:3.13-slim
+        - ghcr.io/astral-sh/uv:latest
     container_name: virons-infrastructure-mcp
     ports:
       - "9100:9100"
     environment:
-      - PORT=9100
-      - LOG_LEVEL=INFO
-    networks:
-      - virons-mcp
+      PORT: 9100
+      LOG_LEVEL: INFO
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9100/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
 
   virons-security-mcp:
+    <<: *mcp-service
     build:
       context: .
       dockerfile: src/virons-security-mcp-server/Dockerfile
+      cache_from:
+        - python:3.13-slim
+        - ghcr.io/astral-sh/uv:latest
     container_name: virons-security-mcp
     ports:
       - "9500:9500"
     environment:
-      - PORT=9500
-      - LOG_LEVEL=INFO
-    networks:
-      - virons-mcp
+      PORT: 9500
+      LOG_LEVEL: INFO
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9500/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
 
   virons-operations-mcp:
+    <<: *mcp-service
     build:
       context: .
       dockerfile: src/virons-operations-mcp-server/Dockerfile
+      cache_from:
+        - python:3.13-slim
+        - ghcr.io/astral-sh/uv:latest
     container_name: virons-operations-mcp
     ports:
       - "9510:9510"
     environment:
-      - PORT=9510
-      - LOG_LEVEL=INFO
-    networks:
-      - virons-mcp
+      PORT: 9510
+      LOG_LEVEL: INFO
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9510/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
 
   virons-monitoring-mcp:
+    <<: *mcp-service
     build:
       context: .
       dockerfile: src/virons-monitoring-mcp-server/Dockerfile
+      cache_from:
+        - python:3.13-slim
+        - ghcr.io/astral-sh/uv:latest
     container_name: virons-monitoring-mcp
     ports:
       - "9520:9520"
     environment:
-      - PORT=9520
-      - LOG_LEVEL=INFO
-    networks:
-      - virons-mcp
+      PORT: 9520
+      LOG_LEVEL: INFO
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:9520/health"]
-      interval: 10s
-      timeout: 5s
-      retries: 3
