@@ -65,10 +65,28 @@ def register_tools(server: FastMCP) -> None:
             end_time: End time (ISO 8601)
             source: Metric source (cloudwatch|prometheus|elasticsearch)
         """
+        from .application.metrics_service import MetricsService
+        from .domain.metric import MetricQuery
+        
         try:
-            # TODO: Call upstream MCP server based on source
-            datapoints = []
-            logger.info(f"Queried {metric_name} from {source}")
+            service = MetricsService()
+            query = MetricQuery(metric_name, start_time, end_time, source)
+            
+            # Get correlation ID from context if available
+            correlation_id = getattr(ctx, 'correlation_id', None)
+            
+            metrics = await service.query_metrics(query, correlation_id)
+            
+            datapoints = [
+                {
+                    "timestamp": m.timestamp.isoformat(),
+                    "value": m.value,
+                    "labels": m.labels
+                }
+                for m in metrics
+            ]
+            
+            logger.info(f"Queried {metric_name} from {source}: {len(datapoints)} points")
             return {"metric": metric_name, "datapoints": datapoints, "source": source}
         except Exception as e:
             logger.error(f"Metric query failed: {e}")
