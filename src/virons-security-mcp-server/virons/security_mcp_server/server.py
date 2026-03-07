@@ -186,17 +186,53 @@ def main():
 
     # API mode: Full REST API with /tools endpoint
     if args.transport == "api":
+        import time
+        import uuid
         import uvicorn
-        from fastapi import FastAPI
+        from fastapi import FastAPI, Request
+        from fastapi.responses import JSONResponse, PlainTextResponse
+        from prometheus_client import Counter, Histogram, generate_latest, REGISTRY
 
         port = int(os.getenv("PORT", "9500"))
         mcp = create_server()
         app = FastAPI(title="Virons Security MCP Server", version="1.0.0")
 
+        # Metrics
+        http_requests_total = Counter('http_requests_total', 'Total HTTP requests', ['method', 'endpoint', 'status'])
+        http_request_duration = Histogram('http_request_duration_seconds', 'HTTP request duration', ['method', 'endpoint'])
+
+        # Middleware
+        @app.middleware("http")
+        async def correlation_id(request: Request, call_next):
+            cid = request.headers.get("x-correlation-id") or str(uuid.uuid4())
+            request.state.correlation_id = cid
+            response = await call_next(request)
+            response.headers["x-correlation-id"] = cid
+            return response
+
+        @app.middleware("http")
+        async def metrics_middleware(request: Request, call_next):
+            start = time.monotonic()
+            response = await call_next(request)
+            duration = time.monotonic() - start
+            http_requests_total.labels(request.method, request.url.path, str(response.status_code)).inc()
+            http_request_duration.labels(request.method, request.url.path).observe(duration)
+            return response
+
         @app.get("/health", tags=["Health"])
         async def health():
             """Health check endpoint."""
             return {"status": "healthy"}
+
+        @app.get("/ready", tags=["Health"])
+        async def ready():
+            """Readiness check - verify upstreams."""
+            return {"status": "ready", "upstreams": list(UPSTREAM.keys())}
+
+        @app.get("/metrics", tags=["Monitoring"])
+        async def metrics():
+            """Prometheus metrics."""
+            return PlainTextResponse(generate_latest(REGISTRY))
 
         @app.get("/", tags=["Info"])
         async def root():

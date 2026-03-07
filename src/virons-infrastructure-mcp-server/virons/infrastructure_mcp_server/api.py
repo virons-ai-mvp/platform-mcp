@@ -2,12 +2,14 @@
 # SPDX-License-Identifier: Apache-2.0
 """FastAPI REST API with Swagger documentation."""
 
+import time
+import uuid
 from typing import Any, Dict, List, Optional
 
-from fastapi import FastAPI, HTTPException
-from prometheus_client import CONTENT_TYPE_LATEST, generate_latest
+from fastapi import FastAPI, HTTPException, Request
+from prometheus_client import CONTENT_TYPE_LATEST, Counter, Histogram, generate_latest, REGISTRY
 from pydantic import BaseModel, Field
-from starlette.responses import Response
+from starlette.responses import PlainTextResponse, Response
 
 from .infrastructure.health import HealthChecker
 from .infrastructure.metrics import MetricsCollector
@@ -72,10 +74,45 @@ def create_api(
 
     metrics = MetricsCollector()
 
+    # Metrics
+    http_requests_total = Counter('http_requests_total', 'Total HTTP requests', ['method', 'endpoint', 'status'])
+    http_request_duration = Histogram('http_request_duration_seconds', 'HTTP request duration', ['method', 'endpoint'])
+
+    # Middleware
+    @app.middleware("http")
+    async def correlation_id(request: Request, call_next):
+        cid = request.headers.get("x-correlation-id") or str(uuid.uuid4())
+        request.state.correlation_id = cid
+        response = await call_next(request)
+        response.headers["x-correlation-id"] = cid
+        return response
+
+    @app.middleware("http")
+    async def metrics_middleware(request: Request, call_next):
+        start = time.monotonic()
+        response = await call_next(request)
+        duration = time.monotonic() - start
+        http_requests_total.labels(request.method, request.url.path, str(response.status_code)).inc()
+        http_request_duration.labels(request.method, request.url.path).observe(duration)
+        return response
+
     @app.get("/health", tags=["Health"])
     async def health():
         """Simple health check for Docker."""
         return {"status": "healthy"}
+
+    @app.get("/ready", tags=["Health"])
+    async def ready():
+        """Readiness check."""
+        result = await health_checker.readiness()
+        if result.get("status") != "healthy":
+            raise HTTPException(status_code=503, detail=result)
+        return {"status": "ready", "checks": result.get("checks", {})}
+
+    @app.get("/metrics", tags=["Monitoring"])
+    async def metrics_endpoint():
+        """Prometheus metrics."""
+        return PlainTextResponse(generate_latest(REGISTRY))
 
     @app.get("/health/live", response_model=HealthResponse, tags=["Health"])
     async def liveness():
