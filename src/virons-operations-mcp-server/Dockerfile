@@ -19,4 +19,4 @@ RUN useradd -m -u 1000 virons && chown -R virons:virons /app
 USER virons
 ENV PATH="/app/.venv/bin:$PATH" PYTHONUNBUFFERED=1 PORT=9510
 EXPOSE 9510
-CMD ["python", "-m", "virons.operations_mcp_server.server", "--transport", "http"]
+CMD ["python", "-m", "virons.operations_mcp_server.server", "--transport", "api"]
