@@ -5,10 +5,12 @@
 
 import sys
 
+
 REQUIRED_HEADER = [
-    "# Copyright Virons Fintech. All Rights Reserved.",
-    "# SPDX-License-Identifier: Apache-2.0",
+    '# Copyright Virons Fintech. All Rights Reserved.',
+    '# SPDX-License-Identifier: Apache-2.0',
 ]
+
 
 def check_file(filepath):
     """Check if file has required license header."""
@@ -21,6 +23,7 @@ def check_file(filepath):
             return False
         return lines[0].strip() == REQUIRED_HEADER[0] and lines[1].strip() == REQUIRED_HEADER[1]
 
+
 if __name__ == '__main__':
     files = sys.argv[1:]
     failed = []
@@ -29,6 +32,6 @@ if __name__ == '__main__':
             failed.append(f)
 
     if failed:
-        print(f"❌ Missing license header: {', '.join(failed)}")
+        print(f'❌ Missing license header: {", ".join(failed)}')
         sys.exit(1)
     sys.exit(0)

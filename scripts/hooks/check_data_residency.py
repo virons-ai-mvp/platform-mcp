@@ -5,7 +5,9 @@
 
 import sys
 
+
 FORBIDDEN_REGIONS = ['us-east-1', 'us-west-1', 'us-west-2']
+
 
 def check_file(filepath):
     """Check for forbidden AWS regions."""
@@ -16,6 +18,7 @@ def check_file(filepath):
                 return False
     return True
 
+
 if __name__ == '__main__':
     files = sys.argv[1:]
     failed = []
@@ -24,6 +27,6 @@ if __name__ == '__main__':
             failed.append(f)
 
     if failed:
-        print(f"❌ GDPR: US regions found in: {', '.join(failed)}")
+        print(f'❌ GDPR: US regions found in: {", ".join(failed)}')
         sys.exit(1)
     sys.exit(0)

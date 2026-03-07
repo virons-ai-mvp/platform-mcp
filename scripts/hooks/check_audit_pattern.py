@@ -4,13 +4,14 @@
 """Check for BaFin MaRisk AT 8.1 audit trail patterns."""
 
 import sys
-import re
+
 
 REQUIRED_PATTERNS = [
     r'log_calculation_audit',
     r'log_forensic_flags',
     r'write_audit',
 ]
+
 
 def check_file(filepath):
     """Check if file contains required audit patterns."""
@@ -23,6 +24,7 @@ def check_file(filepath):
                         return False
     return True
 
+
 if __name__ == '__main__':
     files = sys.argv[1:]
     failed = []
@@ -31,6 +33,6 @@ if __name__ == '__main__':
             failed.append(f)
 
     if failed:
-        print(f"❌ BaFin audit pattern missing in: {', '.join(failed)}")
+        print(f'❌ BaFin audit pattern missing in: {", ".join(failed)}')
         sys.exit(1)
     sys.exit(0)

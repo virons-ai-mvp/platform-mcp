@@ -254,7 +254,8 @@ def main():
         description='Verify that README files correctly reference package names from pyproject.toml'
     )
     parser.add_argument(
-        'package_dir', help='Path to the package directory (e.g., src/amazon-neptune-infrastructure-mcp-server)'
+        'package_dir',
+        help='Path to the package directory (e.g., src/amazon-neptune-infrastructure-mcp-server)',
     )
     parser.add_argument('--verbose', '-v', action='store_true', help='Enable verbose output')
 
