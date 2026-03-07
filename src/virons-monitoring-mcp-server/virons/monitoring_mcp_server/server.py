@@ -196,11 +196,30 @@ def register_tools(server: FastMCP) -> None:
             end_time: End time (ISO 8601)
             source: Log source (elasticsearch|cloudwatch)
         """
+        from .application.log_service import LogService
+        from .domain.log_entry import LogQuery
+        
         try:
-            # TODO: Call elasticsearch/cloudwatch MCP server
-            logs = []
-            logger.info(f"Searched logs in {source}")
-            return {"query": query, "logs": logs, "source": source}
+            service = LogService()
+            log_query = LogQuery(query, start_time, end_time, source)
+            
+            # Get correlation ID from context if available
+            correlation_id = getattr(ctx, 'correlation_id', None)
+            
+            logs = await service.search_logs(log_query, correlation_id)
+            
+            log_entries = [
+                {
+                    "timestamp": log.timestamp.isoformat(),
+                    "message": log.message,
+                    "level": log.level,
+                    "labels": log.labels
+                }
+                for log in logs
+            ]
+            
+            logger.info(f"Searched logs in {source}: {len(log_entries)} entries")
+            return {"query": query, "logs": log_entries, "source": source}
         except Exception as e:
             logger.error(f"Log search failed: {e}")
             await ctx.error(f"Search error: {str(e)}")
