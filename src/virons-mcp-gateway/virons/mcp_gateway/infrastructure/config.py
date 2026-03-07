@@ -38,7 +38,7 @@ def load_config(config_path: str) -> GatewayConfig:
         MCPService(
             name=s["name"],
             url=_substitute_env_vars(s["url"]),
-            tools=s["tools"],
+            tools=s.get("tools", []),  # Optional: tools will be discovered dynamically
         )
         for s in raw["services"]
     ]

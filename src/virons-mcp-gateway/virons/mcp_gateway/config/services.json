@@ -2,23 +2,19 @@
   "services": [
     {
       "name": "infrastructure-mcp",
-      "url": "${INFRASTRUCTURE_MCP_URL:http://localhost:9100}",
-      "tools": ["terraform_validate", "kubectl_apply", "aws_cost_analyze"]
+      "url": "${INFRASTRUCTURE_MCP_URL:http://localhost:9100}"
     },
     {
       "name": "security-mcp",
-      "url": "${SECURITY_MCP_URL:http://localhost:9500}",
-      "tools": ["scan_security", "audit_compliance"]
+      "url": "${SECURITY_MCP_URL:http://localhost:9500}"
     },
     {
       "name": "operations-mcp",
-      "url": "${OPERATIONS_MCP_URL:http://localhost:9510}",
-      "tools": ["deploy_service", "rollback_deployment"]
+      "url": "${OPERATIONS_MCP_URL:http://localhost:9510}"
     },
     {
       "name": "monitoring-mcp",
-      "url": "${MONITORING_MCP_URL:http://localhost:9520}",
-      "tools": ["query_metrics", "check_alerts"]
+      "url": "${MONITORING_MCP_URL:http://localhost:9520}"
     }
   ]
 }
