@@ -8,6 +8,8 @@ dependencies = [
     "mcp[cli]>=1.23.0",
     "loguru>=0.7.0",
     "pydantic>=2.10.6",
+    "fastapi>=0.115.0",
+    "uvicorn>=0.32.0",
     "virons.common",
 ]
 license = {text = "Apache-2.0"}

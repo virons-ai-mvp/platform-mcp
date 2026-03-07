@@ -42,4 +42,4 @@ EXPOSE 9000
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD python -c "import urllib.request; urllib.request.urlopen('http://localhost:9000/health')"
 
-CMD ["virons-mcp-gateway"]
+CMD ["python", "-m", "virons.mcp_gateway.server", "--transport", "http", "--port", "9000"]

@@ -8,7 +8,7 @@ from typing import Any, Dict
 import httpx
 from loguru import logger
 
-from .config import GATEWAY_CONFIG
+from ..config import GATEWAY_CONFIG
 
 
 class GatewayService:

@@ -58,14 +58,45 @@ def create_server() -> FastMCP:
         """Monitoring queries (routes to monitoring server)."""
         return await gateway.route_tool("monitoring", tool, kwargs)
 
-    logger.info(f"MCP Gateway initialized with {len(server.list_tools())} tools")
+    logger.info("MCP Gateway initialized with 7 tools")
     return server
 
 
 def main():
     """Run the MCP gateway server."""
+    import argparse
+    import os
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--transport", choices=["stdio", "http"], default="stdio")
+    parser.add_argument("--port", type=int, default=9000)
+    args = parser.parse_args()
+
     server = create_server()
-    server.run(transport="stdio")
+
+    if args.transport == "http" or os.getenv("PORT"):
+        import uvicorn
+        from fastapi import FastAPI
+
+        port = int(os.getenv("PORT", args.port))
+
+        app = FastAPI(title="Virons MCP Gateway", version="1.0.0")
+
+        @app.get("/health", tags=["Health"])
+        async def health():
+            """Health check endpoint."""
+            return {"status": "healthy"}
+
+        @app.get("/", tags=["Info"])
+        async def root():
+            """Gateway info."""
+            return {"service": "virons-mcp-gateway", "version": "1.0.0"}
+
+        logger.info(f"Gateway HTTP server on port {port}")
+        logger.info(f"Swagger UI: http://localhost:{port}/docs")
+        uvicorn.run(app, host="0.0.0.0", port=port, log_level="error")
+    else:
+        server.run(transport="stdio")
 
 
 if __name__ == "__main__":

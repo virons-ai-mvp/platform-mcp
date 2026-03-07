@@ -825,6 +825,7 @@ def main():
 
         from prometheus_client import CONTENT_TYPE_LATEST, REGISTRY, generate_latest
 
+        from .domain.upstream_registry import UpstreamRegistry
         from .infrastructure.health import HealthChecker
 
         registry = UpstreamRegistry(UPSTREAM_CONFIG)

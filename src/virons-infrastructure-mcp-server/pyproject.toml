@@ -9,6 +9,9 @@ dependencies = [
     "loguru>=0.7.0",
     "pydantic>=2.10.6",
     "virons.common",
+    "prometheus-client>=0.24.1",
+    "fastapi>=0.115.0",
+    "uvicorn>=0.34.0",
 ]
 license = {text = "Apache-2.0"}
 license-files = ["LICENSE", "NOTICE"]

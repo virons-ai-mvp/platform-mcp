@@ -1,0 +1,94 @@
+networks:
+  virons-mcp:
+    driver: bridge
+
+services:
+  virons-mcp-gateway:
+    build:
+      context: .
+      dockerfile: src/virons-mcp-gateway/Dockerfile
+    container_name: virons-mcp-gateway
+    ports:
+      - "9000:9000"
+    environment:
+      - PORT=9000
+      - LOG_LEVEL=INFO
+    networks:
+      - virons-mcp
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  virons-infrastructure-mcp:
+    build:
+      context: .
+      dockerfile: src/virons-infrastructure-mcp-server/Dockerfile
+    container_name: virons-infrastructure-mcp
+    ports:
+      - "9100:9100"
+    environment:
+      - PORT=9100
+      - LOG_LEVEL=INFO
+    networks:
+      - virons-mcp
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9100/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  virons-security-mcp:
+    build:
+      context: .
+      dockerfile: src/virons-security-mcp-server/Dockerfile
+    container_name: virons-security-mcp
+    ports:
+      - "9500:9500"
+    environment:
+      - PORT=9500
+      - LOG_LEVEL=INFO
+    networks:
+      - virons-mcp
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9500/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  virons-operations-mcp:
+    build:
+      context: .
+      dockerfile: src/virons-operations-mcp-server/Dockerfile
+    container_name: virons-operations-mcp
+    ports:
+      - "9510:9510"
+    environment:
+      - PORT=9510
+      - LOG_LEVEL=INFO
+    networks:
+      - virons-mcp
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9510/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+
+  virons-monitoring-mcp:
+    build:
+      context: .
+      dockerfile: src/virons-monitoring-mcp-server/Dockerfile
+    container_name: virons-monitoring-mcp
+    ports:
+      - "9520:9520"
+    environment:
+      - PORT=9520
+      - LOG_LEVEL=INFO
+    networks:
+      - virons-mcp
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9520/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
