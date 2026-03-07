@@ -1,33 +1,63 @@
-# Test Suite
+# Security MCP Server - Tests
 
 ## Overview
 
-TDD test suite for virons-security-mcp-server.
+Test suite for security MCP server covering all layers.
 
-- `test_server.py` — Server and tool handler tests
-- `test_init.py` — Package initialization tests
-- `test_main.py` — CLI entry point tests
-- `test_compliance.py` — Compliance hook tests
-
-## Contents
+## Structure
 
 ```
-├── test_server.py
-├── test_init.py
-├── test_main.py
-└── test_compliance.py
+tests/
+├── test_server.py           # Server integration tests
+├── test_compliance.py       # Audit logging tests
+├── test_tools.py            # Tool execution tests
+├── application/             # Application layer tests
+├── domain/                  # Domain layer tests
+└── infrastructure/          # Infrastructure layer tests
 ```
 
-## Context
+## Running Tests
 
-| Key | Value |
-|-----|-------|
-| **Domain** | `tests` |
-| **Parent** | [Package Root](../) |
-| **Bounded Context** | Test Domain |
+```bash
+# All tests
+pytest tests/ -v
+
+# Coverage
+pytest tests/ --cov=virons.security_mcp_server --cov-report=html
+
+# Specific layer
+pytest tests/application/ -v
+pytest tests/domain/ -v
+pytest tests/infrastructure/ -v
+
+# Single test
+pytest tests/test_server.py::test_scan_secrets -v
+```
+
+## Test Categories
+
+**Integration Tests** (test_server.py)
+- API mode startup
+- Tool execution end-to-end
+- Health endpoints
+- Metrics collection
+
+**Unit Tests** (test_tools.py)
+- Individual tool logic
+- Input validation
+- Error handling
+
+**Compliance Tests** (test_compliance.py)
+- Audit logging
+- Write operations tracking
+- Immutable audit trail
+
+## Coverage Requirements
+
+- Overall: >80%
+- Critical paths: 100%
+- Domain logic: >90%
 
 ## Navigation
 
-← [Package Root](../)
-
----
+← [Security MCP Server](..)
