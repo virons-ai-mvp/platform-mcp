@@ -47,11 +47,35 @@ UPSTREAM = {
     "lambda": {"host": "localhost", "port": 9122},
     "ecs": {"host": "localhost", "port": 9123},
     "stepfunctions": {"host": "localhost", "port": 9124},
+    "ec2": {"host": "localhost", "port": 9125},
+    "s3": {"host": "localhost", "port": 9126},
 }
+
+# Global proxy instance
+_proxy = None
+
+
+def get_proxy():
+    """Get or create upstream proxy instance."""
+    global _proxy
+    if _proxy is None:
+        from virons.common.upstream_proxy import UpstreamProxy
+        _proxy = UpstreamProxy(UPSTREAM)
+    return _proxy
 
 
 def register_tools(server: FastMCP) -> None:
     """Register operations orchestrator tools."""
+    
+    # Register core orchestrated tools (with business logic)
+    register_core_tools(server)
+    
+    # Register proxy tools (auto-forwarded from upstreams)
+    register_proxy_tools(server)
+
+
+def register_core_tools(server: FastMCP) -> None:
+    """Register core tools with orchestration logic."""
 
     @server.tool()
     async def list_clusters(ctx: Context) -> dict:
@@ -186,6 +210,62 @@ def register_tools(server: FastMCP) -> None:
             logger.error(f"Workflow start failed: {e}")
             await ctx.error(f"Start error: {str(e)}")
             raise
+
+
+def register_proxy_tools(server: FastMCP) -> None:
+    """Register proxy tools that auto-forward to upstreams."""
+    import asyncio
+    
+    # Core tools we've already implemented
+    core_tools = {
+        "list_clusters",
+        "invoke_lambda",
+        "list_services",
+        "start_workflow"
+    }
+    
+    async def discover_and_register():
+        """Discover upstream tools and register proxies."""
+        proxy = get_proxy()
+        
+        try:
+            discovered = await proxy.discover_tools()
+            total_tools = sum(len(tools) for tools in discovered.values())
+            logger.info(f"Discovered {total_tools} tools from {len(discovered)} upstreams")
+            
+            for upstream_name, tool_names in discovered.items():
+                for tool_name in tool_names:
+                    if tool_name not in core_tools:
+                        register_proxy_tool(server, tool_name, upstream_name)
+                        
+        except Exception as e:
+            logger.warning(f"Failed to discover upstream tools: {e}")
+    
+    try:
+        asyncio.create_task(discover_and_register())
+    except RuntimeError:
+        logger.debug("Event loop not ready, deferring tool discovery")
+
+
+def register_proxy_tool(server: FastMCP, tool_name: str, upstream_name: str) -> None:
+    """Register a single proxy tool."""
+    
+    @server.tool(name=tool_name)
+    async def proxy_handler(ctx: Context, **kwargs) -> dict:
+        """Auto-generated proxy handler."""
+        proxy = get_proxy()
+        correlation_id = ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
+        
+        try:
+            result = await proxy.call_tool(tool_name, kwargs, correlation_id)
+            logger.debug(f"Proxied {tool_name} to {upstream_name}")
+            return result
+        except Exception as e:
+            logger.error(f"Proxy call {tool_name} failed: {e}")
+            await ctx.error(f"Proxy error: {str(e)}")
+            raise
+    
+    proxy_handler.__doc__ = f"[Proxy] Forward to {upstream_name}.{tool_name}"
 
 
 def main():
