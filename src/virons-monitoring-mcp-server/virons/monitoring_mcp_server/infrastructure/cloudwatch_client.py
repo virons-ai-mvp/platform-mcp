@@ -41,3 +41,27 @@ class CloudWatchClient(UpstreamClient):
             ))
         
         return metrics
+    
+    async def create_alarm(
+        self,
+        name: str,
+        metric: str,
+        threshold: float,
+        comparison: str,
+        correlation_id: str = None
+    ) -> dict:
+        """Create CloudWatch alarm."""
+        result = await self.call_tool(
+            "put_metric_alarm",
+            {
+                "alarm_name": name,
+                "metric_name": metric,
+                "threshold": threshold,
+                "comparison_operator": comparison.upper(),
+                "evaluation_periods": 1,
+                "period": 300
+            },
+            correlation_id
+        )
+        
+        return {"alarm_id": result.get("alarm_arn", name), "name": name}

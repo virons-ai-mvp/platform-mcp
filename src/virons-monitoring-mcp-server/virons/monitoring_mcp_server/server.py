@@ -106,8 +106,14 @@ def register_tools(server: FastMCP) -> None:
             comparison: Comparison operator (gt|lt|eq)
         """
         from .compliance import audit_write_operation
+        from .application.alert_service import AlertService
+        from .domain.alert import Alert
 
         try:
+            # Create domain entity
+            alert = Alert(name, metric, threshold, comparison)
+            
+            # Audit write operation
             audit_id = await audit_write_operation(
                 operation_name="create_alert",
                 entity_id=name,
@@ -115,15 +121,12 @@ def register_tools(server: FastMCP) -> None:
                 output_data={},
             )
 
-            # TODO: Call cloudwatch/prometheus MCP server
-            result = {
-                "name": name,
-                "metric": metric,
-                "threshold": threshold,
-                "comparison": comparison,
-                "audit_id": audit_id,
-            }
-
+            # Create alert via service
+            service = AlertService()
+            correlation_id = getattr(ctx, 'correlation_id', None)
+            result = await service.create_alert(alert, correlation_id)
+            
+            result["audit_id"] = audit_id
             logger.info(f"Created alert: {name}")
             return result
 
