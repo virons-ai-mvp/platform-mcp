@@ -2,7 +2,7 @@
 
 ## Overview
 
-External integrations and technical implementations. Currently minimal - upstream calls are TODO in server.py.
+External integrations and technical implementations for security tools.
 
 ## Future Structure
 
