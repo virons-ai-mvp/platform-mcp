@@ -144,8 +144,25 @@ def register_tools(server: FastMCP) -> None:
             panels: List of panel configurations
         """
         from .compliance import audit_write_operation
+        from .application.dashboard_service import DashboardService
+        from .domain.dashboard import Dashboard, Panel
 
         try:
+            # Convert panels to domain entities
+            panel_entities = [
+                Panel(
+                    title=p.get("title", "Untitled"),
+                    query=p.get("query", ""),
+                    type=p.get("type", "graph"),
+                    datasource=p.get("datasource", "prometheus")
+                )
+                for p in panels
+            ]
+            
+            # Create domain entity
+            dashboard = Dashboard(name, panel_entities, tags=panels[0].get("tags", []) if panels else [])
+            
+            # Audit write operation
             audit_id = await audit_write_operation(
                 operation_name="create_dashboard",
                 entity_id=name,
@@ -153,13 +170,12 @@ def register_tools(server: FastMCP) -> None:
                 output_data={},
             )
 
-            # TODO: Call grafana MCP server
-            result = {
-                "name": name,
-                "panels": panels,
-                "audit_id": audit_id,
-            }
-
+            # Create dashboard via service
+            service = DashboardService()
+            correlation_id = getattr(ctx, 'correlation_id', None)
+            result = await service.create_dashboard(dashboard, correlation_id)
+            
+            result["audit_id"] = audit_id
             logger.info(f"Created dashboard: {name}")
             return result
 
