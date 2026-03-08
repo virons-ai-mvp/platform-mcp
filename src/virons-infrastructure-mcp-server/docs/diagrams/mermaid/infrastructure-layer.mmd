@@ -1,7 +1,0 @@
-graph TB
-  App[Application Layer] --> Infra[Infrastructure Layer]
-  Infra --> Health[health.py<br/>Health checks]
-  Infra --> Server[health_server.py<br/>HTTP server]
-  Infra --> Metrics[metrics.py<br/>Prometheus]
-  Metrics --> Prom[Prometheus<br/>Scraper]
-  Server --> HTTP[HTTP :8080<br/>/health /metrics]

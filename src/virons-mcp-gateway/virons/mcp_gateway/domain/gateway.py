@@ -1,5 +1,17 @@
 # Copyright Virons Fintech. All Rights Reserved.
-# SPDX-License-Identifier: Apache-2.0
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 """Gateway router — routes tool calls to MCP backends with circuit breaker."""
 
 import time
@@ -63,6 +75,7 @@ class GatewayRouter:
         circuit_breaker_threshold: int = 5,
         circuit_breaker_timeout: int = 60,
     ) -> None:
+        """Initialize gateway router with dependencies."""
         self._registry = registry
         self._client = httpx.AsyncClient(timeout=timeout)
         self._cb_threshold = circuit_breaker_threshold
@@ -85,22 +98,36 @@ class GatewayRouter:
         if cb.is_open:
             raise CircuitBreakerOpenError(f"Circuit breaker open for {service.name}")
 
-        url = f"{service.url}/tools/{tool_name}"
         start = time.monotonic()
 
         try:
-            resp = await self._client.post(
-                url,
-                json=params,
-                headers={"Authorization": auth_token, "Content-Type": "application/json"},
-            )
-            resp.raise_for_status()
+            # Check if stdio mode
+            if service.url.startswith("stdio://"):
+                from ..infrastructure.mcp_stdio import invoke_mcp_stdio
+
+                result = await invoke_mcp_stdio(
+                    service.command,
+                    service.cwd,
+                    "tools/call",
+                    {"name": tool_name, "arguments": params},
+                )
+            else:
+                # HTTP mode
+                url = f"{service.url}/tools/{tool_name}"
+                resp = await self._client.post(
+                    url,
+                    json=params,
+                    headers={"Authorization": auth_token, "Content-Type": "application/json"},
+                )
+                resp.raise_for_status()
+                result = resp.json()
+
             cb.record_success()
             duration = time.monotonic() - start
             logger.info(
                 f"Backend OK service={service.name} tool={tool_name} duration={duration:.3f}s"
             )
-            return resp.json()
+            return result
         except Exception as exc:
             cb.record_failure()
             duration = time.monotonic() - start

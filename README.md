@@ -26,8 +26,9 @@ python3 scripts/check-upstream-services.py
 ✅ **All 90 tools are callable via HTTP**
 ✅ **AWS Labs MCP integration complete** - 9 validation/documentation tools via subprocess STDIO
 ⚠️  **10 upstream services not deployed** - Tools requiring these will fail gracefully
+🚀 **Pareto (20/80) deployment plan ready** - 8 core servers to deploy in 2-4 weeks
 
-See [AWS Labs Integration](docs/operations/AWSLABS-INTEGRATION-COMPLETE.md) and [Upstream Services Configuration](docs/operations/UPSTREAM-SERVICES.md) for details.
+See [Pareto Deployment Plan](docs/operations/PARETO-MCP-DEPLOYMENT.md) for immediate deployment strategy.
 
 ## Documentation
 

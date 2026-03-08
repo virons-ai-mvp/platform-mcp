@@ -1,85 +1,56 @@
-# Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
-#
-# Licensed under the Apache License, Version 2.0 (the "License");
-# you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at
-#
-#     http://www.apache.org/licenses/LICENSE-2.0
-#
-# Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an "AS IS" BASIS,
-# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-# See the License for the specific language governing permissions and
-# limitations under the License.
+# Enterprise-Grade MCP Server: dynamodb-mcp-server
+# Copyright Virons Fintech. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
 
-# dependabot should continue to update this to the latest hash.
-FROM public.ecr.aws/amazonlinux/amazonlinux@sha256:50a58a006d3381e38160fc5bb4bbefa68b74fcd70dde798f68667aac24312f20 AS uv
+FROM python:3.13-slim AS base
 
-# Install build dependencies needed for compiling packages
-RUN dnf install -y shadow-utils python3 python3-devel gcc && \
-    dnf clean all
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
 
-# Install the project into `/app`
-WORKDIR /app
+# Install uv package manager
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
-# Enable bytecode compilation
-ENV UV_COMPILE_BYTECODE=1
+# Builder stage
+FROM base AS builder
+WORKDIR /build
 
-# Copy from the cache instead of linking since it's a mounted volume
-ENV UV_LINK_MODE=copy
+# Copy server source
+COPY . .
 
-# Prefer the system python
-ENV UV_PYTHON_PREFERENCE=only-managed
+# Install dependencies
+RUN uv sync --frozen --no-dev
 
-# Run without updating the uv.lock file like running with `--frozen`
-ENV UV_FROZEN=true
+# Runtime stage
+FROM base AS runtime
+WORKDIR /app/src/awslabs/dynamodb-mcp-server
 
-# Copy the required files first
-COPY pyproject.toml uv.lock uv-requirements.txt ./
+# Copy virtual environment from builder
+COPY --from=builder /build/.venv /app/.venv
+COPY --from=builder /build /app
 
-# Python optimization and uv configuration
-ENV PIP_NO_CACHE_DIR=1 \
-    PIP_DISABLE_PIP_VERSION_CHECK=1
+# Create non-root user
+RUN useradd -m -u 1000 mcp && \
+    chown -R mcp:mcp /app
 
-# Install the project's dependencies using the lockfile and settings
-RUN --mount=type=cache,target=/root/.cache/uv \
-    python3 -m ensurepip && \
-    python3 -m pip install --require-hashes --requirement uv-requirements.txt --no-cache-dir && \
-    uv sync --python 3.13 --frozen --no-install-project --no-dev --no-editable
+# Switch to non-root user
+USER mcp
 
-# Then, add the rest of the project source code and install it
-# Installing separately from its dependencies allows optimal layer caching
-COPY . /app
-RUN --mount=type=cache,target=/root/.cache/uv \
-    uv sync --python 3.13 --frozen --no-dev --no-editable
+# Environment variables
+ENV PATH="/app/.venv/bin:$PATH" \
+    PYTHONUNBUFFERED=1 \
+    PORT=9180 \
+    LOG_LEVEL=INFO \
+    AWS_REGION=eu-central-1
 
-# Make the directory just in case it doesn't exist
-RUN mkdir -p /root/.local
+# Expose port
+EXPOSE 9180
 
-FROM public.ecr.aws/amazonlinux/amazonlinux@sha256:50a58a006d3381e38160fc5bb4bbefa68b74fcd70dde798f68667aac24312f20
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+    CMD curl -f http://localhost:9180/health || exit 1
 
-# Place executables in the environment at the front of the path and include other binaries
-ENV PATH="/app/.venv/bin:$PATH:/usr/sbin" \
-    PYTHONUNBUFFERED=1
-
-# Install other tools as needed for the MCP server
-# Add non-root user and ability to change directory into /root
-RUN dnf install -y shadow-utils procps && \
-    dnf clean all && \
-    groupadd --force --system app && \
-    useradd app -g app -d /app && \
-    chmod o+x /root
-
-# Get the project from the uv layer
-COPY --from=uv --chown=app:app /root/.local /root/.local
-COPY --from=uv --chown=app:app /app/.venv /app/.venv
-
-# Get healthcheck script
-COPY ./docker-healthcheck.sh /usr/local/bin/docker-healthcheck.sh
-
-# Run as non-root
-USER app
-
-# When running the container, add --db-path and a bind mount to the host's db file
-HEALTHCHECK --interval=60s --timeout=10s --start-period=10s --retries=3 CMD ["docker-healthcheck.sh"]
-ENTRYPOINT ["awslabs.dynamodb-mcp-server"]
+# Run server module directly
+CMD ["python", "-m", "awslabs.dynamodb_mcp_server.server"]

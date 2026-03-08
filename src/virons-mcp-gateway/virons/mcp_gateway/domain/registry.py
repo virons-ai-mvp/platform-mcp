@@ -17,13 +17,15 @@
 from dataclasses import dataclass, field
 
 
-@dataclass(frozen=True)
+@dataclass
 class MCPService:
     """MCP service definition."""
 
     name: str
     url: str
     tools: list[str] = field(default_factory=list)
+    command: list[str] = field(default_factory=list)  # For stdio mode
+    cwd: str = "/app"  # Working directory for stdio mode
 
 
 @dataclass(frozen=True)
@@ -55,7 +57,54 @@ class ServiceRegistry:
 
     async def discover_tools(self, service_name: str, service_url: str, client) -> None:
         """Discover tools with full metadata from service /tools endpoint."""
+        from loguru import logger
+
         try:
+            # Check if stdio mode
+            if service_url.startswith("stdio://"):
+                logger.debug(f"Stdio mode for {service_name}, looking up service...")
+                # For stdio, we need to invoke the server to list tools
+                service = self._services.get(service_name)
+                logger.debug(
+                    f"Service found: {service is not None}, has command: {service.command if service else 'N/A'}"
+                )
+                if service and service.command:
+                    from ..infrastructure.mcp_stdio import invoke_mcp_stdio
+
+                    logger.info(f"Invoking stdio for {service_name}: {service.command}")
+                    # Call tools/list method
+                    result = await invoke_mcp_stdio(service.command, service.cwd, "tools/list", {})
+                    logger.info(f"Stdio result for {service_name}: {result}")
+                    tools_data = result.get("tools", [])
+                    logger.info(f"Extracted {len(tools_data)} tools from result")
+                    tool_names = [t["name"] for t in tools_data]
+                    logger.info(f"Tool names: {tool_names}")
+
+                    # Update service with discovered tools
+                    service.tools = tool_names
+                    for tool in tool_names:
+                        self._tool_map[tool] = service_name
+                        logger.debug(f"Mapped tool {tool} -> {service_name}")
+
+                    logger.info(f"Tool map now has {len(self._tool_map)} entries")
+
+                    # Store metadata
+                    for tool in tools_data:
+                        category = tool.get("category") or self._categorize_tool(tool["name"])
+                        examples = tool.get("examples") or self._generate_examples(tool)
+                        input_schema = tool.get("inputSchema") or tool.get("input_schema", {})
+
+                        self._tool_metadata[tool["name"]] = ToolMetadata(
+                            name=tool["name"],
+                            service=service_name,
+                            description=tool.get("description", ""),
+                            input_schema=input_schema,
+                            category=category,
+                            examples=examples,
+                        )
+                return
+
+            # HTTP mode
             resp = await client.get(f"{service_url}/tools", timeout=5.0)
             if resp.status_code == 200:
                 data = resp.json()
@@ -84,9 +133,9 @@ class ServiceRegistry:
                     )
         except Exception as e:
             # Log error but don't fail - register empty service
-            import sys
+            from loguru import logger
 
-            print(f"Error discovering tools from {service_name}: {e}", file=sys.stderr)
+            logger.error(f"Error discovering tools from {service_name}: {e}", exc_info=True)
             self.register(MCPService(name=service_name, url=service_url, tools=[]))
 
     def _categorize_tool(self, tool_name: str) -> str:

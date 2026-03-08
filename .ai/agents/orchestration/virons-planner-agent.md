@@ -71,11 +71,15 @@ You plan and decompose complex tasks into executable workflows for the Agent Coo
 - repo-manager: Org governance, repo management
 
 ### Tools
+- **MCP Platform** (98 tools via gateway :9000)
+  - Infrastructure: aws-network, terraform, kubernetes (10 core servers)
+  - Data: postgres, dynamodb, redis
+  - Monitoring: cloudwatch, prometheus
+  - Security: cloudtrail (audit), github (git ops)
 - AWS Terraform
 - Kubernetes
 - Docker
 - GitHub Actions
-- MCP Servers
 - Context7
 - AWS Documentation
 
@@ -99,6 +103,9 @@ You plan and decompose complex tasks into executable workflows for the Agent Coo
 - Security workflows
 - Service development
 - Testing workflows
+- **MCP server deployment** (NEW)
+- **MCP tool discovery** (NEW)
+- **Upstream service integration** (NEW)
 
 ### Bounded Contexts (11 repos)
 - user-interface (platform-cli)
@@ -229,6 +236,8 @@ rollback:
 | ML/AI | ml-engineer | python-backend, database |
 | Documentation | documentation-engineer | repo-manager |
 | Testing | testing-engineer | relevant domain agent |
+| **MCP Deployment** | **devops-engineer** | **aws-architect, kubernetes** |
+| **MCP Integration** | **api-engineer** | **devops, testing** |
 
 ### Risk Level → Approval Requirements
 | Risk | Approval | Change Window | Validation |
@@ -310,6 +319,66 @@ constraints:
   change_window: "Tue-Thu 10:00-16:00 CET"
 ```
 
+### Example 3: MCP Server Deployment (NEW)
+```yaml
+task:
+  description: "Deploy 10 core MCP servers (Pareto 20/80)"
+  type: dev
+  risk: MEDIUM
+
+analysis:
+  complexity: moderate
+  estimated_time: 1-2 weeks
+  estimated_cost: minimal (pre-built images)
+
+agents:
+  primary: devops-engineer
+  supporting: [aws-architect, kubernetes-engineer, testing-engineer]
+
+resources:
+  tools: [docker-compose, MCP gateway, pre-built images]
+  workflows: [mcp-server-deployment, testing-workflows]
+
+execution:
+  steps:
+    - step: 1
+      agent: devops-engineer
+      action: Deploy 5 pre-built MCP images (kubernetes, terraform, prometheus, redis, github)
+      validation: All health checks pass
+    - step: 2
+      agent: aws-architect
+      action: Build 5 custom MCP servers (network, postgres, dynamodb, cloudwatch, cloudtrail)
+      validation: Dockerfiles build successfully
+    - step: 3
+      agent: kubernetes-engineer
+      action: Integrate all 10 servers with MCP gateway
+      validation: Gateway exposes all tools
+    - step: 4
+      agent: testing-engineer
+      action: End-to-end testing
+      validation: Can deploy service using MCP tools
+
+compliance:
+  requirements: [BaFin, GDPR, DORA]
+  approval_needed: yes
+  approval_level: dev
+
+constraints:
+  region: eu-central-1
+  bounded_context: platform-mcp
+  dependencies: [docker, aws-credentials]
+
+success_criteria:
+  - 10 MCP servers healthy
+  - Gateway aggregates 100+ tools
+  - CloudTrail audit trail operational (BaFin)
+  - Can deploy first Virons service
+
+rollback:
+  procedure: docker-compose down; restore previous version
+  triggers: [health check failures, tool execution errors]
+```
+
 ## Communication Protocol
 
 ### To User
@@ -360,6 +429,8 @@ Execute when ready.
 - No hardcoded credentials
 - Bounded context integrity
 - TDD/DDD principles
+- **MCP gateway as single entry point** (NEW)
+- **Pre-built images over custom builds** (NEW)
 
 **Auto-Reject:**
 - Resources outside eu-central-1
@@ -367,6 +438,8 @@ Execute when ready.
 - Circular dependencies
 - Production changes outside change window
 - Missing approval for HIGH/CRITICAL tasks
+- **Direct MCP server calls (bypass gateway)** (NEW)
+- **Custom builds when pre-built image exists** (NEW)
 
 ## Success Metrics
 

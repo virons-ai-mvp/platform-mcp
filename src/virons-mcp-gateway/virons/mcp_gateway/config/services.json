@@ -1,20 +1,49 @@
 {
   "services": [
     {
-      "name": "infrastructure-mcp",
-      "url": "${INFRASTRUCTURE_MCP_URL:http://localhost:9100}"
+      "name": "virons-infrastructure-mcp",
+      "command": ["python", "/app/virons-infrastructure-mcp/server.py"],
+      "cwd": "/app"
     },
     {
-      "name": "security-mcp",
-      "url": "${SECURITY_MCP_URL:http://localhost:9500}"
+      "name": "virons-forensic-mcp",
+      "command": ["python", "/app/virons-forensic-mcp/server.py"],
+      "cwd": "/app"
     },
     {
-      "name": "operations-mcp",
-      "url": "${OPERATIONS_MCP_URL:http://localhost:9510}"
+      "name": "virons-ml-mcp",
+      "command": ["python", "/app/virons-ml-mcp/server.py"],
+      "cwd": "/app"
     },
     {
-      "name": "monitoring-mcp",
-      "url": "${MONITORING_MCP_URL:http://localhost:9520}"
+      "name": "virons-blockchain-mcp",
+      "command": ["python", "/app/virons-blockchain-mcp/server.py"],
+      "cwd": "/app"
+    },
+    {
+      "name": "virons-dev-mcp",
+      "command": ["python", "/app/virons-dev-mcp/server.py"],
+      "cwd": "/app"
+    },
+    {
+      "name": "virons-api-mcp",
+      "command": ["python", "/app/virons-api-mcp/server.py"],
+      "cwd": "/app"
+    },
+    {
+      "name": "virons-prompts-mcp",
+      "command": ["python", "/app/virons-prompts-mcp/server.py"],
+      "cwd": "/app"
+    },
+    {
+      "name": "virons-compliance-mcp",
+      "command": ["python", "/app/virons-compliance-mcp/server.py"],
+      "cwd": "/app"
+    },
+    {
+      "name": "virons-security-mcp",
+      "command": ["python", "/app/virons-security-mcp/server.py"],
+      "cwd": "/app"
     }
   ]
 }
