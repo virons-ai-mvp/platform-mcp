@@ -19,7 +19,9 @@ __version__ = '0.1.0'
 from .audit import write_audit
 from .correlation import CorrelationContext, generate_correlation_id
 from .health import HealthCheck
+from .mcp_client import MCPClient, MCPConnectionError, MCPTransientError
 from .residency import DataResidencyError, enforce_region
+from .upstream_registry import UpstreamRegistry, UnknownServerError
 
 
 __all__ = [
@@ -29,4 +31,9 @@ __all__ = [
     'CorrelationContext',
     'enforce_region',
     'DataResidencyError',
+    'MCPClient',
+    'MCPConnectionError',
+    'MCPTransientError',
+    'UpstreamRegistry',
+    'UnknownServerError',
 ]
