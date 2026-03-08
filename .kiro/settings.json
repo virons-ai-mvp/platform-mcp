@@ -1,0 +1,19 @@
+{
+  "repo": "platform-mcp",
+  "domain": "mcp",
+  "profile": "mcp",
+  "agent_coordinator": ".ai/agents/orchestration/agent-coordinator.md",
+  "primary_agents": [
+    "devops-engineer",
+    "python-backend-engineer",
+    "testing-engineer"
+  ],
+  "tdd_enabled": true,
+  "ddd_enabled": true,
+  "compliance_mode": "strict",
+  "auto_approve": {
+    "read_only": true,
+    "dev_changes": false,
+    "prod_changes": false
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "name": "kubernetes-engineer",
+  "description": "EKS, ArgoCD, KEDA, K8s manifests, Helm charts",
+  "prompt": "Load and follow instructions from .ai/agents/roles/kubernetes/expert-kubernetes-engineer.agent.md",
+  "tools": [
+    "read",
+    "write",
+    "shell",
+    "grep",
+    "glob"
+  ],
+  "allowedTools": [],
+  "resources": [],
+  "hooks": {},
+  "includeMcpJson": true,
+  "model": null
+}

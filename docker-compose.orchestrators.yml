@@ -1,0 +1,141 @@
+version: '3.8'
+
+# MCP Gateway + 9 Virons Orchestrators
+# Orchestrators invoke awslabs MCP servers via stdio subprocess (no separate containers needed)
+
+services:
+  # Gateway - HTTP entry point
+  virons-mcp-gateway:
+    build:
+      context: src/virons-mcp-gateway
+    ports:
+      - "9000:9000"
+    environment:
+      - PORT=9000
+      - LOG_LEVEL=INFO
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - mcp-network
+
+  # Orchestrator 1: Infrastructure
+  virons-infrastructure-mcp:
+    build:
+      context: src/virons-infrastructure-mcp
+    ports:
+      - "9100:9100"
+    environment:
+      - PORT=9100
+      - AWS_REGION=${AWS_REGION:-eu-central-1}
+    volumes:
+      - ./src/awslabs:/app/awslabs:ro
+    networks:
+      - mcp-network
+
+  # Orchestrator 2: Forensic
+  virons-forensic-mcp:
+    build:
+      context: src/virons-forensic-mcp
+    ports:
+      - "9300:9300"
+    environment:
+      - PORT=9300
+    volumes:
+      - ./src/awslabs:/app/awslabs:ro
+    networks:
+      - mcp-network
+
+  # Orchestrator 3: ML
+  virons-ml-mcp:
+    build:
+      context: src/virons-ml-mcp
+    ports:
+      - "9420:9420"
+    environment:
+      - PORT=9420
+      - AWS_REGION=${AWS_REGION:-eu-central-1}
+    volumes:
+      - ./src/awslabs:/app/awslabs:ro
+    networks:
+      - mcp-network
+
+  # Orchestrator 4: Blockchain
+  virons-blockchain-mcp:
+    build:
+      context: src/virons-blockchain-mcp
+    ports:
+      - "9430:9430"
+    environment:
+      - PORT=9430
+    networks:
+      - mcp-network
+
+  # Orchestrator 5: Dev
+  virons-dev-mcp:
+    build:
+      context: src/virons-dev-mcp
+    ports:
+      - "9500:9500"
+    environment:
+      - PORT=9500
+    volumes:
+      - ./src/awslabs:/app/awslabs:ro
+    networks:
+      - mcp-network
+
+  # Orchestrator 6: API
+  virons-api-mcp:
+    build:
+      context: src/virons-api-mcp
+    ports:
+      - "9540:9540"
+    environment:
+      - PORT=9540
+    volumes:
+      - ./src/awslabs:/app/awslabs:ro
+    networks:
+      - mcp-network
+
+  # Orchestrator 7: Prompts
+  virons-prompts-mcp:
+    build:
+      context: src/virons-prompts-mcp
+    ports:
+      - "9550:9550"
+    environment:
+      - PORT=9550
+    networks:
+      - mcp-network
+
+  # Orchestrator 8: Compliance
+  virons-compliance-mcp:
+    build:
+      context: src/virons-compliance-mcp
+    ports:
+      - "9560:9560"
+    environment:
+      - PORT=9560
+    volumes:
+      - ./src/awslabs:/app/awslabs:ro
+    networks:
+      - mcp-network
+
+  # Orchestrator 9: Security
+  virons-security-mcp:
+    build:
+      context: src/virons-security-mcp
+    ports:
+      - "9570:9570"
+    environment:
+      - PORT=9570
+    volumes:
+      - ./src/awslabs:/app/awslabs:ro
+    networks:
+      - mcp-network
+
+networks:
+  mcp-network:
+    driver: bridge

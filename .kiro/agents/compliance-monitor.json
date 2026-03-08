@@ -1,0 +1,15 @@
+{
+  "name": "compliance-monitor",
+  "description": "BaFin, GDPR, DORA, EU AI Act compliance validation",
+  "prompt": "Load and follow instructions from .ai/agents/roles/security/compliance-monitor.agent.md",
+  "tools": [
+    "read",
+    "grep",
+    "glob"
+  ],
+  "allowedTools": [],
+  "resources": [],
+  "hooks": {},
+  "includeMcpJson": true,
+  "model": null
+}

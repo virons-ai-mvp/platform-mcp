@@ -1,0 +1,16 @@
+{
+  "name": "documentation-engineer",
+  "description": "Technical documentation, API docs, architecture diagrams, compliance docs",
+  "prompt": "Load and follow instructions from .ai/agents/roles/documentation/documentation-engineer.agent.md",
+  "tools": [
+    "read",
+    "write",
+    "grep",
+    "glob"
+  ],
+  "allowedTools": [],
+  "resources": [],
+  "hooks": {},
+  "includeMcpJson": true,
+  "model": null
+}

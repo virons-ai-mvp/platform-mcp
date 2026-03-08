@@ -26,7 +26,7 @@ Example configuration for Kiro MCP (`~/.kiro/settings/mcp.json`):
     "awslabs.aws-pricing-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.aws-pricing-mcp-server@latest"
+        "awslabs.aws-pricing-infrastructure-mcp-server@latest"
       ],
       "env": {
         "AWS_PROFILE": "your-aws-profile",
@@ -36,7 +36,7 @@ Example configuration for Kiro MCP (`~/.kiro/settings/mcp.json`):
     "awslabs.cdk-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.cdk-mcp-server@latest"
+        "awslabs.cdk-infrastructure-mcp-server@latest"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
@@ -45,7 +45,7 @@ Example configuration for Kiro MCP (`~/.kiro/settings/mcp.json`):
     "awslabs.aws-documentation-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.aws-documentation-mcp-server@latest"
+        "awslabs.aws-documentation-infrastructure-mcp-server@latest"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
@@ -56,7 +56,7 @@ Example configuration for Kiro MCP (`~/.kiro/settings/mcp.json`):
     "awslabs.terraform-mcp-server": {
       "command": "uvx",
       "args": [
-        "awslabs.terraform-mcp-server@latest"
+        "awslabs.terraform-infrastructure-mcp-server@latest"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
@@ -77,12 +77,12 @@ If you have problems with MCP configuration or want to check if the appropriate 
 $ timeout 15s uv tool run [MCP Name] [args] 2>&1 || echo "Command completed or timed out"
 
 # Example (Aurora MySQL MCP Server)
-$ timeout 15s uv tool run awslabs.mysql-mcp-server --resource_arn [Your Resource ARN] --secret_arn [Your Secret ARN] ... 2>&1 || echo "Command completed or timed out"
+$ timeout 15s uv tool run awslabs.mysql-infrastructure-mcp-server --resource_arn [Your Resource ARN] --secret_arn [Your Secret ARN] ... 2>&1 || echo "Command completed or timed out"
 
 # If the arguments are not set appropriately, you may see the following message:
-usage: awslabs.mysql-mcp-server [-h] --resource_arn RESOURCE_ARN --secret_arn SECRET_ARN --database DATABASE
+usage: awslabs.mysql-infrastructure-mcp-server [-h] --resource_arn RESOURCE_ARN --secret_arn SECRET_ARN --database DATABASE
                                 --region REGION --readonly READONLY
-awslabs.mysql-mcp-server: error: the following arguments are required: --resource_arn, --secret_arn, --database, --region, --readonly
+awslabs.mysql-infrastructure-mcp-server: error: the following arguments are required: --resource_arn, --secret_arn, --database, --region, --readonly
 ```
 
 **Note about performance when using `uvx` *"@latest"* suffix:**
@@ -131,7 +131,7 @@ Using the *"@latest"* suffix checks and downloads the latest MCP server package 
           "/full/path/to/.env",
           "--volume",
           "/full/path/to/.aws:/app/.aws",
-          "awslabs/nova-canvas-mcp-server:latest"
+          "awslabs/nova-canvas-infrastructure-mcp-server:latest"
         ],
         "env": {}
       }
@@ -161,7 +161,7 @@ For macOS/Linux:
   "mcpServers": {
     "awslabs-core-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.core-mcp-server@latest"],
+      "args": ["awslabs.core-infrastructure-mcp-server@latest"],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
       }
@@ -184,8 +184,8 @@ For Windows:
         "tool",
         "run",
         "--from",
-        "awslabs.core-mcp-server@latest",
-        "awslabs.core-mcp-server.exe"
+        "awslabs.core-infrastructure-mcp-server@latest",
+        "awslabs.core-infrastructure-mcp-server.exe"
       ],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
@@ -212,7 +212,7 @@ For Windows:
    "mcpServers": {
      "awslabs.nova-canvas-mcp-server": {
        "command": "uvx",
-       "args": ["awslabs.nova-canvas-mcp-server@latest"],
+       "args": ["awslabs.nova-canvas-infrastructure-mcp-server@latest"],
        "env": {
          "AWS_PROFILE": "your-aws-profile",
          "AWS_REGION": "us-east-1",
@@ -253,7 +253,7 @@ For Windows:
   "mcpServers": {
     "awslabs.nova-canvas-mcp-server": {
        "command": "uvx",
-       "args": ["awslabs.nova-canvas-mcp-server@latest"],
+       "args": ["awslabs.nova-canvas-infrastructure-mcp-server@latest"],
        "env": {
          "AWS_PROFILE": "your-aws-profile",
          "AWS_REGION": "us-east-1",
@@ -292,7 +292,7 @@ For Windows:
    "mcpServers": {
      "awslabs-core-mcp-server": {
        "command": "uvx",
-       "args": ["awslabs.core-mcp-server@latest"],
+       "args": ["awslabs.core-infrastructure-mcp-server@latest"],
        "env": {
          "FASTMCP_LOG_LEVEL": "ERROR",
          "MCP_SETTINGS_PATH": "path to your mcp settings file"
@@ -314,7 +314,7 @@ Configure MCP servers in VS Code settings or in `.vscode/mcp.json` (see [VS Code
   "mcpServers": {
     "awslabs-core-mcp-server": {
       "command": "uvx",
-      "args": ["awslabs.core-mcp-server@latest"],
+      "args": ["awslabs.core-infrastructure-mcp-server@latest"],
       "env": {
         "FASTMCP_LOG_LEVEL": "ERROR"
       }

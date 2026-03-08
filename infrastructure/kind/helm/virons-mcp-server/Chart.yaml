@@ -1,0 +1,19 @@
+# Copyright Virons Fintech. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+apiVersion: v2
+name: virons-mcp-server
+description: Helm chart for Virons MCP servers with compliance baseline
+type: application
+version: 0.1.0
+appVersion: "0.1.0"
+keywords:
+  - mcp
+  - virons
+  - compliance
+  - bafin
+  - gdpr
+  - dora
+maintainers:
+  - name: Virons Fintech
+    url: https://virons.ai

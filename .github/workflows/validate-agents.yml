@@ -1,0 +1,66 @@
+name: Agent Configuration Validation
+
+on:
+  push:
+    paths:
+      - '.ai/**'
+      - '.kiro/**'
+  pull_request:
+    paths:
+      - '.ai/**'
+      - '.kiro/**'
+
+jobs:
+  validate-agents:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Validate agent structure
+        run: |
+          echo "🔍 Validating agent configuration..."
+          test -d .ai/agents || exit 1
+          test -d .ai/context || exit 1
+          test -f .ai/context/repository.json || exit 1
+          test -d .kiro/agents || exit 1
+          test -f .kiro/settings.json || exit 1
+
+          AGENT_COUNT=$(find .ai/agents/roles -name "*.agent.md" | wc -l)
+          if [ "$AGENT_COUNT" -ne 16 ]; then
+            echo "❌ Expected 16 agents, found $AGENT_COUNT"
+            exit 1
+          fi
+          echo "✅ Agent structure valid"
+
+      - name: Validate configurations
+        run: |
+          python3 << 'PYEOF'
+          import json
+
+          # Validate repository.json
+          with open('.ai/context/repository.json') as f:
+              repo_data = json.load(f)
+          assert 'name' in repo_data
+          assert repo_data['aws_region'] == 'eu-central-1'
+          assert 'BaFin' in repo_data['compliance']
+
+          # Validate settings.json
+          with open('.kiro/settings.json') as f:
+              settings_data = json.load(f)
+          assert settings_data['tdd_enabled'] is True
+          assert settings_data['ddd_enabled'] is True
+          assert settings_data['compliance_mode'] == 'strict'
+
+          print("✅ All configurations valid")
+          PYEOF
+
+      - name: Validate agent coordinator
+        run: |
+          test -f .ai/agents/orchestration/agent-coordinator.md || exit 1
+          grep -q "Agent Coordinator" .ai/agents/orchestration/agent-coordinator.md || exit 1
+          echo "✅ Agent coordinator valid"

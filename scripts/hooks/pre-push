@@ -1,0 +1,299 @@
+#!/bin/bash
+# Pre-push hook: Validate DDD, TDD, documentation, and code quality
+# Install: cp scripts/hooks/pre-push .git/hooks/pre-push && chmod +x .git/hooks/pre-push
+
+set -e
+
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+ERRORS=0
+WARNINGS=0
+
+echo -e "${BLUE}🔍 Pre-Push Validation${NC}"
+echo "======================"
+echo
+
+# 1. DDD Structure Validation
+validate_ddd_structure() {
+    echo -e "${BLUE}[1/7] DDD Structure...${NC}"
+    local missing=0
+    
+    for server in security operations monitoring infrastructure; do
+        base="src/virons-${server}-mcp-server/virons/${server}_mcp_server"
+        
+        for layer in application domain infrastructure; do
+            if [[ ! -d "$base/$layer" ]]; then
+                echo -e "${RED}✗${NC} Missing DDD layer: $base/$layer"
+                ((missing++))
+            fi
+        done
+    done
+    
+    if [[ $missing -eq 0 ]]; then
+        echo -e "${GREEN}✓${NC} DDD structure valid"
+    else
+        echo -e "${RED}✗${NC} $missing DDD violations"
+        ((ERRORS+=missing))
+    fi
+    echo
+}
+
+# 2. TDD Compliance
+validate_tdd_compliance() {
+    echo -e "${BLUE}[2/7] TDD Compliance...${NC}"
+    local issues=0
+    
+    # Check test files exist for each server
+    for server in security operations monitoring infrastructure; do
+        test_dir="src/virons-${server}-mcp-server/tests"
+        
+        if [[ ! -d "$test_dir" ]]; then
+            echo -e "${RED}✗${NC} Missing tests directory: $test_dir"
+            ((issues++))
+            continue
+        fi
+        
+        # Check for test files
+        test_count=$(find "$test_dir" -name "test_*.py" -type f 2>/dev/null | wc -l | tr -d ' ')
+        if [[ $test_count -eq 0 ]]; then
+            echo -e "${YELLOW}⚠${NC} No test files in $test_dir"
+            ((WARNINGS++))
+        fi
+    done
+    
+    # Check pytest.ini exists
+    if [[ ! -f "pytest.ini" ]] && [[ ! -f "pyproject.toml" ]]; then
+        echo -e "${YELLOW}⚠${NC} No pytest configuration found"
+        ((WARNINGS++))
+    fi
+    
+    if [[ $issues -eq 0 ]]; then
+        echo -e "${GREEN}✓${NC} TDD structure valid"
+    else
+        echo -e "${RED}✗${NC} $issues TDD violations"
+        ((ERRORS+=issues))
+    fi
+    echo
+}
+
+# 3. Documentation Quality
+validate_documentation() {
+    echo -e "${BLUE}[3/7] Documentation Quality...${NC}"
+    local issues=0
+    
+    # Check README existence
+    for server in security operations monitoring; do
+        readme="src/virons-${server}-mcp-server/README.md"
+        if [[ ! -f "$readme" ]]; then
+            echo -e "${RED}✗${NC} Missing README: $readme"
+            ((issues++))
+        else
+            # Check required sections
+            for section in "## Overview" "## Architecture" "## Tools" "## Usage"; do
+                if ! grep -q "^$section" "$readme" 2>/dev/null; then
+                    echo -e "${RED}✗${NC} Missing section '$section' in $readme"
+                    ((issues++))
+                fi
+            done
+        fi
+    done
+    
+    # Check for placeholders
+    placeholder_count=$(find src/virons-*-mcp-* -name "README.md" -type f -exec grep -l "TODO\|FIXME\|XXX\|PLACEHOLDER" {} \; 2>/dev/null | grep -v ".venv\|.pytest_cache" | wc -l | tr -d ' ')
+    if [[ $placeholder_count -gt 0 ]]; then
+        echo -e "${YELLOW}⚠${NC} $placeholder_count READMEs with placeholders"
+        ((WARNINGS++))
+    fi
+    
+    if [[ $issues -eq 0 ]]; then
+        echo -e "${GREEN}✓${NC} Documentation valid"
+    else
+        echo -e "${RED}✗${NC} $issues documentation issues"
+        ((ERRORS+=issues))
+    fi
+    echo
+}
+
+# 4. Forensic Services Compliance (ports 9300-9415)
+validate_forensic_compliance() {
+    echo -e "${BLUE}[4/7] Forensic Services Compliance...${NC}"
+    local issues=0
+    
+    # Check for forensic services
+    forensic_services=$(find src -name "*forensic*" -o -name "*anomaly*" -o -name "*grandmaster*" 2>/dev/null | head -5)
+    
+    if [[ -n "$forensic_services" ]]; then
+        while IFS= read -r service; do
+            if [[ -f "$service" ]] && [[ "$service" == *.py ]]; then
+                # Rule 1: calculation_audit before forensic_flags
+                if grep -q "forensic_flags" "$service" 2>/dev/null; then
+                    if ! grep -B5 "forensic_flags" "$service" | grep -q "calculation_audit"; then
+                        echo -e "${YELLOW}⚠${NC} Missing calculation_audit before forensic_flags in $service"
+                        ((WARNINGS++))
+                    fi
+                fi
+                
+                # Rule 2: ML gate check
+                if grep -q "ml_score" "$service" 2>/dev/null; then
+                    if ! grep -q "gated_ml.*=.*ml_score.*if.*len(deterministic_flags)" "$service"; then
+                        echo -e "${YELLOW}⚠${NC} ML gate pattern not found in $service"
+                        ((WARNINGS++))
+                    fi
+                fi
+                
+                # Rule 3: write_audit on write paths
+                if grep -q "def.*create\|def.*update\|def.*delete" "$service" 2>/dev/null; then
+                    if ! grep -q "write_audit()" "$service"; then
+                        echo -e "${YELLOW}⚠${NC} Missing write_audit() in write paths: $service"
+                        ((WARNINGS++))
+                    fi
+                fi
+            fi
+        done <<< "$forensic_services"
+    fi
+    
+    echo -e "${GREEN}✓${NC} Forensic compliance checked"
+    echo
+}
+
+# 5. ML Services Compliance (ports 9420-9424)
+validate_ml_compliance() {
+    echo -e "${BLUE}[5/7] ML Services Compliance...${NC}"
+    local issues=0
+    
+    # Check for ML services (anomaly-detector, grandmaster-service)
+    ml_services=$(find src -name "*anomaly-detector*" -o -name "*grandmaster*" 2>/dev/null)
+    
+    if [[ -n "$ml_services" ]]; then
+        while IFS= read -r service_dir; do
+            if [[ -d "$service_dir" ]]; then
+                # EU AI Act: Check model cards exist
+                if [[ ! -f "$service_dir/MODEL_CARD.md" ]] && [[ ! -f "$service_dir/docs/MODEL_CARD.md" ]]; then
+                    echo -e "${RED}✗${NC} Missing MODEL_CARD.md for high-risk AI: $service_dir"
+                    ((issues++))
+                fi
+                
+                # Check for nonlinear fusion pattern
+                if find "$service_dir" -name "*.py" -exec grep -l "ml_score\|risk_score" {} \; 2>/dev/null | head -1 | xargs grep -q "1 - prod(1 - s_i)" 2>/dev/null; then
+                    : # Pattern found
+                else
+                    echo -e "${YELLOW}⚠${NC} Nonlinear fusion pattern not found in $service_dir"
+                    ((WARNINGS++))
+                fi
+            fi
+        done <<< "$ml_services"
+    fi
+    
+    if [[ $issues -eq 0 ]]; then
+        echo -e "${GREEN}✓${NC} ML compliance valid"
+    else
+        echo -e "${RED}✗${NC} $issues ML compliance violations"
+        ((ERRORS+=issues))
+    fi
+    echo
+}
+
+# 6. Code Quality
+validate_code_quality() {
+    echo -e "${BLUE}[6/7] Code Quality...${NC}"
+    local issues=0
+    
+    # Check for Python syntax errors in changed files
+    changed_py_files=$(git diff --cached --name-only --diff-filter=ACM | grep "\.py$" || true)
+    
+    if [[ -n "$changed_py_files" ]]; then
+        while IFS= read -r file; do
+            if [[ -f "$file" ]]; then
+                if ! python3 -m py_compile "$file" 2>/dev/null; then
+                    echo -e "${RED}✗${NC} Syntax error in $file"
+                    ((issues++))
+                fi
+            fi
+        done <<< "$changed_py_files"
+    fi
+    
+    # Check for common anti-patterns
+    if [[ -n "$changed_py_files" ]]; then
+        while IFS= read -r file; do
+            if [[ -f "$file" ]]; then
+                # Check for print statements (should use logging)
+                if grep -n "^\s*print(" "$file" 2>/dev/null | grep -v "# noqa\|# allow-print"; then
+                    echo -e "${YELLOW}⚠${NC} print() statement in $file (use logging)"
+                    ((WARNINGS++))
+                fi
+            fi
+        done <<< "$changed_py_files"
+    fi
+    
+    if [[ $issues -eq 0 ]]; then
+        echo -e "${GREEN}✓${NC} Code quality valid"
+    else
+        echo -e "${RED}✗${NC} $issues code quality issues"
+        ((ERRORS+=issues))
+    fi
+    echo
+}
+
+# 7. Port Namespace Validation
+validate_port_namespaces() {
+    echo -e "${BLUE}[7/7] Port Namespace Validation...${NC}"
+    local issues=0
+    
+    # Check port assignments in config files
+    if [[ -f "src/virons-security-mcp-server/virons/security_mcp_server/config.py" ]]; then
+        if ! grep -q "9500" "src/virons-security-mcp-server/virons/security_mcp_server/config.py" 2>/dev/null; then
+            echo -e "${YELLOW}⚠${NC} Port 9500 not found in security config"
+            ((WARNINGS++))
+        fi
+    fi
+    
+    if [[ -f "src/virons-operations-mcp-server/virons/operations_mcp_server/config.py" ]]; then
+        if ! grep -q "9510" "src/virons-operations-mcp-server/virons/operations_mcp_server/config.py" 2>/dev/null; then
+            echo -e "${YELLOW}⚠${NC} Port 9510 not found in operations config"
+            ((WARNINGS++))
+        fi
+    fi
+    
+    if [[ -f "src/virons-monitoring-mcp-server/virons/monitoring_mcp_server/config.py" ]]; then
+        if ! grep -q "9520" "src/virons-monitoring-mcp-server/virons/monitoring_mcp_server/config.py" 2>/dev/null; then
+            echo -e "${YELLOW}⚠${NC} Port 9520 not found in monitoring config"
+            ((WARNINGS++))
+        fi
+    fi
+    
+    echo -e "${GREEN}✓${NC} Port namespaces checked"
+    echo
+}
+
+# Run all validations
+validate_ddd_structure
+validate_tdd_compliance
+validate_documentation
+validate_forensic_compliance
+validate_ml_compliance
+validate_code_quality
+validate_port_namespaces
+
+# Summary
+echo "======================"
+echo -e "${BLUE}Summary:${NC}"
+echo -e "Errors:   ${RED}$ERRORS${NC}"
+echo -e "Warnings: ${YELLOW}$WARNINGS${NC}"
+echo
+
+if [[ $ERRORS -gt 0 ]]; then
+    echo -e "${RED}✗ Push blocked: $ERRORS critical issues${NC}"
+    echo "Fix errors and try again"
+    exit 1
+elif [[ $WARNINGS -gt 5 ]]; then
+    echo -e "${YELLOW}⚠ Push allowed with $WARNINGS warnings${NC}"
+    echo "Consider fixing warnings before next push"
+    exit 0
+else
+    echo -e "${GREEN}✓ All validations passed${NC}"
+    exit 0
+fi

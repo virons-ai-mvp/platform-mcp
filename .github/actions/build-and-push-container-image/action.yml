@@ -10,7 +10,7 @@ description: "Builds an image and pushes it to registries"
 #   id: build-and-push-container-image
 #   uses: ./.github/actions/build-and-push-container-image
 #   with:
-#     image: "core-mcp-server"
+#     image: "core-infrastructure-mcp-server"
 #     version: "0.0.0"
 # - name: Step to demonstrate how to access outputs (no need for this)
 #   id: echo-output

@@ -1,0 +1,17 @@
+{
+  "name": "frontend-engineer",
+  "description": "Next.js 15 frontend engineer for investor dashboard and demo mode",
+  "prompt": "Load and follow instructions from .ai/agents/roles/frontend/frontend-engineer.agent.md",
+  "tools": [
+    "read",
+    "write",
+    "shell",
+    "grep",
+    "glob"
+  ],
+  "allowedTools": [],
+  "resources": [],
+  "hooks": {},
+  "includeMcpJson": true,
+  "model": null
+}

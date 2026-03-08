@@ -1,0 +1,17 @@
+{
+  "name": "aws-architect",
+  "description": "Terraform, VPC, EKS, IAM design, Well-Architected reviews",
+  "prompt": "Load and follow instructions from .ai/agents/roles/infrastructure/aws-architect.agent.md",
+  "tools": [
+    "read",
+    "write",
+    "shell",
+    "grep",
+    "glob"
+  ],
+  "allowedTools": [],
+  "resources": [],
+  "hooks": {},
+  "includeMcpJson": true,
+  "model": null
+}

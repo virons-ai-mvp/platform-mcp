@@ -1,0 +1,17 @@
+{
+  "name": "virons-agent",
+  "description": "Virons Agent Coordinator - Routes requests to specialized agents",
+  "prompt": "Load and follow instructions from .ai/agents/orchestration/agent-coordinator.md",
+  "tools": [
+    "read",
+    "write",
+    "shell",
+    "grep",
+    "glob"
+  ],
+  "allowedTools": [],
+  "resources": [],
+  "hooks": {},
+  "includeMcpJson": true,
+  "model": null
+}

@@ -1,0 +1,17 @@
+{
+  "name": "database-manager",
+  "description": "RDS, ElastiCache, pgvector, database migrations, performance tuning",
+  "prompt": "Load and follow instructions from .ai/agents/roles/database/database-manager.agent.md",
+  "tools": [
+    "read",
+    "write",
+    "shell",
+    "grep",
+    "glob"
+  ],
+  "allowedTools": [],
+  "resources": [],
+  "hooks": {},
+  "includeMcpJson": true,
+  "model": null
+}

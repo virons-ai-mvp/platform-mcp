@@ -1,0 +1,81 @@
+# Copyright Virons Fintech. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+# Default values for virons-mcp-server Helm chart
+# Override these values when deploying specific servers
+
+# Server configuration
+server:
+  name: ""  # Required: server name (e.g., infrastructure)
+  port: 9300  # Required: server port
+  image:
+    repository: virons-mcp-server
+    tag: "0.1.0"
+    pullPolicy: IfNotPresent
+
+# Replica configuration
+replicaCount: 1
+
+# Resource limits (DORA Art 11 - capacity planning)
+resources:
+  limits:
+    cpu: 500m
+    memory: 512Mi
+  requests:
+    cpu: 100m
+    memory: 128Mi
+
+# Health checks (DORA Art 11)
+livenessProbe:
+  httpGet:
+    path: /health/live
+    port: http
+  initialDelaySeconds: 10
+  periodSeconds: 30
+  timeoutSeconds: 5
+  failureThreshold: 3
+
+readinessProbe:
+  httpGet:
+    path: /health/ready
+    port: http
+  initialDelaySeconds: 5
+  periodSeconds: 10
+  timeoutSeconds: 3
+  failureThreshold: 3
+
+# Service configuration
+service:
+  type: ClusterIP
+  port: 80
+
+# Security context (principle of least privilege)
+securityContext:
+  runAsNonRoot: true
+  runAsUser: 1000
+  fsGroup: 1000
+  capabilities:
+    drop:
+      - ALL
+
+# Pod annotations
+podAnnotations:
+  virons.ai/compliance: "bafin-gdpr-dora-euai"
+  virons.ai/type: "mcp-server"
+
+# Node selector
+nodeSelector:
+  virons.ai/workload: mcp-servers
+
+# Tolerations
+tolerations: []
+
+# Affinity
+affinity: {}
+
+# Environment variables
+env:
+  - name: REGION
+    value: "eu-central-1"
+  - name: LOG_LEVEL
+    value: "INFO"

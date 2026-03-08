@@ -16,10 +16,10 @@ python3 scripts/verify_package_name.py <package_directory> [--verbose]
 
 ```bash
 # Basic usage
-python3 scripts/verify_package_name.py src/amazon-neptune-mcp-server
+python3 scripts/verify_package_name.py src/amazon-neptune-infrastructure-mcp-server
 
 # Verbose output
-python3 scripts/verify_package_name.py src/amazon-neptune-mcp-server --verbose
+python3 scripts/verify_package_name.py src/amazon-neptune-infrastructure-mcp-server --verbose
 ```
 
 ### What it does

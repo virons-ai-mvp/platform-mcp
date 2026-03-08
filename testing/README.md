@@ -97,7 +97,7 @@ Run tests using pytest:
 pytest src/*/tests/test_integ_*.py -v -v
 
 # Run tests for a specific server
-pytest src/aws-documentation-mcp-server/tests/test_integ_*.py -v
+pytest src/aws-documentation-infrastructure-mcp-server/tests/test_integ_*.py -v
 
 # Run tests in parallel
 pytest src/*/tests/test_integ_*.py -v -n 4

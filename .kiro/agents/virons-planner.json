@@ -1,0 +1,16 @@
+{
+  "name": "virons-planner",
+  "description": "Strategic planning agent with top visibility across all agents, tools, skills, workflows, and compliance",
+  "prompt": "Load and follow instructions from .ai/agents/orchestration/virons-planner-agent.md",
+  "tools": [
+    "read",
+    "write",
+    "shell",
+    "grep",
+    "glob"
+  ],
+  "allowedTools": [],
+  "hooks": {},
+  "includeMcpJson": true,
+  "model": null
+}
