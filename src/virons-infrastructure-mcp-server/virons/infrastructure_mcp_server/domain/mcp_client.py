@@ -1,5 +1,17 @@
 # Copyright Virons Fintech. All Rights Reserved.
-# SPDX-License-Identifier: Apache-2.0
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 """MCP client for communicating with upstream MCP servers."""
 
 import asyncio
@@ -23,39 +35,38 @@ class MCPTransientError(Exception):
 
 
 class MCPClient:
-    """Client for communicating with upstream MCP servers."""
+    """Client for communicating with upstream MCP servers via subprocess STDIO."""
 
     def __init__(
         self,
-        host: str,
-        port: int,
-        transport: str = "stdio",
+        command: str,
+        args: list[str],
+        server_name: str,
         max_retries: int = 3,
-        server_name: Optional[str] = None,
     ):
-        self.host = host
-        self.port = port
-        self.transport = transport
+        self.command = command
+        self.args = args
+        self.server_name = server_name
         self.max_retries = max_retries
-        self.server_name = server_name or f"{host}:{port}"
         self._session: Optional[ClientSession] = None
+        self._stdio_context = None
         self._connected = False
 
     async def connect(self) -> None:
-        """Establish connection to upstream MCP server."""
+        """Establish connection to upstream MCP server via subprocess."""
         try:
-            if self.transport == "stdio":
-                server_params = StdioServerParameters(
-                    command="python", args=["-m", "mcp.server.stdio"], env=None
-                )
+            server_params = StdioServerParameters(command=self.command, args=self.args, env=None)
 
-                read, write = await stdio_client(server_params)
-                self._session = ClientSession(read, write)
-                await self._session.__aenter__()
-                self._connected = True
-                logger.info(f"Connected to upstream MCP server: {self.server_name}")
-            else:
-                raise NotImplementedError(f"Transport {self.transport} not yet implemented")
+            # Store context manager for proper cleanup
+            self._stdio_context = stdio_client(server_params)
+            read, write = await self._stdio_context.__aenter__()
+
+            self._session = ClientSession(read, write)
+            await self._session.__aenter__()
+            await self._session.initialize()
+
+            self._connected = True
+            logger.info(f"Connected to upstream MCP server: {self.server_name}")
         except Exception as e:
             logger.error(f"Failed to connect to {self.server_name}: {e}")
             raise MCPConnectionError(f"Connection failed: {e}")
@@ -63,9 +74,19 @@ class MCPClient:
     async def disconnect(self) -> None:
         """Close connection to upstream MCP server."""
         if self._session:
-            await self._session.__aexit__(None, None, None)
-            self._connected = False
-            logger.info(f"Disconnected from upstream MCP server: {self.server_name}")
+            try:
+                await self._session.__aexit__(None, None, None)
+            except Exception as e:
+                logger.warning(f"Error closing session: {e}")
+
+        if self._stdio_context:
+            try:
+                await self._stdio_context.__aexit__(None, None, None)
+            except Exception as e:
+                logger.warning(f"Error closing stdio context: {e}")
+
+        self._connected = False
+        logger.info(f"Disconnected from upstream MCP server: {self.server_name}")
 
     def is_connected(self) -> bool:
         """Check if client is connected to upstream server."""
@@ -106,7 +127,17 @@ class MCPClient:
         """Send request to upstream server."""
         try:
             result = await self._session.call_tool(tool_name, arguments)
-            return {"content": result.content}
+
+            # result.content is a list of content items
+            if result.content:
+                # Extract text from first content item
+                first_content = result.content[0]
+                if hasattr(first_content, "text"):
+                    return {"result": first_content.text}
+                else:
+                    return {"result": str(first_content)}
+
+            return {"result": None}
         except Exception as e:
             logger.error(f"Request failed for {tool_name}: {e}")
             raise MCPTransientError(str(e))
