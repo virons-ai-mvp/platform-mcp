@@ -2,8 +2,12 @@
 # SPDX-License-Identifier: Apache-2.0
 
 FROM python:3.13-slim AS base
-RUN apt-get update && apt-get install -y --no-install-recommends curl && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    gcc \
+    g++ \
+    make \
+    && rm -rf /var/lib/apt/lists/*
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
 
 FROM base AS builder
@@ -11,8 +15,10 @@ WORKDIR /build
 COPY src/virons-common /tmp/virons-common
 COPY src/virons-infrastructure-mcp-server/pyproject.toml src/virons-infrastructure-mcp-server/README.md ./
 COPY src/virons-infrastructure-mcp-server/virons ./virons
+COPY src/awslabs/aws-iac-mcp-server /tmp/aws-iac-mcp-server
 RUN uv venv && \
     uv pip install /tmp/virons-common && \
+    uv pip install /tmp/aws-iac-mcp-server && \
     uv pip install -e .
 
 FROM base AS runtime
