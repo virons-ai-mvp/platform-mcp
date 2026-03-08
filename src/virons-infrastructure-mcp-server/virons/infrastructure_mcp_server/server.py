@@ -1,5 +1,17 @@
 # Copyright Virons Fintech. All Rights Reserved.
-# SPDX-License-Identifier: Apache-2.0
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 """FastMCP server implementation for virons-infrastructure-mcp-server."""
 
 import argparse
@@ -12,6 +24,7 @@ import time
 from loguru import logger
 from mcp.server.fastmcp import FastMCP
 
+from virons.common import UpstreamRegistry
 from virons.common import audit as audit_module
 from virons.common.correlation import generate_correlation_id
 
@@ -47,7 +60,6 @@ from .compliance_logging import (
     log_write_audit,
 )
 from .consts import SERVER_DEPENDENCIES, SERVER_INSTRUCTIONS, SERVER_NAME
-from .domain.upstream_registry import UpstreamRegistry
 from .infrastructure.metrics import MetricsCollector
 
 # Configure logging
@@ -58,10 +70,11 @@ mcp = None
 
 # Upstream AWS MCP servers
 UPSTREAM_CONFIG = {
-    "cdk": {"host": "localhost", "port": 9140, "transport": "stdio"},
-    "cfn": {"host": "localhost", "port": 9141, "transport": "stdio"},
-    "terraform": {"host": "localhost", "port": 9142, "transport": "stdio"},
-    "iac": {"host": "localhost", "port": 9143, "transport": "stdio"},
+    "iac": {
+        "command": "/app/.venv/bin/python",
+        "args": ["-m", "awslabs.aws_iac_mcp_server.server"],
+        "description": "AWS IaC MCP Server (CDK, CloudFormation, Terraform)",
+    }
 }
 
 
@@ -1199,11 +1212,12 @@ def main():
     if args.transport == "api":
         import uvicorn
 
+        from virons.common import UpstreamRegistry
+
         from .api import create_api
         from .application.deploy_service import DeployService
         from .application.destroy_service import DestroyService
         from .application.list_service import ListService
-        from .domain.upstream_registry import UpstreamRegistry
         from .infrastructure.health import HealthChecker
 
         registry = UpstreamRegistry(UPSTREAM_CONFIG)
@@ -1244,10 +1258,10 @@ def main():
         async def execute_tool(tool_name: str, request: dict):
             """Execute a tool by name."""
             try:
-                _, result = await mcp.call_tool(tool_name, request)
+                content, result = await mcp.call_tool(tool_name, request)
                 return result
             except Exception as e:
-                return {"error": str(e)}
+                return {"error": f"Error executing tool {tool_name}: {str(e)}"}
 
         logger.info(f"Starting API server on port {args.port}")
         logger.info(f"Swagger UI: http://localhost:{args.port}/api/docs")
@@ -1263,7 +1277,8 @@ def main():
 
         from prometheus_client import CONTENT_TYPE_LATEST, REGISTRY, generate_latest
 
-        from .domain.upstream_registry import UpstreamRegistry
+        from virons.common import UpstreamRegistry
+
         from .infrastructure.health import HealthChecker
 
         registry = UpstreamRegistry(UPSTREAM_CONFIG)

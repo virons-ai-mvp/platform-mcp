@@ -1,5 +1,17 @@
 # Copyright Virons Fintech. All Rights Reserved.
-# SPDX-License-Identifier: Apache-2.0
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 # ruff: noqa: D417
 """FastMCP server implementation for virons-monitoring-mcp-server."""
 
@@ -43,10 +55,11 @@ def create_server() -> FastMCP:
 
 # Upstream MCP servers
 UPSTREAM = {
-    "cloudwatch": {"host": "localhost", "port": 9109},
-    "prometheus": {"host": "localhost", "port": 9110},
-    "grafana": {"host": "localhost", "port": 9111},
-    "elasticsearch": {"host": "localhost", "port": 9112},
+    "cloudwatch": {
+        "command": "/app/.venv/bin/python",
+        "args": ["-m", "awslabs.cloudwatch_mcp_server.server"],
+        "description": "AWS CloudWatch MCP Server",
+    }
 }
 
 # Global proxy instance
@@ -58,16 +71,16 @@ def get_proxy():
     global _proxy
     if _proxy is None:
         from virons.common.upstream_proxy import UpstreamProxy
+
         _proxy = UpstreamProxy(UPSTREAM)
     return _proxy
 
 
 def register_tools(server: FastMCP) -> None:
     """Register monitoring orchestrator tools."""
-    
     # Register core orchestrated tools (with business logic)
     register_core_tools(server)
-    
+
     # Register proxy tools (auto-forwarded from upstreams)
     register_proxy_tools(server)
 
@@ -89,25 +102,21 @@ def register_core_tools(server: FastMCP) -> None:
         """
         from .application.metrics_service import MetricsService
         from .domain.metric import MetricQuery
-        
+
         try:
             service = MetricsService()
             query = MetricQuery(metric_name, start_time, end_time, source)
-            
+
             # Get correlation ID from context if available
-            correlation_id = getattr(ctx, 'correlation_id', None)
-            
+            correlation_id = getattr(ctx, "correlation_id", None)
+
             metrics = await service.query_metrics(query, correlation_id)
-            
+
             datapoints = [
-                {
-                    "timestamp": m.timestamp.isoformat(),
-                    "value": m.value,
-                    "labels": m.labels
-                }
+                {"timestamp": m.timestamp.isoformat(), "value": m.value, "labels": m.labels}
                 for m in metrics
             ]
-            
+
             logger.info(f"Queried {metric_name} from {source}: {len(datapoints)} points")
             return {"metric": metric_name, "datapoints": datapoints, "source": source}
         except Exception as e:
@@ -127,14 +136,14 @@ def register_core_tools(server: FastMCP) -> None:
             threshold: Alert threshold
             comparison: Comparison operator (gt|lt|eq)
         """
-        from .compliance import audit_write_operation
         from .application.alert_service import AlertService
+        from .compliance import audit_write_operation
         from .domain.alert import Alert
 
         try:
             # Create domain entity
             alert = Alert(name, metric, threshold, comparison)
-            
+
             # Audit write operation
             audit_id = await audit_write_operation(
                 operation_name="create_alert",
@@ -145,9 +154,9 @@ def register_core_tools(server: FastMCP) -> None:
 
             # Create alert via service
             service = AlertService()
-            correlation_id = getattr(ctx, 'correlation_id', None)
+            correlation_id = getattr(ctx, "correlation_id", None)
             result = await service.create_alert(alert, correlation_id)
-            
+
             result["audit_id"] = audit_id
             logger.info(f"Created alert: {name}")
             return result
@@ -165,8 +174,8 @@ def register_core_tools(server: FastMCP) -> None:
             name: Dashboard name
             panels: List of panel configurations
         """
-        from .compliance import audit_write_operation
         from .application.dashboard_service import DashboardService
+        from .compliance import audit_write_operation
         from .domain.dashboard import Dashboard, Panel
 
         try:
@@ -176,14 +185,16 @@ def register_core_tools(server: FastMCP) -> None:
                     title=p.get("title", "Untitled"),
                     query=p.get("query", ""),
                     type=p.get("type", "graph"),
-                    datasource=p.get("datasource", "prometheus")
+                    datasource=p.get("datasource", "prometheus"),
                 )
                 for p in panels
             ]
-            
+
             # Create domain entity
-            dashboard = Dashboard(name, panel_entities, tags=panels[0].get("tags", []) if panels else [])
-            
+            dashboard = Dashboard(
+                name, panel_entities, tags=panels[0].get("tags", []) if panels else []
+            )
+
             # Audit write operation
             audit_id = await audit_write_operation(
                 operation_name="create_dashboard",
@@ -194,9 +205,9 @@ def register_core_tools(server: FastMCP) -> None:
 
             # Create dashboard via service
             service = DashboardService()
-            correlation_id = getattr(ctx, 'correlation_id', None)
+            correlation_id = getattr(ctx, "correlation_id", None)
             result = await service.create_dashboard(dashboard, correlation_id)
-            
+
             result["audit_id"] = audit_id
             logger.info(f"Created dashboard: {name}")
             return result
@@ -220,26 +231,26 @@ def register_core_tools(server: FastMCP) -> None:
         """
         from .application.log_service import LogService
         from .domain.log_entry import LogQuery
-        
+
         try:
             service = LogService()
             log_query = LogQuery(query, start_time, end_time, source)
-            
+
             # Get correlation ID from context if available
-            correlation_id = getattr(ctx, 'correlation_id', None)
-            
+            correlation_id = getattr(ctx, "correlation_id", None)
+
             logs = await service.search_logs(log_query, correlation_id)
-            
+
             log_entries = [
                 {
                     "timestamp": log.timestamp.isoformat(),
                     "message": log.message,
                     "level": log.level,
-                    "labels": log.labels
+                    "labels": log.labels,
                 }
                 for log in logs
             ]
-            
+
             logger.info(f"Searched logs in {source}: {len(log_entries)} entries")
             return {"query": query, "logs": log_entries, "source": source}
         except Exception as e:
@@ -248,35 +259,37 @@ def register_core_tools(server: FastMCP) -> None:
             raise
 
     @server.tool()
-    async def put_metric_data(
-        ctx: Context, namespace: str, metric_data: list
-    ) -> dict:
+    async def put_metric_data(ctx: Context, namespace: str, metric_data: list) -> dict:
         """Publish custom metrics to CloudWatch.
-        
+
         Args:
             namespace: Metric namespace (e.g., "Custom/App")
             metric_data: List of metric data points
         """
         from .application.metric_publication_service import MetricPublicationService
         from .compliance import audit_write_operation
-        
+
         try:
-            correlation_id = ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
-            
+            correlation_id = (
+                ctx.request_context.get("correlation_id")
+                if hasattr(ctx, "request_context")
+                else None
+            )
+
             service = MetricPublicationService()
             result = await service.publish_metrics(namespace, metric_data, correlation_id)
-            
+
             audit_id = await audit_write_operation(
                 operation_name="put_metric_data",
                 entity_id=namespace,
                 input_data={"namespace": namespace, "count": len(metric_data)},
                 output_data=result,
             )
-            
+
             result["audit_id"] = audit_id
             logger.info(f"Published {len(metric_data)} metrics to {namespace}")
             return result
-            
+
         except Exception as e:
             logger.error(f"Metric publication failed: {e}")
             await ctx.error(f"Publication error: {str(e)}")
@@ -285,22 +298,24 @@ def register_core_tools(server: FastMCP) -> None:
     @server.tool()
     async def list_metrics(ctx: Context, namespace: str = None) -> dict:
         """List available CloudWatch metrics.
-        
+
         Args:
             namespace: Optional namespace filter
         """
         proxy = get_proxy()
-        correlation_id = ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
-        
+        correlation_id = (
+            ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
+        )
+
         try:
             args = {}
             if namespace:
                 args["namespace"] = namespace
-            
+
             result = await proxy.call_tool("list_metrics", args, correlation_id)
             logger.info(f"Listed metrics in namespace: {namespace or 'all'}")
             return result
-            
+
         except Exception as e:
             logger.error(f"List metrics failed: {e}")
             await ctx.error(f"List error: {str(e)}")
@@ -309,22 +324,24 @@ def register_core_tools(server: FastMCP) -> None:
     @server.tool()
     async def describe_alarms(ctx: Context, alarm_names: list = None) -> dict:
         """Get CloudWatch alarm details.
-        
+
         Args:
             alarm_names: Optional list of alarm names
         """
         proxy = get_proxy()
-        correlation_id = ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
-        
+        correlation_id = (
+            ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
+        )
+
         try:
             args = {}
             if alarm_names:
                 args["alarm_names"] = alarm_names
-            
+
             result = await proxy.call_tool("describe_alarms", args, correlation_id)
             logger.info(f"Described {len(alarm_names or [])} alarms")
             return result
-            
+
         except Exception as e:
             logger.error(f"Describe alarms failed: {e}")
             await ctx.error(f"Describe error: {str(e)}")
@@ -333,29 +350,33 @@ def register_core_tools(server: FastMCP) -> None:
     @server.tool()
     async def delete_alarms(ctx: Context, alarm_names: list) -> dict:
         """Delete CloudWatch alarms.
-        
+
         Args:
             alarm_names: List of alarm names to delete
         """
         from .compliance import audit_write_operation
-        
+
         proxy = get_proxy()
-        correlation_id = ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
-        
+        correlation_id = (
+            ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
+        )
+
         try:
-            result = await proxy.call_tool("delete_alarms", {"alarm_names": alarm_names}, correlation_id)
-            
+            result = await proxy.call_tool(
+                "delete_alarms", {"alarm_names": alarm_names}, correlation_id
+            )
+
             audit_id = await audit_write_operation(
                 operation_name="delete_alarms",
                 entity_id=",".join(alarm_names),
                 input_data={"alarm_names": alarm_names},
                 output_data=result,
             )
-            
+
             result["audit_id"] = audit_id
             logger.info(f"Deleted {len(alarm_names)} alarms")
             return result
-            
+
         except Exception as e:
             logger.error(f"Delete alarms failed: {e}")
             await ctx.error(f"Delete error: {str(e)}")
@@ -364,34 +385,34 @@ def register_core_tools(server: FastMCP) -> None:
     @server.tool()
     async def update_dashboard(ctx: Context, dashboard_id: str, panels: list) -> dict:
         """Update existing Grafana dashboard.
-        
+
         Args:
             dashboard_id: Dashboard ID
             panels: Updated panel configurations
         """
         from .compliance import audit_write_operation
-        
+
         proxy = get_proxy()
-        correlation_id = ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
-        
+        correlation_id = (
+            ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
+        )
+
         try:
             result = await proxy.call_tool(
-                "update_dashboard",
-                {"id": dashboard_id, "panels": panels},
-                correlation_id
+                "update_dashboard", {"id": dashboard_id, "panels": panels}, correlation_id
             )
-            
+
             audit_id = await audit_write_operation(
                 operation_name="update_dashboard",
                 entity_id=dashboard_id,
                 input_data={"id": dashboard_id, "panels": len(panels)},
                 output_data=result,
             )
-            
+
             result["audit_id"] = audit_id
             logger.info(f"Updated dashboard {dashboard_id}")
             return result
-            
+
         except Exception as e:
             logger.error(f"Update dashboard failed: {e}")
             await ctx.error(f"Update error: {str(e)}")
@@ -400,29 +421,33 @@ def register_core_tools(server: FastMCP) -> None:
     @server.tool()
     async def delete_dashboard(ctx: Context, dashboard_id: str) -> dict:
         """Delete Grafana dashboard.
-        
+
         Args:
             dashboard_id: Dashboard ID to delete
         """
         from .compliance import audit_write_operation
-        
+
         proxy = get_proxy()
-        correlation_id = ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
-        
+        correlation_id = (
+            ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
+        )
+
         try:
-            result = await proxy.call_tool("delete_dashboard", {"id": dashboard_id}, correlation_id)
-            
+            result = await proxy.call_tool(
+                "delete_dashboard", {"id": dashboard_id}, correlation_id
+            )
+
             audit_id = await audit_write_operation(
                 operation_name="delete_dashboard",
                 entity_id=dashboard_id,
                 input_data={"id": dashboard_id},
                 output_data=result,
             )
-            
+
             result["audit_id"] = audit_id
             logger.info(f"Deleted dashboard {dashboard_id}")
             return result
-            
+
         except Exception as e:
             logger.error(f"Delete dashboard failed: {e}")
             await ctx.error(f"Delete error: {str(e)}")
@@ -431,70 +456,78 @@ def register_core_tools(server: FastMCP) -> None:
     @server.tool()
     async def create_log_group(ctx: Context, log_group_name: str) -> dict:
         """Create CloudWatch log group.
-        
+
         Args:
             log_group_name: Name of log group
         """
         from .compliance import audit_write_operation
-        
+
         proxy = get_proxy()
-        correlation_id = ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
-        
+        correlation_id = (
+            ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
+        )
+
         try:
-            result = await proxy.call_tool("create_log_group", {"log_group_name": log_group_name}, correlation_id)
-            
+            result = await proxy.call_tool(
+                "create_log_group", {"log_group_name": log_group_name}, correlation_id
+            )
+
             audit_id = await audit_write_operation(
                 operation_name="create_log_group",
                 entity_id=log_group_name,
                 input_data={"log_group_name": log_group_name},
                 output_data=result,
             )
-            
+
             result["audit_id"] = audit_id
             logger.info(f"Created log group {log_group_name}")
             return result
-            
+
         except Exception as e:
             logger.error(f"Create log group failed: {e}")
             await ctx.error(f"Create error: {str(e)}")
             raise
 
     @server.tool()
-    async def put_log_events(ctx: Context, log_group_name: str, log_stream_name: str, log_events: list) -> dict:
+    async def put_log_events(
+        ctx: Context, log_group_name: str, log_stream_name: str, log_events: list
+    ) -> dict:
         """Write log events to CloudWatch.
-        
+
         Args:
             log_group_name: Log group name
             log_stream_name: Log stream name
             log_events: List of log events
         """
         from .compliance import audit_write_operation
-        
+
         proxy = get_proxy()
-        correlation_id = ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
-        
+        correlation_id = (
+            ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
+        )
+
         try:
             result = await proxy.call_tool(
                 "put_log_events",
                 {
                     "log_group_name": log_group_name,
                     "log_stream_name": log_stream_name,
-                    "log_events": log_events
+                    "log_events": log_events,
                 },
-                correlation_id
+                correlation_id,
             )
-            
+
             audit_id = await audit_write_operation(
                 operation_name="put_log_events",
                 entity_id=f"{log_group_name}/{log_stream_name}",
                 input_data={"log_group": log_group_name, "count": len(log_events)},
                 output_data=result,
             )
-            
+
             result["audit_id"] = audit_id
             logger.info(f"Wrote {len(log_events)} events to {log_group_name}/{log_stream_name}")
             return result
-            
+
         except Exception as e:
             logger.error(f"Put log events failed: {e}")
             await ctx.error(f"Put error: {str(e)}")
@@ -503,39 +536,34 @@ def register_core_tools(server: FastMCP) -> None:
 
 def register_proxy_tools(server: FastMCP) -> None:
     """Register proxy tools that auto-forward to upstreams.
-    
+
     This discovers all tools from upstream servers and creates
     pass-through handlers for tools not already registered.
     """
     import asyncio
-    
+
     # Core tools we've already implemented (skip these)
-    core_tools = {
-        "query_metrics",
-        "create_alert", 
-        "create_dashboard",
-        "search_logs"
-    }
-    
+    core_tools = {"query_metrics", "create_alert", "create_dashboard", "search_logs"}
+
     async def discover_and_register():
         """Discover upstream tools and register proxies."""
         proxy = get_proxy()
-        
+
         try:
             discovered = await proxy.discover_tools()
             total_tools = sum(len(tools) for tools in discovered.values())
             logger.info(f"Discovered {total_tools} tools from {len(discovered)} upstreams")
-            
+
             # Register proxy handler for each discovered tool
             for upstream_name, tool_names in discovered.items():
                 for tool_name in tool_names:
                     if tool_name not in core_tools:
                         register_proxy_tool(server, tool_name, upstream_name)
-                        
+
         except Exception as e:
             logger.warning(f"Failed to discover upstream tools: {e}")
             logger.info("Proxy tools will be registered on-demand")
-    
+
     # Run discovery in background (non-blocking)
     try:
         asyncio.create_task(discover_and_register())
@@ -546,13 +574,15 @@ def register_proxy_tools(server: FastMCP) -> None:
 
 def register_proxy_tool(server: FastMCP, tool_name: str, upstream_name: str) -> None:
     """Register a single proxy tool."""
-    
+
     @server.tool(name=tool_name)
     async def proxy_handler(ctx: Context, **kwargs) -> dict:
         """Auto-generated proxy handler."""
         proxy = get_proxy()
-        correlation_id = ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
-        
+        correlation_id = (
+            ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
+        )
+
         try:
             result = await proxy.call_tool(tool_name, kwargs, correlation_id)
             logger.debug(f"Proxied {tool_name} to {upstream_name}")
@@ -561,7 +591,7 @@ def register_proxy_tool(server: FastMCP, tool_name: str, upstream_name: str) -> 
             logger.error(f"Proxy call {tool_name} failed: {e}")
             await ctx.error(f"Proxy error: {str(e)}")
             raise
-    
+
     # Update docstring
     proxy_handler.__doc__ = f"[Proxy] Forward to {upstream_name}.{tool_name}"
 
@@ -592,18 +622,23 @@ def main():
     if args.transport == "api":
         import time
         import uuid
+
         import uvicorn
         from fastapi import FastAPI, Request
         from fastapi.responses import PlainTextResponse
-        from prometheus_client import Counter, Histogram, generate_latest, REGISTRY
+        from prometheus_client import REGISTRY, Counter, Histogram, generate_latest
 
         port = int(os.getenv("PORT", "9520"))
         mcp = create_server()
         app = FastAPI(title="Virons Monitoring MCP Server", version="1.0.0")
 
         # Metrics
-        http_requests_total = Counter('http_requests_total', 'Total HTTP requests', ['method', 'endpoint', 'status'])
-        http_request_duration = Histogram('http_request_duration_seconds', 'HTTP request duration', ['method', 'endpoint'])
+        http_requests_total = Counter(
+            "http_requests_total", "Total HTTP requests", ["method", "endpoint", "status"]
+        )
+        http_request_duration = Histogram(
+            "http_request_duration_seconds", "HTTP request duration", ["method", "endpoint"]
+        )
 
         # Middleware
         @app.middleware("http")
@@ -619,7 +654,9 @@ def main():
             start = time.monotonic()
             response = await call_next(request)
             duration = time.monotonic() - start
-            http_requests_total.labels(request.method, request.url.path, str(response.status_code)).inc()
+            http_requests_total.labels(
+                request.method, request.url.path, str(response.status_code)
+            ).inc()
             http_request_duration.labels(request.method, request.url.path).observe(duration)
             return response
 
@@ -637,17 +674,36 @@ def main():
 
         @app.get("/", tags=["Info"])
         async def root():
-            return {"service": "virons-monitoring-mcp", "version": "1.0.0", "write_enabled": args.allow_write}
+            return {
+                "service": "virons-monitoring-mcp",
+                "version": "1.0.0",
+                "write_enabled": args.allow_write,
+            }
 
         @app.get("/tools", tags=["Tools"])
         async def list_tools():
             from .tool_metadata import enrich_tool_metadata
+
             tools_list = await mcp.list_tools()
             enriched = []
             for tool in tools_list:
-                metadata = {"name": tool.name, "service": "monitoring-mcp", "description": tool.description or "", "input_schema": tool.inputSchema}
+                metadata = {
+                    "name": tool.name,
+                    "service": "monitoring-mcp",
+                    "description": tool.description or "",
+                    "input_schema": tool.inputSchema,
+                }
                 enriched.append(enrich_tool_metadata(tool.name, metadata))
             return {"tools": enriched, "count": len(enriched)}
+
+        @app.post("/tools/{tool_name}", tags=["Tools"])
+        async def execute_tool(tool_name: str, request: dict):
+            """Execute a tool by name."""
+            try:
+                content, result = await mcp.call_tool(tool_name, request)
+                return result
+            except Exception as e:
+                return {"error": f"Error executing tool {tool_name}: {str(e)}"}
 
         logger.info(f"Monitoring MCP API server on port {port}")
         logger.info(f"Swagger UI: http://localhost:{port}/docs")
@@ -656,7 +712,6 @@ def main():
 
     # HTTP mode: Health checks only (K8s)
     if args.transport == "http":
-
         import uvicorn
         from fastapi import FastAPI
 
