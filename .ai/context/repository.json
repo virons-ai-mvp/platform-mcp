@@ -1,0 +1,27 @@
+{
+  "name": "platform-mcp",
+  "domain": "mcp",
+  "profile": "mcp",
+  "description": "Model Context Protocol servers and tools",
+  "bounded_context": "integration",
+  "tech_stack": [
+    "Python",
+    "MCP",
+    "TypeScript"
+  ],
+  "primary_agents": [
+    "devops-engineer",
+    "python-backend-engineer",
+    "testing-engineer"
+  ],
+  "organization": "virons-fintech",
+  "aws_account": "412179655775",
+  "aws_region": "eu-central-1",
+  "compliance": [
+    "BaFin",
+    "GDPR",
+    "DORA",
+    "EU AI Act"
+  ],
+  "default_branch": "main"
+}

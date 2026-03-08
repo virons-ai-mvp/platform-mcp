@@ -1,5 +1,17 @@
 # Copyright Virons Fintech. All Rights Reserved.
-# SPDX-License-Identifier: Apache-2.0
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 # ruff: noqa: D417
 """FastMCP server implementation for virons-operations-mcp-server."""
 
@@ -60,16 +72,16 @@ def get_proxy():
     global _proxy
     if _proxy is None:
         from virons.common.upstream_proxy import UpstreamProxy
+
         _proxy = UpstreamProxy(UPSTREAM)
     return _proxy
 
 
 def register_tools(server: FastMCP) -> None:
     """Register operations orchestrator tools."""
-    
     # Register core orchestrated tools (with business logic)
     register_core_tools(server)
-    
+
     # Register proxy tools (auto-forwarded from upstreams)
     register_proxy_tools(server)
 
@@ -215,32 +227,27 @@ def register_core_tools(server: FastMCP) -> None:
 def register_proxy_tools(server: FastMCP) -> None:
     """Register proxy tools that auto-forward to upstreams."""
     import asyncio
-    
+
     # Core tools we've already implemented
-    core_tools = {
-        "list_clusters",
-        "invoke_lambda",
-        "list_services",
-        "start_workflow"
-    }
-    
+    core_tools = {"list_clusters", "invoke_lambda", "list_services", "start_workflow"}
+
     async def discover_and_register():
         """Discover upstream tools and register proxies."""
         proxy = get_proxy()
-        
+
         try:
             discovered = await proxy.discover_tools()
             total_tools = sum(len(tools) for tools in discovered.values())
             logger.info(f"Discovered {total_tools} tools from {len(discovered)} upstreams")
-            
+
             for upstream_name, tool_names in discovered.items():
                 for tool_name in tool_names:
                     if tool_name not in core_tools:
                         register_proxy_tool(server, tool_name, upstream_name)
-                        
+
         except Exception as e:
             logger.warning(f"Failed to discover upstream tools: {e}")
-    
+
     try:
         asyncio.create_task(discover_and_register())
     except RuntimeError:
@@ -249,13 +256,15 @@ def register_proxy_tools(server: FastMCP) -> None:
 
 def register_proxy_tool(server: FastMCP, tool_name: str, upstream_name: str) -> None:
     """Register a single proxy tool."""
-    
+
     @server.tool(name=tool_name)
     async def proxy_handler(ctx: Context, **kwargs) -> dict:
         """Auto-generated proxy handler."""
         proxy = get_proxy()
-        correlation_id = ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
-        
+        correlation_id = (
+            ctx.request_context.get("correlation_id") if hasattr(ctx, "request_context") else None
+        )
+
         try:
             result = await proxy.call_tool(tool_name, kwargs, correlation_id)
             logger.debug(f"Proxied {tool_name} to {upstream_name}")
@@ -264,7 +273,7 @@ def register_proxy_tool(server: FastMCP, tool_name: str, upstream_name: str) -> 
             logger.error(f"Proxy call {tool_name} failed: {e}")
             await ctx.error(f"Proxy error: {str(e)}")
             raise
-    
+
     proxy_handler.__doc__ = f"[Proxy] Forward to {upstream_name}.{tool_name}"
 
 
@@ -294,18 +303,23 @@ def main():
     if args.transport == "api":
         import time
         import uuid
+
         import uvicorn
         from fastapi import FastAPI, Request
         from fastapi.responses import PlainTextResponse
-        from prometheus_client import Counter, Histogram, generate_latest, REGISTRY
+        from prometheus_client import REGISTRY, Counter, Histogram, generate_latest
 
         port = int(os.getenv("PORT", "9510"))
         mcp = create_server()
         app = FastAPI(title="Virons Operations MCP Server", version="1.0.0")
 
         # Metrics
-        http_requests_total = Counter('http_requests_total', 'Total HTTP requests', ['method', 'endpoint', 'status'])
-        http_request_duration = Histogram('http_request_duration_seconds', 'HTTP request duration', ['method', 'endpoint'])
+        http_requests_total = Counter(
+            "http_requests_total", "Total HTTP requests", ["method", "endpoint", "status"]
+        )
+        http_request_duration = Histogram(
+            "http_request_duration_seconds", "HTTP request duration", ["method", "endpoint"]
+        )
 
         # Middleware
         @app.middleware("http")
@@ -321,7 +335,9 @@ def main():
             start = time.monotonic()
             response = await call_next(request)
             duration = time.monotonic() - start
-            http_requests_total.labels(request.method, request.url.path, str(response.status_code)).inc()
+            http_requests_total.labels(
+                request.method, request.url.path, str(response.status_code)
+            ).inc()
             http_request_duration.labels(request.method, request.url.path).observe(duration)
             return response
 
@@ -339,17 +355,36 @@ def main():
 
         @app.get("/", tags=["Info"])
         async def root():
-            return {"service": "virons-operations-mcp", "version": "1.0.0", "write_enabled": args.allow_write}
+            return {
+                "service": "virons-operations-mcp",
+                "version": "1.0.0",
+                "write_enabled": args.allow_write,
+            }
 
         @app.get("/tools", tags=["Tools"])
         async def list_tools():
             from .tool_metadata import enrich_tool_metadata
+
             tools_list = await mcp.list_tools()
             enriched = []
             for tool in tools_list:
-                metadata = {"name": tool.name, "service": "operations-mcp", "description": tool.description or "", "input_schema": tool.inputSchema}
+                metadata = {
+                    "name": tool.name,
+                    "service": "operations-mcp",
+                    "description": tool.description or "",
+                    "input_schema": tool.inputSchema,
+                }
                 enriched.append(enrich_tool_metadata(tool.name, metadata))
             return {"tools": enriched, "count": len(enriched)}
+
+        @app.post("/tools/{tool_name}", tags=["Tools"])
+        async def execute_tool(tool_name: str, request: dict):
+            """Execute a tool by name."""
+            try:
+                content, result = await mcp.call_tool(tool_name, request)
+                return result
+            except Exception as e:
+                return {"error": f"Error executing tool {tool_name}: {str(e)}"}
 
         logger.info(f"Operations MCP API server on port {port}")
         logger.info(f"Swagger UI: http://localhost:{port}/docs")
@@ -358,7 +393,6 @@ def main():
 
     # HTTP mode: Health checks only (K8s)
     if args.transport == "http":
-
         import uvicorn
         from fastapi import FastAPI
 

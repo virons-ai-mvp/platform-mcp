@@ -1,5 +1,17 @@
 # Copyright Virons Fintech. All Rights Reserved.
-# SPDX-License-Identifier: Apache-2.0
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#     http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
 """Service registry — tool-to-service routing."""
 
 from dataclasses import dataclass, field
@@ -30,6 +42,7 @@ class ServiceRegistry:
     """Maps tool names to MCP backend services with full metadata."""
 
     def __init__(self) -> None:
+        """Initialize the tool registry."""
         self._services: dict[str, MCPService] = {}
         self._tool_map: dict[str, str] = {}
         self._tool_metadata: dict[str, ToolMetadata] = {}
@@ -47,28 +60,32 @@ class ServiceRegistry:
             if resp.status_code == 200:
                 data = resp.json()
                 tools_data = data.get("tools", [])
-                
+
                 # Extract tool names for registration
                 tool_names = [t["name"] for t in tools_data]
                 self.register(MCPService(name=service_name, url=service_url, tools=tool_names))
-                
+
                 # Store full metadata for each tool
                 for tool in tools_data:
                     # Use backend-provided metadata if available, otherwise generate
                     category = tool.get("category") or self._categorize_tool(tool["name"])
                     examples = tool.get("examples") or self._generate_examples(tool)
-                    
+
+                    # Accept both camelCase and snake_case for input schema
+                    input_schema = tool.get("inputSchema") or tool.get("input_schema", {})
+
                     self._tool_metadata[tool["name"]] = ToolMetadata(
                         name=tool["name"],
                         service=service_name,
                         description=tool.get("description", ""),
-                        input_schema=tool.get("inputSchema", {}),
+                        input_schema=input_schema,
                         category=category,
                         examples=examples,
                     )
         except Exception as e:
             # Log error but don't fail - register empty service
             import sys
+
             print(f"Error discovering tools from {service_name}: {e}", file=sys.stderr)
             self.register(MCPService(name=service_name, url=service_url, tools=[]))
 
@@ -93,17 +110,17 @@ class ServiceRegistry:
         schema = tool.get("inputSchema", {})
         props = schema.get("properties", {})
         required = schema.get("required", [])
-        
+
         if not props:
             return []
-        
+
         # Generate minimal example with required fields
         example = {}
         for field in required:
             if field in props:
                 field_type = props[field].get("type", "string")
                 example[field] = self._example_value(field, field_type)
-        
+
         return [{"description": "Basic usage", "parameters": example}] if example else []
 
     def _example_value(self, field_name: str, field_type: str) -> any:

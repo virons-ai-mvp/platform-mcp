@@ -1,0 +1,17 @@
+{
+  "name": "disaster-recovery-agent",
+  "description": "DR planning, RTO/RPO, backup strategies, failover testing",
+  "prompt": "Load and follow instructions from .ai/agents/roles/infrastructure/disaster-recovery-agent.agent.md",
+  "tools": [
+    "read",
+    "write",
+    "shell",
+    "grep",
+    "glob"
+  ],
+  "allowedTools": [],
+  "resources": [],
+  "hooks": {},
+  "includeMcpJson": true,
+  "model": null
+}

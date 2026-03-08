@@ -36,6 +36,7 @@ repository = "https://github.com/virons-fintech/virons-ai-mvp.git"
 
 [project.scripts]
 virons-mcp-gateway = "virons.mcp_gateway.server:main"
+virons-mcp-gateway-mcp = "virons.mcp_gateway.__main__:main"
 
 [dependency-groups]
 dev = [

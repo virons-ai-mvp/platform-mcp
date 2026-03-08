@@ -1,114 +1,56 @@
-# /compliance-audit - Run Compliance Audit
+# Compliance Audit Command
 
-Validate BaFin, GDPR, DORA, and EU AI Act compliance across MCP servers.
+**Description**: Run full compliance audit on a service or the entire repo.
 
-## Usage
+**Usage**: `/compliance-audit [service-path or 'all']`
 
-```
-/compliance-audit [target]
-```
+**Model**: claude-sonnet-4-5
 
-## Arguments
+## Behavior
 
-- `target` - What to audit:
-  - `all` - All MCP servers (default)
-  - `infrastructure` - Infrastructure MCP server
-  - `security` - Security MCP server
-  - `operations` - Operations MCP server
-  - `monitoring` - Monitoring MCP server
-  - `gateway` - MCP gateway
+Invoke the `virons-compliance-validator` agent to check:
 
-## Example
-
-```
-/compliance-audit all
-/compliance-audit infrastructure
-```
-
-## What It Checks
-
-### BaFin MaRisk AT 8.1
-- [ ] Audit logging enabled
-- [ ] Request/response logging
-- [ ] Correlation ID tracking
-- [ ] Calculation ordering (if applicable)
-
-### GDPR Art 32
-- [ ] Data residency in eu-central-1
-- [ ] PII encryption with KMS
-- [ ] Request audit logging (100%)
-- [ ] Data retention policies
-
-### DORA Art 11
-- [ ] RTO ≤ 4h
-- [ ] RPO ≤ 1h
-- [ ] PDB configured (min available 1)
-- [ ] Graceful shutdown (30s)
-- [ ] Health checks (/health, /ready)
+### BaFin AT 8.1
+- `write_audit()` present before every `forensic_flags` write
+- Calculation ordering: audit → deterministic → ML gate → fusion
 
 ### EU AI Act
-- [ ] Model cards (if ML tools)
-- [ ] Human oversight (if high-risk AI)
-- [ ] Transparency requirements
-- [ ] Risk assessment documentation
+- Model card exists for high-risk AI services
+- ML gate enforced: `gated_ml = ml_score if len(deterministic_flags) >= 1 else 0.0`
+- Human oversight capability present
 
-### Security
-- [ ] Secrets scanning (TruffleHog)
-- [ ] Vulnerability scanning (Trivy)
-- [ ] Image signing (Cosign)
-- [ ] Run as non-root
-- [ ] Read-only root filesystem
-- [ ] Network policies
+### GDPR Art 32
+- Data residency: eu-central-1 only
+- No PII in logs
+- Request audit logging at API layer
+- KMS encryption for PII fields
 
-### Monitoring
-- [ ] Prometheus metrics (/metrics)
-- [ ] Distributed tracing (correlation IDs)
-- [ ] Health endpoints (/health, /ready)
-- [ ] Structured logging
+### DORA Art 11
+- Health endpoints: `/health/live`, `/health/ready`
+- Graceful shutdown handlers
+- PodDisruptionBudget configured
+- Resource limits set
+
+## Namespace-Specific Checks
+
+If argument is `all`, audit every namespace:
+
+| Namespace | Regulations |
+|---|---|
+| `forensic/` | BaFin + GDPR + DORA |
+| `ml/` | EU AI Act + GDPR + DORA |
+| `ingestion/` | GDPR + DORA |
+| `blockchain/` | DORA |
+| `api/` | GDPR + DORA |
 
 ## Output
 
+Compliance report with PASS/FAIL per service per regulation.
+Flag any FAIL items with the specific file and line number.
+
+## Example
+
+```bash
+/compliance-audit forensic/risk-scorer
+/compliance-audit all
 ```
-🔍 Compliance Audit Report
-==========================
-
-Server: virons-infrastructure-mcp
-Status: ✅ COMPLIANT
-
-BaFin MaRisk AT 8.1:
-  ✅ Audit logging enabled
-  ✅ Correlation ID tracking
-  ✅ Request/response logging
-
-GDPR Art 32:
-  ✅ Data residency: eu-central-1
-  ✅ PII encryption: alias/virons-pii
-  ✅ Request audit logging: 100%
-
-DORA Art 11:
-  ✅ RTO: 4h
-  ✅ RPO: 1h
-  ✅ PDB: min available 1
-  ✅ Health checks: /health, /ready
-
-Security:
-  ✅ Secrets scanning: enabled
-  ✅ Vulnerability scanning: enabled
-  ✅ Image signing: enabled
-  ✅ Run as non-root: true
-  ✅ Read-only filesystem: true
-
-Monitoring:
-  ✅ Prometheus metrics: /metrics
-  ✅ Distributed tracing: enabled
-  ✅ Health endpoints: /health, /ready
-
-==========================
-Summary: 18/18 checks passed
-```
-
-## Related
-
-- Compliance Requirements: `.kiro/steering/compliance.md`
-- Security Policy: `.kiro/SECURITY-POLICY.md`
-- Monitoring Guide: `docs/operations/monitoring.md`

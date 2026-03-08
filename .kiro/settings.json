@@ -1,66 +1,19 @@
 {
-  "project.name": "platform-mcp",
-  "project.type": "mcp-server-platform",
-  "project.description": "Multi-service MCP platform with 90 tools across infrastructure, security, operations, and monitoring",
-
-  "aws.profile": "virons-management",
-  "aws.region": "eu-central-1",
-  "aws.accountId": "412179655775",
-
-  "kubernetes.cluster": "virons-mvp",
-  "kubernetes.context": "arn:aws:eks:eu-central-1:412179655775:cluster/virons-mvp",
-  "kubernetes.namespace": "mcp-platform",
-
-  "compliance.frameworks": ["BaFin", "GDPR", "DORA", "EU-AI-Act"],
-  "compliance.dataResidency": "eu-central-1",
-  "compliance.kmsKeyAlias": "alias/virons-pii",
-
-  "testing.tddMode": true,
-  "testing.minCoverage": 95,
-  "testing.framework": "pytest",
-
-  "security.scanOnCommit": true,
-  "security.blockSecretsCommit": true,
-  "security.allowedRegistries": ["ghcr.io/virons-ai", "412179655775.dkr.ecr.eu-central-1.amazonaws.com"],
-
-  "linting.python": "ruff",
-  "linting.pythonConfig": ".ruff.toml",
-
-  "formatting.python": "black",
-  "formatting.pythonLineLength": 100,
-
-  "docker.baseImage": "python:3.12-slim",
-  "docker.registry": "ghcr.io/virons-ai",
-
-  "mcp.gateway.port": 9000,
-  "mcp.gateway.url": "http://localhost:9000",
-  "mcp.gateway.tools": 90,
-
-  "mcp.servers": {
-    "infrastructure": {"port": 9100, "tools": 78},
-    "security": {"port": 9500, "tools": 4},
-    "operations": {"port": 9510, "tools": 4},
-    "monitoring": {"port": 9520, "tools": 4}
-  },
-
-  "architecture.pattern": "DDD",
-  "architecture.layers": ["application", "domain", "infrastructure"],
-
-  "monitoring.healthEndpoint": "/health",
-  "monitoring.readinessEndpoint": "/ready",
-  "monitoring.metricsEndpoint": "/metrics",
-
-  "resilience.rto": "4h",
-  "resilience.rpo": "1h",
-
-  "git.hooks.enabled": true,
-  "git.hooks.preCommit": ["trufflehog", "ruff", "pytest-fast"],
-  "git.hooks.prePush": ["trivy", "verify-docs", "ddd-validation", "tdd-validation"],
-
-  "python.version": "3.12",
-  "python.packageManager": "uv",
-
-  "provider.name": "Virons AI GmbH",
-  "provider.location": "Dortmund, DE",
-  "provider.contact": "compliance@virons.ai"
+  "repo": "platform-mcp",
+  "domain": "mcp",
+  "profile": "mcp",
+  "agent_coordinator": ".ai/agents/orchestration/agent-coordinator.md",
+  "primary_agents": [
+    "devops-engineer",
+    "python-backend-engineer",
+    "testing-engineer"
+  ],
+  "tdd_enabled": true,
+  "ddd_enabled": true,
+  "compliance_mode": "strict",
+  "auto_approve": {
+    "read_only": true,
+    "dev_changes": false,
+    "prod_changes": false
+  }
 }

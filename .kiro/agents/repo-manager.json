@@ -1,0 +1,16 @@
+{
+  "name": "repo-manager",
+  "description": "Repository structure, monorepo management, code organization",
+  "prompt": "Load and follow instructions from .ai/agents/roles/repo-manager/expert-repo-manager.agent.md",
+  "tools": [
+    "read",
+    "write",
+    "grep",
+    "glob"
+  ],
+  "allowedTools": [],
+  "resources": [],
+  "hooks": {},
+  "includeMcpJson": true,
+  "model": null
+}

@@ -2,67 +2,47 @@
 
 ## Always Loaded (~10KB total)
 
+**CRITICAL - Load First**:
+- `.kiro/steering/TDD-FIRST.md` (1KB) — TDD workflow, MUST read before any code changes
+
 **Core Context**:
-- `.kiro/steering/project.md` (3KB) — MCP server catalog, tool counts, compliance coordinates, quick commands
+- `.ai/context/repository.json` (3KB) — machine-readable: all 42 services, ports, namespaces, critical rules
+- `.kiro/steering/project.md` (3KB) — service catalog, compliance coordinates, quick commands
+- `.kiro/steering/agents.md` (2KB) — agent selection matrix, coordination patterns
+- `.kiro/steering/compliance.md` (2KB) — TDD methodology, regulatory requirements
 - `README.md` (1KB) — repo overview
-- `docs/INDEX.md` (2KB) — documentation index
-- `docs/DDD-STRUCTURE.md` (2KB) — DDD architecture guide
-- `docs/domain/README.md` (1KB) — domain layer overview
-- `docs/application/README.md` (1KB) — application layer overview
+- `.ai/rules/repository-guidelines.md` (1KB) — TDD, commit format, security requirements
+- `.ai/rules/orchestration/agent-coordinator.md` (1KB) — agent selection and coordination
+- `.ai/rules/orchestration/safety-protocol.md` (1KB) — risk assessment, approval gates
 
 ## Load On-Demand
 
-**Documentation** (load when task requires it):
-- `docs/domain/tools/TOOL_CATALOG.md` — Complete tool catalog
-- `docs/domain/tools/TOOL_DOCUMENTATION_STANDARD.md` — Tool documentation standard
-- `docs/domain/tools/TOOL_DOCUMENTATION_IMPROVEMENTS.md` — Tool documentation improvements
-- `docs/domain/integration/UPSTREAM_INTEGRATION.md` — AWS Labs integration
-- `docs/domain/integration/MCP_EXPANSION_PLAN.md` — MCP expansion plan
-- `docs/application/workflows/WORKFLOW-*.md` — Workflow documentation
-- `docs/infrastructure/deployment/aws-deployment.md` — AWS deployment guide
-- `docs/infrastructure/deployment/gateway-migration-plan.md` — Gateway migration plan
+**Workflows** (load when task requires it, ~1KB each):
+- `.ai/rules/workflows/testing-workflows.md`
+- `.ai/rules/workflows/security-workflows.md`
+- `.ai/rules/workflows/deployment-workflows.md`
+- `.ai/rules/workflows/monitoring-workflows.md`
+- `.ai/rules/workflows/documentation-workflows.md`
+- `.ai/rules/workflows/service-development-workflow.md`
+- `.ai/rules/workflows/inter-service-communication-workflow.md`
+- `.ai/rules/workflows/database-migration-workflow.md`
+- `.ai/rules/workflows/pre-execution-checklist.md`
 
-**Development** (load when making changes):
-- `docs/development/GIT-HOOKS-ACTIVATION.md` — Git hooks setup
-- `scripts/validate-tool-docs.sh` — Tool documentation validation
-- `scripts/generate-tool-docs.py` — Tool documentation generation
-- `scripts/enhance-tool-descriptions.py` — Tool description enhancement
-- `scripts/update-docstrings.py` — Docstring updates
+**Specialized Agents** (load when working in that domain):
+- `.ai/rules/02-services/go-backend-engineer.agent.md`
+- `.ai/rules/02-services/python-backend-engineer.agent.md`
+- `.ai/rules/02-services/ml-engineer.agent.md`
+- `.ai/rules/02-services/compliance-validator.agent.md`
+- `.ai/rules/02-services/api-engineer.agent.md`
 
-**Compliance** (load when validating):
-- `.kiro/steering/compliance.md` — Regulatory requirements
-- `docs/compliance/BAFIN-COMPLIANCE.md` — BaFin requirements
-- `docs/compliance/GDPR-COMPLIANCE.md` — GDPR requirements
-- `docs/compliance/DORA-COMPLIANCE.md` — DORA requirements
-
-**Testing** (load when writing tests):
-- `docs/development/TESTING-STRATEGY.md` — Testing strategy
-- `src/virons-infrastructure-mcp-server/tests/` — Test examples
-
-**Server-Specific** (load when working on specific server):
-- `src/virons-infrastructure-mcp-server/README.md` — Infrastructure server docs
-- `src/virons-security-mcp-server/README.md` — Security server docs
-- `src/virons-operations-mcp-server/README.md` — Operations server docs
-- `src/virons-monitoring-mcp-server/README.md` — Monitoring server docs
-- `src/virons-mcp-gateway/README.md` — Gateway docs
+**Guardrails** (load when making changes):
+- `.ai/rules/agent-restrictions.md`
+- `.ai/rules/cost-guards.md`
+- `.ai/rules/GUARDRAILS-README.md`
 
 ## Context Budget
 
 - Auto-load target: ≤10KB
 - Remaining for task context: ~190KB
-- Server-specific docs load lazily (only when editing files in that server)
-- Tool documentation loads on-demand (only when working with specific tools)
-
-## File Patterns
-
-**Auto-load when editing**:
-- `src/virons-*-mcp-server/virons/*/server.py` → Load server README + tool catalog
-- `src/virons-*-mcp-server/tests/` → Load testing strategy
-- `docs/**/*.md` → Load DDD structure guide
-- `scripts/*.py` → Load development docs
-
-**Never auto-load** (too large):
-- `uv.lock`
-- `*.pyc`, `__pycache__/`
-- `.venv/`, `node_modules/`
-- `.pytest_cache/`, `.ruff_cache/`
+- Namespace CLAUDE.md files load lazily (only when editing files in that namespace)
+- Per-namespace skills load lazily (only when editing files in that namespace)
