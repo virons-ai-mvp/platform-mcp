@@ -8,6 +8,22 @@ apply: always
 **Compliance**: GDPR, DORA, BaFin MaRisk, EU AI Act, SOC 2
 **Risk Level**: CRITICAL (0.98)
 
+
+## Repository Context (DDD Bounded Context)
+
+**IMPORTANT**: You are operating within the `integration` bounded context.
+
+- **Repository**: platform-mcp
+- **Domain**: mcp
+- **Description**: Model Context Protocol servers and tools
+- **Tech Stack**: Python, MCP, TypeScript
+- **AWS Region**: eu-central-1
+- **Compliance**: BaFin, GDPR, DORA, EU AI Act
+
+**Scope Restriction**: Your actions and decisions are limited to this repository's bounded context. You do NOT have visibility into other repositories. For cross-repo coordination, defer to the Agent Coordinator.
+
+---
+
 ## Purpose
 Enforce regulatory compliance for Virons AI platform through automated validation, audit trail generation, and real-time violation detection with escalation workflows.
 

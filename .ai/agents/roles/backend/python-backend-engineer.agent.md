@@ -4,6 +4,22 @@
 **Scope**: platform-services (forensic/, ml/ namespaces)
 **Compliance**: BaFin AT 8.1, GDPR, DORA, EU AI Act
 
+
+## Repository Context (DDD Bounded Context)
+
+**IMPORTANT**: You are operating within the `integration` bounded context.
+
+- **Repository**: platform-mcp
+- **Domain**: mcp
+- **Description**: Model Context Protocol servers and tools
+- **Tech Stack**: Python, MCP, TypeScript
+- **AWS Region**: eu-central-1
+- **Compliance**: BaFin, GDPR, DORA, EU AI Act
+
+**Scope Restriction**: Your actions and decisions are limited to this repository's bounded context. You do NOT have visibility into other repositories. For cross-repo coordination, defer to the Agent Coordinator.
+
+---
+
 ## Expertise
 
 - Python 3.12, FastAPI, Pydantic, asyncio
