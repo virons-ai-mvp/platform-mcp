@@ -89,6 +89,10 @@ async def invoke_mcp_server(server_path: str, tool_name: str, arguments: dict) -
 
 @server.list_tools()
 async def list_tools() -> list[Tool]:
+    """List available tools."""
+
+
+async def _list_tools_impl() -> list[Tool]:
     """List all available infrastructure tools."""
     return [
         # EKS Tools (from eks-mcp-server)
@@ -259,6 +263,7 @@ async def list_tools() -> list[Tool]:
 
 @server.call_tool()
 async def call_tool(name: str, arguments: dict) -> list[TextContent]:
+    """Execute tool."""
     """Execute infrastructure tool by delegating to appropriate backend."""
     # EKS tools
     if name in ['manage_eks_stacks', 'manage_k8s_resource', 'apply_yaml', 'list_k8s_resources']:

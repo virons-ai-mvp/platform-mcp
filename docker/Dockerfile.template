@@ -1,0 +1,58 @@
+# Enterprise-Grade MCP Server Dockerfile Template
+# Copyright Virons Fintech. All Rights Reserved.
+# SPDX-License-Identifier: Apache-2.0
+
+# Multi-stage build for minimal image size
+FROM python:3.13-slim AS base
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    curl \
+    ca-certificates \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install uv package manager
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /usr/local/bin/uv
+
+# Builder stage
+FROM base AS builder
+WORKDIR /build
+
+# Copy source code
+COPY . .
+
+# Install dependencies
+RUN uv venv && \
+    uv pip install -e .
+
+# Runtime stage
+FROM base AS runtime
+WORKDIR /app
+
+# Copy virtual environment from builder
+COPY --from=builder /build/.venv /app/.venv
+COPY --from=builder /build /app
+
+# Create non-root user
+RUN useradd -m -u 1000 mcp && \
+    chown -R mcp:mcp /app
+
+# Switch to non-root user
+USER mcp
+
+# Environment variables
+ENV PATH="/app/.venv/bin:$PATH" \
+    PYTHONUNBUFFERED=1 \
+    PORT=9000 \
+    LOG_LEVEL=INFO \
+    AWS_REGION=eu-central-1
+
+# Expose port
+EXPOSE 9000
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=10s --retries=3 \
+    CMD curl -f http://localhost:${PORT}/health || exit 1
+
+# Entrypoint (override in docker-compose)
+CMD ["python", "-m", "server"]

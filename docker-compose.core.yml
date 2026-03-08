@@ -1,0 +1,259 @@
+version: '3.8'
+
+networks:
+  virons-mcp:
+    driver: bridge
+
+x-mcp-service: &mcp-service
+  networks:
+    - virons-mcp
+  restart: unless-stopped
+  deploy:
+    resources:
+      limits:
+        cpus: '1'
+        memory: 512M
+      reservations:
+        cpus: '0.25'
+        memory: 128M
+  healthcheck:
+    interval: 30s
+    timeout: 3s
+    retries: 3
+    start_period: 10s
+
+services:
+  # Existing services (keep as-is)
+  virons-mcp-gateway:
+    <<: *mcp-service
+    build:
+      context: .
+      dockerfile: src/virons-mcp-gateway/Dockerfile
+    container_name: virons-mcp-gateway
+    ports:
+      - "9000:9000"
+    environment:
+      PORT: 9000
+      LOG_LEVEL: INFO
+      INFRASTRUCTURE_MCP_URL: http://virons-infrastructure-mcp:9100
+      SECURITY_MCP_URL: http://virons-security-mcp:9500
+      OPERATIONS_MCP_URL: http://virons-operations-mcp:9510
+      MONITORING_MCP_URL: http://virons-monitoring-mcp:9520
+    depends_on:
+      virons-infrastructure-mcp:
+        condition: service_healthy
+      virons-security-mcp:
+        condition: service_healthy
+      virons-operations-mcp:
+        condition: service_healthy
+      virons-monitoring-mcp:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/health"]
+
+  virons-infrastructure-mcp:
+    <<: *mcp-service
+    build:
+      context: .
+      dockerfile: src/virons-infrastructure-mcp-server/Dockerfile
+    container_name: virons-infrastructure-mcp
+    ports:
+      - "9100:9100"
+    environment:
+      PORT: 9100
+      LOG_LEVEL: INFO
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9100/health"]
+
+  virons-security-mcp:
+    <<: *mcp-service
+    build:
+      context: .
+      dockerfile: src/virons-security-mcp-server/Dockerfile
+    container_name: virons-security-mcp
+    ports:
+      - "9500:9500"
+    environment:
+      PORT: 9500
+      LOG_LEVEL: INFO
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9500/health"]
+
+  virons-operations-mcp:
+    <<: *mcp-service
+    build:
+      context: .
+      dockerfile: src/virons-operations-mcp-server/Dockerfile
+    container_name: virons-operations-mcp
+    ports:
+      - "9510:9510"
+    environment:
+      PORT: 9510
+      LOG_LEVEL: INFO
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9510/health"]
+
+  virons-monitoring-mcp:
+    <<: *mcp-service
+    build:
+      context: .
+      dockerfile: src/virons-monitoring-mcp-server/Dockerfile
+    container_name: virons-monitoring-mcp
+    ports:
+      - "9520:9520"
+    environment:
+      PORT: 9520
+      LOG_LEVEL: INFO
+      AWS_REGION: eu-central-1
+    volumes:
+      - ~/.aws:/root/.aws:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9520/health"]
+
+  # NEW: Core MCP Servers (Pareto 20/80)
+  # Mix of pre-built images and custom builds
+
+  # Infrastructure Foundation (3 servers - 2 pre-built, 1 build)
+  virons-kubernetes-mcp:
+    <<: *mcp-service
+    image: mcp/kubernetes@sha256:5565164f78ee41f3de9d957dbd3c7349fb06be8e95799a2a650cdd90d6d6d529
+    container_name: virons-kubernetes-mcp
+    ports:
+      - "9121:9121"
+    environment:
+      PORT: 9121
+    volumes:
+      - ~/.kube:/root/.kube:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9121/health"]
+
+  virons-terraform-mcp:
+    <<: *mcp-service
+    image: mcp/aws-terraform@sha256:db3126c26fc13947f8d200235a872b35cdf7235f07c8fc63c262fb40196dd18e
+    container_name: virons-terraform-mcp
+    ports:
+      - "9142:9142"
+    environment:
+      PORT: 9142
+      AWS_REGION: eu-central-1
+    volumes:
+      - ~/.aws:/root/.aws:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9142/health"]
+
+  virons-aws-network-mcp:
+    <<: *mcp-service
+    build:
+      context: .
+      dockerfile: src/awslabs/aws-network-mcp-server/Dockerfile
+    container_name: virons-aws-network-mcp
+    ports:
+      - "9144:9144"
+    environment:
+      PORT: 9144
+      AWS_REGION: eu-central-1
+    volumes:
+      - ~/.aws:/root/.aws:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9144/health"]
+
+  # Data Layer (3 servers - all builds, no pre-built available)
+  virons-postgres-mcp:
+    <<: *mcp-service
+    build:
+      context: .
+      dockerfile: src/awslabs/postgres-mcp-server/Dockerfile
+    container_name: virons-postgres-mcp
+    ports:
+      - "9150:9150"
+    environment:
+      PORT: 9150
+      AWS_REGION: eu-central-1
+    volumes:
+      - ~/.aws:/root/.aws:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9150/health"]
+
+  virons-dynamodb-mcp:
+    <<: *mcp-service
+    build:
+      context: .
+      dockerfile: src/awslabs/dynamodb-mcp-server/Dockerfile
+    container_name: virons-dynamodb-mcp
+    ports:
+      - "9180:9180"
+    environment:
+      PORT: 9180
+      AWS_REGION: eu-central-1
+    volumes:
+      - ~/.aws:/root/.aws:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9180/health"]
+
+  virons-cloudtrail-mcp:
+    <<: *mcp-service
+    build:
+      context: .
+      dockerfile: src/awslabs/cloudtrail-mcp-server/Dockerfile
+    container_name: virons-cloudtrail-mcp
+    ports:
+      - "9102:9102"
+    environment:
+      PORT: 9102
+      AWS_REGION: eu-central-1
+    volumes:
+      - ~/.aws:/root/.aws:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9102/health"]
+
+  # Bonus: GitHub operations (pre-built)
+  virons-github-mcp:
+    <<: *mcp-service
+    image: ghcr.io/github/github-mcp-server@sha256:7b1384cdd6d025c09256af2fb6cb79bc5e87aedc957c8826b5e50d8cb82f0be3
+    container_name: virons-github-mcp
+    ports:
+      - "9111:9111"
+    environment:
+      PORT: 9111
+      GITHUB_TOKEN: ${GITHUB_TOKEN}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9111/health"]
+
+  # Observability (3 servers - 2 pre-built, 1 build)
+  virons-prometheus-mcp:
+    <<: *mcp-service
+    image: ghcr.io/pab1it0/prometheus-mcp-server@sha256:32d47c88845ee78bc343d4c3a39a24b1bd9bebce4f53becdbbf5704221185925
+    container_name: virons-prometheus-mcp
+    ports:
+      - "9191:9191"
+    environment:
+      PORT: 9191
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9191/health"]
+
+  virons-redis-mcp:
+    <<: *mcp-service
+    image: mcp/redis@sha256:ab96ec0a8618804fe4e08414d27e515c85df8a58806e4f8353331e14670c3b10
+    container_name: virons-redis-mcp
+    ports:
+      - "9184:9184"
+    environment:
+      PORT: 9184
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9184/health"]
+
+  virons-cloudwatch-mcp:
+    <<: *mcp-service
+    build:
+      context: .
+      dockerfile: src/awslabs/cloudwatch-mcp-server/Dockerfile
+    container_name: virons-cloudwatch-mcp
+    ports:
+      - "9190:9190"
+    environment:
+      PORT: 9190
+      AWS_REGION: eu-central-1
+    volumes:
+      - ~/.aws:/root/.aws:ro
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9190/health"]

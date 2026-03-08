@@ -1,0 +1,301 @@
+version: '3.8'
+
+networks:
+  virons-mcp:
+    driver: bridge
+
+x-mcp-service: &mcp-service
+  networks:
+    - virons-mcp
+  restart: unless-stopped
+  deploy:
+    resources:
+      limits:
+        cpus: '1'
+        memory: 512M
+      reservations:
+        cpus: '0.25'
+        memory: 128M
+
+services:
+  # AWS Labs MCP Servers (12 servers)
+  eks-mcp-server:
+    <<: *mcp-service
+    build:
+      context: src/awslabs/eks-mcp-server
+      dockerfile: Dockerfile
+    container_name: eks-mcp-server
+    ports:
+      - "9001:9001"
+    environment:
+      PORT: 9001
+      AWS_REGION: eu-central-1
+    volumes:
+      - ~/.aws:/root/.aws:ro
+
+  cfn-mcp-server:
+    <<: *mcp-service
+    build:
+      context: src/awslabs/cfn-mcp-server
+      dockerfile: Dockerfile
+    container_name: cfn-mcp-server
+    ports:
+      - "9003:9003"
+    environment:
+      PORT: 9003
+      AWS_REGION: eu-central-1
+    volumes:
+      - ~/.aws:/root/.aws:ro
+
+  iam-mcp-server:
+    <<: *mcp-service
+    build:
+      context: src/awslabs/iam-mcp-server
+      dockerfile: Dockerfile
+    container_name: iam-mcp-server
+    ports:
+      - "9004:9004"
+    environment:
+      PORT: 9004
+      AWS_REGION: eu-central-1
+    volumes:
+      - ~/.aws:/root/.aws:ro
+
+  cost-explorer-mcp-server:
+    <<: *mcp-service
+    build:
+      context: src/awslabs/cost-explorer-mcp-server
+      dockerfile: Dockerfile
+    container_name: cost-explorer-mcp-server
+    ports:
+      - "9005:9005"
+    environment:
+      PORT: 9005
+      AWS_REGION: eu-central-1
+    volumes:
+      - ~/.aws:/root/.aws:ro
+
+  cloudwatch-mcp-server:
+    <<: *mcp-service
+    build:
+      context: src/awslabs/cloudwatch-mcp-server
+      dockerfile: Dockerfile
+    container_name: cloudwatch-mcp-server
+    ports:
+      - "9006:9006"
+    environment:
+      PORT: 9006
+      AWS_REGION: eu-central-1
+    volumes:
+      - ~/.aws:/root/.aws:ro
+
+  aws-network-mcp-server:
+    <<: *mcp-service
+    build:
+      context: src/awslabs/aws-network-mcp-server
+      dockerfile: Dockerfile
+    container_name: aws-network-mcp-server
+    ports:
+      - "9007:9007"
+    environment:
+      PORT: 9007
+      AWS_REGION: eu-central-1
+    volumes:
+      - ~/.aws:/root/.aws:ro
+
+  terraform-mcp-server:
+    <<: *mcp-service
+    build:
+      context: src/awslabs/terraform-mcp-server
+      dockerfile: Dockerfile
+    container_name: terraform-mcp-server
+    ports:
+      - "9010:9010"
+    environment:
+      PORT: 9010
+
+  amazon-bedrock-agentcore-mcp-server:
+    <<: *mcp-service
+    build:
+      context: src/awslabs/amazon-bedrock-agentcore-mcp-server
+      dockerfile: Dockerfile
+    container_name: amazon-bedrock-agentcore-mcp-server
+    ports:
+      - "9020:9020"
+    environment:
+      PORT: 9020
+      AWS_REGION: eu-central-1
+    volumes:
+      - ~/.aws:/root/.aws:ro
+
+  amazon-neptune-mcp-server:
+    <<: *mcp-service
+    build:
+      context: src/awslabs/amazon-neptune-mcp-server
+      dockerfile: Dockerfile
+    container_name: amazon-neptune-mcp-server
+    ports:
+      - "9030:9030"
+    environment:
+      PORT: 9030
+      AWS_REGION: eu-central-1
+    volumes:
+      - ~/.aws:/root/.aws:ro
+
+  core-mcp-server:
+    <<: *mcp-service
+    build:
+      context: src/awslabs/core-mcp-server
+      dockerfile: Dockerfile
+    container_name: core-mcp-server
+    ports:
+      - "9040:9040"
+    environment:
+      PORT: 9040
+      AWS_REGION: eu-central-1
+    volumes:
+      - ~/.aws:/root/.aws:ro
+
+  openapi-mcp-server:
+    <<: *mcp-service
+    build:
+      context: src/awslabs/openapi-mcp-server
+      dockerfile: Dockerfile
+    container_name: openapi-mcp-server
+    ports:
+      - "9080:9080"
+    environment:
+      PORT: 9080
+
+  elasticache-mcp-server:
+    <<: *mcp-service
+    build:
+      context: src/awslabs/elasticache-mcp-server
+      dockerfile: Dockerfile
+    container_name: elasticache-mcp-server
+    ports:
+      - "9081:9081"
+    environment:
+      PORT: 9081
+      AWS_REGION: eu-central-1
+    volumes:
+      - ~/.aws:/root/.aws:ro
+
+  # Virons Orchestrator MCP Servers (9 servers)
+  virons-infrastructure-mcp:
+    <<: *mcp-service
+    build:
+      context: src/virons-infrastructure-mcp
+      dockerfile: Dockerfile
+    container_name: virons-infrastructure-mcp
+    ports:
+      - "9100:9100"
+    environment:
+      PORT: 9100
+    depends_on:
+      - eks-mcp-server
+      - cfn-mcp-server
+      - iam-mcp-server
+      - cost-explorer-mcp-server
+      - cloudwatch-mcp-server
+      - aws-network-mcp-server
+      - terraform-mcp-server
+
+  virons-forensic-mcp:
+    <<: *mcp-service
+    build:
+      context: src/virons-forensic-mcp
+      dockerfile: Dockerfile
+    container_name: virons-forensic-mcp
+    ports:
+      - "9300:9300"
+    environment:
+      PORT: 9300
+    depends_on:
+      - amazon-neptune-mcp-server
+
+  virons-ml-mcp:
+    <<: *mcp-service
+    build:
+      context: src/virons-ml-mcp
+      dockerfile: Dockerfile
+    container_name: virons-ml-mcp
+    ports:
+      - "9420:9420"
+    environment:
+      PORT: 9420
+    depends_on:
+      - amazon-bedrock-agentcore-mcp-server
+
+  virons-blockchain-mcp:
+    <<: *mcp-service
+    build:
+      context: src/virons-blockchain-mcp
+      dockerfile: Dockerfile
+    container_name: virons-blockchain-mcp
+    ports:
+      - "9430:9430"
+    environment:
+      PORT: 9430
+
+  virons-dev-mcp:
+    <<: *mcp-service
+    build:
+      context: src/virons-dev-mcp
+      dockerfile: Dockerfile
+    container_name: virons-dev-mcp
+    ports:
+      - "9500:9500"
+    environment:
+      PORT: 9500
+
+  virons-api-mcp:
+    <<: *mcp-service
+    build:
+      context: src/virons-api-mcp
+      dockerfile: Dockerfile
+    container_name: virons-api-mcp
+    ports:
+      - "9540:9540"
+    environment:
+      PORT: 9540
+    depends_on:
+      - openapi-mcp-server
+      - elasticache-mcp-server
+
+  virons-prompts-mcp:
+    <<: *mcp-service
+    build:
+      context: src/virons-prompts-mcp
+      dockerfile: Dockerfile
+    container_name: virons-prompts-mcp
+    ports:
+      - "9550:9550"
+    environment:
+      PORT: 9550
+
+  virons-compliance-mcp:
+    <<: *mcp-service
+    build:
+      context: src/virons-compliance-mcp
+      dockerfile: Dockerfile
+    container_name: virons-compliance-mcp
+    ports:
+      - "9560:9560"
+    environment:
+      PORT: 9560
+    depends_on:
+      - core-mcp-server
+
+  virons-security-mcp:
+    <<: *mcp-service
+    build:
+      context: src/virons-security-mcp
+      dockerfile: Dockerfile
+    container_name: virons-security-mcp
+    ports:
+      - "9570:9570"
+    environment:
+      PORT: 9570
+    depends_on:
+      - iam-mcp-server

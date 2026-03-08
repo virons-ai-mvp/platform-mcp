@@ -1,0 +1,30 @@
+version: '3.8'
+
+# Single gateway container with all MCP servers embedded
+# Gateway invokes orchestrators via stdio subprocess
+# Orchestrators invoke awslabs servers via stdio subprocess
+
+services:
+  virons-mcp-gateway:
+    build:
+      context: .
+      dockerfile: src/virons-mcp-gateway/Dockerfile
+    ports:
+      - "9000:9000"
+    environment:
+      - PORT=9000
+      - LOG_LEVEL=INFO
+      - AWS_REGION=${AWS_REGION:-eu-central-1}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:9000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    networks:
+      - mcp-network
+
+networks:
+  mcp-network:
+    driver: bridge
