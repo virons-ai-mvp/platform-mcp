@@ -13,7 +13,21 @@ docker-compose ps
 
 # View gateway tools
 curl http://localhost:9000/tools | jq
+
+# Test tool execution
+python3 scripts/test-tool-execution.py
+
+# Check upstream services
+python3 scripts/check-upstream-services.py
 ```
+
+## Status
+
+✅ **All 90 tools are callable via HTTP**
+✅ **AWS Labs MCP integration complete** - 9 validation/documentation tools via subprocess STDIO
+⚠️  **10 upstream services not deployed** - Tools requiring these will fail gracefully
+
+See [AWS Labs Integration](docs/operations/AWSLABS-INTEGRATION-COMPLETE.md) and [Upstream Services Configuration](docs/operations/UPSTREAM-SERVICES.md) for details.
 
 ## Documentation
 
@@ -39,7 +53,7 @@ curl http://localhost:9000/tools | jq
 
 Each service follows DDD architecture with complete documentation:
 - **Application Layer** - Use cases and orchestration
-- **Domain Layer** - Business logic and entities  
+- **Domain Layer** - Business logic and entities
 - **Infrastructure Layer** - External integrations
 - **Tests** - Comprehensive test suites
 - **Scripts** - Development and operations tools
